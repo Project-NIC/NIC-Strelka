@@ -1,0 +1,14 @@
+# NIC-Strelka — Strelka's additions to MCUboot: the hold and the VBUS gate (FIRMWARE.md, The hold;
+# USB)
+config STRELKA_HOLD_PIN
+	int "The HOLD pin, set high by the bootloader's first instructions; -1 none"
+	default 55
+	help
+	  The nRF54LM20A's pin number, port × 32 + pin: P1.23 is 55 (FIRMWARE.md, The hold).
+
+config STRELKA_VBUS_GATE
+	bool "Wait for a serial-recovery command only with VBUS present"
+	help
+	  With VBUS present at start the recovery waits its seconds on the USB serial port;
+	  without it the image boots at once. VBUS is read from the nRF54LM20A's USB regulator.
+	  MCUboot asks through the patch in firmware/patches/, which the build needs applied.

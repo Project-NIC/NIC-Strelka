@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+
+# the application, Dart and Flutter
+app/**/.dart_tool/
+app/**/build/

@@ -1,0 +1,18 @@
+# NIC-Strelka — the patches the SDK needs for the firmware, applied with west:
+#
+#     west patch apply -l <repo>/firmware/patches/patches.yml -b <repo>/firmware/patches
+#
+# One: MCUboot's wait for a serial-recovery command asks whether to wait at all, which it has no
+# hook for; Strelka's module answers from VBUS (shared/vbusgate; FIRMWARE.md, USB).
+patches:
+  - path: mcuboot-wait-for-dfu-with-vbus.patch
+    sha256sum: e15dd59d8d2ef31128ae84e93138fbdcd10439a95a938ba519fd7609b670fd4c
+    module: mcuboot
+    author: NIC-Strelka
+    email: none@example.invalid
+    date: 2026-10-21
+    upstreamable: true
+    comments: |
+      boot/zephyr/main.c: under CONFIG_BOOT_SERIAL_WAIT_FOR_DFU the console is brought up and the
+      wait run only when strelka_wait_for_dfu() says so, with CONFIG_STRELKA_VBUS_GATE; without
+      that symbol nothing changes. Against nRF Connect SDK v3.4.0's MCUboot (ncs-v3.4.0).

@@ -1,0 +1,738 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='1760' height='2024' viewBox='0 0 1760 2024'>
+<rect width='1760' height='2024' fill='#fff'/>
+<text x='30' y='40' font-size='20' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>NIC-Strelka — the board's parts and their nets, from BOARD.md (not a schematic)</text>
+<text x='30' y='62' font-size='11' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>Flat: every pin ends in its net's name; a red cross is a pin left unconnected. One board, two fittings: (B) and "the Belka alone" mark the parts Povodok goes without. A buck and a charger set by resistors; U11, the switch, on by magnet A; the cell on J2. Drawn by board/nets.py.</text>
+<rect x='130' y='110' width='300' height='470' fill='#fff' stroke='#222' stroke-width='1.5'/>
+<text x='94' y='102' font-size='12' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>U1 — Fanstel BM20F or WM02C20C, the nRF54LM20A module</text>
+<line x1='94' y1='130' x2='130' y2='130' stroke='#222' stroke-width='1.2'/>
+<text x='136' y='134' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>B8,C7,C8  VDD</text>
+<text x='88' y='134' font-size='11' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>+3V0</text>
+<line x1='94' y1='152' x2='130' y2='152' stroke='#222' stroke-width='1.2'/>
+<text x='136' y='156' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>H7  VBUS</text>
+<text x='88' y='156' font-size='11' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>VBUS_MOD</text>
+<line x1='94' y1='174' x2='130' y2='174' stroke='#222' stroke-width='1.2'/>
+<text x='136' y='178' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>G7  D+</text>
+<text x='88' y='178' font-size='11' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>USB_DP</text>
+<line x1='94' y1='196' x2='130' y2='196' stroke='#222' stroke-width='1.2'/>
+<text x='136' y='200' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>G6  D−</text>
+<text x='88' y='200' font-size='11' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>USB_DM</text>
+<line x1='94' y1='218' x2='130' y2='218' stroke='#222' stroke-width='1.2'/>
+<text x='136' y='222' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>J3  SWDIO</text>
+<text x='88' y='222' font-size='11' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>SWDIO</text>
+<line x1='94' y1='240' x2='130' y2='240' stroke='#222' stroke-width='1.2'/>
+<text x='136' y='244' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>K3  SWDCLK</text>
+<text x='88' y='244' font-size='11' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>SWDCLK</text>
+<line x1='94' y1='262' x2='130' y2='262' stroke='#222' stroke-width='1.2'/>
+<text x='136' y='266' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>G2  /Reset</text>
+<text x='88' y='266' font-size='11' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>NRESET</text>
+<line x1='94' y1='284' x2='130' y2='284' stroke='#222' stroke-width='1.2'/>
+<text x='136' y='288' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>A1,A9,B1,B7,B9,C1,D1  GND</text>
+<text x='88' y='288' font-size='11' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<line x1='94' y1='306' x2='130' y2='306' stroke='#222' stroke-width='1.2'/>
+<text x='136' y='310' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>E1,F1,G1,H1,H8,J1,K1  GND</text>
+<text x='88' y='310' font-size='11' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<line x1='94' y1='328' x2='130' y2='328' stroke='#222' stroke-width='1.2'/>
+<text x='136' y='332' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>P1.04–P1.14  the combo's inside</text>
+<line x1='90' y1='324' x2='98' y2='332' stroke='#b00' stroke-width='1.5'/><line x1='90' y1='332' x2='98' y2='324' stroke='#b00' stroke-width='1.5'/>
+<line x1='94' y1='350' x2='130' y2='350' stroke='#222' stroke-width='1.2'/>
+<text x='136' y='354' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>rest  free GPIO</text>
+<line x1='90' y1='346' x2='98' y2='354' stroke='#b00' stroke-width='1.5'/><line x1='90' y1='354' x2='98' y2='346' stroke='#b00' stroke-width='1.5'/>
+<line x1='430' y1='130' x2='466' y2='130' stroke='#222' stroke-width='1.2'/>
+<text x='424' y='134' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>P3.04  C3</text>
+<text x='472' y='134' font-size='11' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>IMU_SCK</text>
+<line x1='430' y1='152' x2='466' y2='152' stroke='#222' stroke-width='1.2'/>
+<text x='424' y='156' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>P3.05  H2</text>
+<text x='472' y='156' font-size='11' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>IMU_SDI</text>
+<line x1='430' y1='174' x2='466' y2='174' stroke='#222' stroke-width='1.2'/>
+<text x='424' y='178' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>P3.07  C9</text>
+<text x='472' y='178' font-size='11' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>IMU_SDO</text>
+<line x1='430' y1='196' x2='466' y2='196' stroke='#222' stroke-width='1.2'/>
+<text x='424' y='200' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>P3.02  D7</text>
+<text x='472' y='200' font-size='11' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>IMU_CS</text>
+<line x1='430' y1='218' x2='466' y2='218' stroke='#222' stroke-width='1.2'/>
+<text x='424' y='222' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>P3.01  E6</text>
+<text x='472' y='222' font-size='11' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>IMU_INT1</text>
+<line x1='430' y1='240' x2='466' y2='240' stroke='#222' stroke-width='1.2'/>
+<text x='424' y='244' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>P3.00  K5</text>
+<text x='472' y='244' font-size='11' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>IMU_CLKIN</text>
+<line x1='430' y1='262' x2='466' y2='262' stroke='#222' stroke-width='1.2'/>
+<text x='424' y='266' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>P3.03  A7</text>
+<text x='472' y='266' font-size='11' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>SD_CLK</text>
+<line x1='430' y1='284' x2='466' y2='284' stroke='#222' stroke-width='1.2'/>
+<text x='424' y='288' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>P3.08  D4</text>
+<text x='472' y='288' font-size='11' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>SD_DI</text>
+<line x1='430' y1='306' x2='466' y2='306' stroke='#222' stroke-width='1.2'/>
+<text x='424' y='310' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>P3.09  K7</text>
+<text x='472' y='310' font-size='11' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>SD_DO</text>
+<line x1='430' y1='328' x2='466' y2='328' stroke='#222' stroke-width='1.2'/>
+<text x='424' y='332' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>P3.10  K2</text>
+<text x='472' y='332' font-size='11' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>SD_CS</text>
+<line x1='430' y1='350' x2='466' y2='350' stroke='#222' stroke-width='1.2'/>
+<text x='424' y='354' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>P3.06  D8</text>
+<text x='472' y='354' font-size='11' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>SD_EN</text>
+<line x1='430' y1='372' x2='466' y2='372' stroke='#222' stroke-width='1.2'/>
+<text x='424' y='376' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>P0.04  C2</text>
+<text x='472' y='376' font-size='11' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>SCL</text>
+<line x1='430' y1='394' x2='466' y2='394' stroke='#222' stroke-width='1.2'/>
+<text x='424' y='398' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>P0.03  E7</text>
+<text x='472' y='398' font-size='11' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>SDA</text>
+<line x1='430' y1='416' x2='466' y2='416' stroke='#222' stroke-width='1.2'/>
+<text x='424' y='420' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>P0.00  A5</text>
+<text x='472' y='420' font-size='11' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>CHG_STAT</text>
+<line x1='430' y1='438' x2='466' y2='438' stroke='#222' stroke-width='1.2'/>
+<text x='424' y='442' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>P0.01  D2</text>
+<text x='472' y='442' font-size='11' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>CHG_PG</text>
+<line x1='430' y1='460' x2='466' y2='460' stroke='#222' stroke-width='1.2'/>
+<text x='424' y='464' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>P0.05  D9</text>
+<text x='472' y='464' font-size='11' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>MAG_A</text>
+<line x1='430' y1='482' x2='466' y2='482' stroke='#222' stroke-width='1.2'/>
+<text x='424' y='486' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>P0.02  A6</text>
+<text x='472' y='486' font-size='11' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>MAG_B</text>
+<line x1='430' y1='504' x2='466' y2='504' stroke='#222' stroke-width='1.2'/>
+<text x='424' y='508' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>P1.23  H6</text>
+<text x='472' y='508' font-size='11' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>HOLD</text>
+<line x1='430' y1='526' x2='466' y2='526' stroke='#222' stroke-width='1.2'/>
+<text x='424' y='530' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>P1.30  J5</text>
+<text x='472' y='530' font-size='11' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>LED_G</text>
+<line x1='430' y1='548' x2='466' y2='548' stroke='#222' stroke-width='1.2'/>
+<text x='424' y='552' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>P1.31  K9</text>
+<text x='472' y='552' font-size='11' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>LED_R</text>
+<rect x='700' y='110' width='260' height='96' fill='#fff' stroke='#222' stroke-width='1.5'/>
+<text x='664' y='102' font-size='12' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>U2 — onsemi NCP361SNT1G, the USB supply's guard</text>
+<line x1='664' y1='130' x2='700' y2='130' stroke='#222' stroke-width='1.2'/>
+<text x='706' y='134' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>1  IN</text>
+<text x='658' y='134' font-size='11' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>VBUS</text>
+<line x1='664' y1='152' x2='700' y2='152' stroke='#222' stroke-width='1.2'/>
+<text x='706' y='156' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>2  GND</text>
+<text x='658' y='156' font-size='11' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<line x1='664' y1='174' x2='700' y2='174' stroke='#222' stroke-width='1.2'/>
+<text x='706' y='178' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>3  EN</text>
+<text x='658' y='178' font-size='11' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<line x1='960' y1='130' x2='996' y2='130' stroke='#222' stroke-width='1.2'/>
+<text x='954' y='134' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>OUT  5</text>
+<text x='1002' y='134' font-size='11' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>VBUS_MOD</text>
+<line x1='960' y1='152' x2='996' y2='152' stroke='#222' stroke-width='1.2'/>
+<text x='954' y='156' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>FLAG  4</text>
+<line x1='992' y1='148' x2='1000' y2='156' stroke='#b00' stroke-width='1.5'/><line x1='992' y1='156' x2='1000' y2='148' stroke='#b00' stroke-width='1.5'/>
+<rect x='700' y='266' width='260' height='140' fill='#fff' stroke='#222' stroke-width='1.5'/>
+<text x='664' y='258' font-size='12' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>U10 — TI TPS62933, the buck, 3,93 V from the cable</text>
+<line x1='664' y1='286' x2='700' y2='286' stroke='#222' stroke-width='1.2'/>
+<text x='706' y='290' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>3  VIN</text>
+<text x='658' y='290' font-size='11' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>VBUS</text>
+<line x1='664' y1='308' x2='700' y2='308' stroke='#222' stroke-width='1.2'/>
+<text x='706' y='312' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>2  EN</text>
+<line x1='660' y1='304' x2='668' y2='312' stroke='#b00' stroke-width='1.5'/><line x1='660' y1='312' x2='668' y2='304' stroke='#b00' stroke-width='1.5'/>
+<line x1='664' y1='330' x2='700' y2='330' stroke='#222' stroke-width='1.2'/>
+<text x='706' y='334' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>1  RT</text>
+<text x='658' y='334' font-size='11' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<line x1='664' y1='352' x2='700' y2='352' stroke='#222' stroke-width='1.2'/>
+<text x='706' y='356' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>7  SS</text>
+<text x='658' y='356' font-size='11' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>SS</text>
+<line x1='664' y1='374' x2='700' y2='374' stroke='#222' stroke-width='1.2'/>
+<text x='706' y='378' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>4  GND</text>
+<text x='658' y='378' font-size='11' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<line x1='960' y1='286' x2='996' y2='286' stroke='#222' stroke-width='1.2'/>
+<text x='954' y='290' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>SW  5</text>
+<text x='1002' y='290' font-size='11' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>SW</text>
+<line x1='960' y1='308' x2='996' y2='308' stroke='#222' stroke-width='1.2'/>
+<text x='954' y='312' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>BST  6</text>
+<text x='1002' y='312' font-size='11' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>BST</text>
+<line x1='960' y1='330' x2='996' y2='330' stroke='#222' stroke-width='1.2'/>
+<text x='954' y='334' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>FB  8</text>
+<text x='1002' y='334' font-size='11' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>FB</text>
+<rect x='700' y='466' width='260' height='140' fill='#fff' stroke='#222' stroke-width='1.5'/>
+<text x='664' y='458' font-size='12' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>U3 — TI BQ25170, the charger, linear; 3,50 V, 300 mA by resistors</text>
+<line x1='664' y1='486' x2='700' y2='486' stroke='#222' stroke-width='1.2'/>
+<text x='706' y='490' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>1  IN</text>
+<text x='658' y='490' font-size='11' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>VBUCK</text>
+<line x1='664' y1='508' x2='700' y2='508' stroke='#222' stroke-width='1.2'/>
+<text x='706' y='512' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>2  ISET</text>
+<text x='658' y='512' font-size='11' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>ISET</text>
+<line x1='664' y1='530' x2='700' y2='530' stroke='#222' stroke-width='1.2'/>
+<text x='706' y='534' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>3  TS</text>
+<text x='658' y='534' font-size='11' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>NTC</text>
+<line x1='664' y1='552' x2='700' y2='552' stroke='#222' stroke-width='1.2'/>
+<text x='706' y='556' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>4  GND</text>
+<text x='658' y='556' font-size='11' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<line x1='960' y1='486' x2='996' y2='486' stroke='#222' stroke-width='1.2'/>
+<text x='954' y='490' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>OUT  8</text>
+<text x='1002' y='490' font-size='11' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>BAT</text>
+<line x1='960' y1='508' x2='996' y2='508' stroke='#222' stroke-width='1.2'/>
+<text x='954' y='512' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>VSET  7</text>
+<text x='1002' y='512' font-size='11' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>VSET</text>
+<line x1='960' y1='530' x2='996' y2='530' stroke='#222' stroke-width='1.2'/>
+<text x='954' y='534' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>/PG  6</text>
+<text x='1002' y='534' font-size='11' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>CHG_PG</text>
+<line x1='960' y1='552' x2='996' y2='552' stroke='#222' stroke-width='1.2'/>
+<text x='954' y='556' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>STAT  5</text>
+<text x='1002' y='556' font-size='11' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>CHG_STAT</text>
+<line x1='960' y1='574' x2='996' y2='574' stroke='#222' stroke-width='1.2'/>
+<text x='954' y='578' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>EP  pad</text>
+<text x='1002' y='578' font-size='11' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<rect x='700' y='666' width='260' height='162' fill='#fff' stroke='#222' stroke-width='1.5'/>
+<text x='664' y='658' font-size='12' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>U4 — Analog Devices MAX17055, the fuel gauge</text>
+<line x1='664' y1='686' x2='700' y2='686' stroke='#222' stroke-width='1.2'/>
+<text x='706' y='690' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>1  N.C.</text>
+<line x1='660' y1='682' x2='668' y2='690' stroke='#b00' stroke-width='1.5'/><line x1='660' y1='690' x2='668' y2='682' stroke='#b00' stroke-width='1.5'/>
+<line x1='664' y1='708' x2='700' y2='708' stroke='#222' stroke-width='1.2'/>
+<text x='706' y='712' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>2  AIN</text>
+<text x='658' y='712' font-size='11' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>BATT−</text>
+<line x1='664' y1='730' x2='700' y2='730' stroke='#222' stroke-width='1.2'/>
+<text x='706' y='734' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>3  SCL</text>
+<text x='658' y='734' font-size='11' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>SCL</text>
+<line x1='664' y1='752' x2='700' y2='752' stroke='#222' stroke-width='1.2'/>
+<text x='706' y='756' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>4  SDA</text>
+<text x='658' y='756' font-size='11' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>SDA</text>
+<line x1='664' y1='774' x2='700' y2='774' stroke='#222' stroke-width='1.2'/>
+<text x='706' y='778' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>5  CSN</text>
+<text x='658' y='778' font-size='11' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<line x1='960' y1='686' x2='996' y2='686' stroke='#222' stroke-width='1.2'/>
+<text x='954' y='690' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>BATT  10</text>
+<text x='1002' y='690' font-size='11' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>BAT</text>
+<line x1='960' y1='708' x2='996' y2='708' stroke='#222' stroke-width='1.2'/>
+<text x='954' y='712' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>THRM  9</text>
+<line x1='992' y1='704' x2='1000' y2='712' stroke='#b00' stroke-width='1.5'/><line x1='992' y1='712' x2='1000' y2='704' stroke='#b00' stroke-width='1.5'/>
+<line x1='960' y1='730' x2='996' y2='730' stroke='#222' stroke-width='1.2'/>
+<text x='954' y='734' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>ALRT  8</text>
+<text x='1002' y='734' font-size='11' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>BATT−</text>
+<line x1='960' y1='752' x2='996' y2='752' stroke='#222' stroke-width='1.2'/>
+<text x='954' y='756' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>REG  7</text>
+<text x='1002' y='756' font-size='11' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>REG</text>
+<line x1='960' y1='774' x2='996' y2='774' stroke='#222' stroke-width='1.2'/>
+<text x='954' y='778' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>CSP  6</text>
+<text x='1002' y='778' font-size='11' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>BATT−</text>
+<line x1='960' y1='796' x2='996' y2='796' stroke='#222' stroke-width='1.2'/>
+<text x='954' y='800' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>EP  pad</text>
+<text x='1002' y='800' font-size='11' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>BATT−</text>
+<rect x='1270' y='110' width='300' height='118' fill='#fff' stroke='#222' stroke-width='1.5'/>
+<text x='1234' y='102' font-size='12' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>U11 — TI LM66200, two ideal diodes to SYS; off while ON is high</text>
+<line x1='1234' y1='130' x2='1270' y2='130' stroke='#222' stroke-width='1.2'/>
+<text x='1276' y='134' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>3  VIN1</text>
+<text x='1228' y='134' font-size='11' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>VBUCK</text>
+<line x1='1234' y1='152' x2='1270' y2='152' stroke='#222' stroke-width='1.2'/>
+<text x='1276' y='156' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>6  VIN2</text>
+<text x='1228' y='156' font-size='11' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>BAT</text>
+<line x1='1234' y1='174' x2='1270' y2='174' stroke='#222' stroke-width='1.2'/>
+<text x='1276' y='178' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>4  ON</text>
+<text x='1228' y='178' font-size='11' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>ON</text>
+<line x1='1234' y1='196' x2='1270' y2='196' stroke='#222' stroke-width='1.2'/>
+<text x='1276' y='200' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>1,5  GND</text>
+<text x='1228' y='200' font-size='11' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<line x1='1570' y1='130' x2='1606' y2='130' stroke='#222' stroke-width='1.2'/>
+<text x='1564' y='134' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>VOUT  2,7</text>
+<text x='1612' y='134' font-size='11' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>SYS</text>
+<line x1='1570' y1='152' x2='1606' y2='152' stroke='#222' stroke-width='1.2'/>
+<text x='1564' y='156' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>ST  8</text>
+<line x1='1602' y1='148' x2='1610' y2='156' stroke='#b00' stroke-width='1.5'/><line x1='1602' y1='156' x2='1610' y2='148' stroke='#b00' stroke-width='1.5'/>
+<rect x='1270' y='288' width='300' height='96' fill='#fff' stroke='#222' stroke-width='1.5'/>
+<text x='1234' y='280' font-size='12' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>U5 — TI TPS7A2030, LDO 3,0 V, +3V0</text>
+<line x1='1234' y1='308' x2='1270' y2='308' stroke='#222' stroke-width='1.2'/>
+<text x='1276' y='312' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>4  IN</text>
+<text x='1228' y='312' font-size='11' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>SYS</text>
+<line x1='1234' y1='330' x2='1270' y2='330' stroke='#222' stroke-width='1.2'/>
+<text x='1276' y='334' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>2  GND</text>
+<text x='1228' y='334' font-size='11' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<line x1='1234' y1='352' x2='1270' y2='352' stroke='#222' stroke-width='1.2'/>
+<text x='1276' y='356' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>3  EN</text>
+<text x='1228' y='356' font-size='11' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>SYS</text>
+<line x1='1570' y1='308' x2='1606' y2='308' stroke='#222' stroke-width='1.2'/>
+<text x='1564' y='312' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>OUT  1</text>
+<text x='1612' y='312' font-size='11' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>+3V0</text>
+<line x1='1570' y1='330' x2='1606' y2='330' stroke='#222' stroke-width='1.2'/>
+<text x='1564' y='334' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>pad  5</text>
+<text x='1612' y='334' font-size='11' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<rect x='1270' y='444' width='300' height='96' fill='#fff' stroke='#222' stroke-width='1.5'/>
+<text x='1234' y='436' font-size='12' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>U6 — TI TPS7A2030, LDO 3,0 V, +3V0_SD — the Belka alone</text>
+<line x1='1234' y1='464' x2='1270' y2='464' stroke='#222' stroke-width='1.2'/>
+<text x='1276' y='468' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>4  IN</text>
+<text x='1228' y='468' font-size='11' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>SYS</text>
+<line x1='1234' y1='486' x2='1270' y2='486' stroke='#222' stroke-width='1.2'/>
+<text x='1276' y='490' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>2  GND</text>
+<text x='1228' y='490' font-size='11' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<line x1='1234' y1='508' x2='1270' y2='508' stroke='#222' stroke-width='1.2'/>
+<text x='1276' y='512' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>3  EN</text>
+<text x='1228' y='512' font-size='11' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>SD_EN</text>
+<line x1='1570' y1='464' x2='1606' y2='464' stroke='#222' stroke-width='1.2'/>
+<text x='1564' y='468' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>OUT  1</text>
+<text x='1612' y='468' font-size='11' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>+3V0_SD</text>
+<line x1='1570' y1='486' x2='1606' y2='486' stroke='#222' stroke-width='1.2'/>
+<text x='1564' y='490' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>pad  5</text>
+<text x='1612' y='490' font-size='11' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<rect x='1270' y='600' width='300' height='184' fill='#fff' stroke='#222' stroke-width='1.5'/>
+<text x='1234' y='592' font-size='12' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>U7 — TDK ICM-42686-P or ICM-42688-P — the Belka alone</text>
+<line x1='1234' y1='620' x2='1270' y2='620' stroke='#222' stroke-width='1.2'/>
+<text x='1276' y='624' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>1  AP_SDO</text>
+<text x='1228' y='624' font-size='11' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>IMU_SDO</text>
+<line x1='1234' y1='642' x2='1270' y2='642' stroke='#222' stroke-width='1.2'/>
+<text x='1276' y='646' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>2  RESV</text>
+<text x='1228' y='646' font-size='11' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<line x1='1234' y1='664' x2='1270' y2='664' stroke='#222' stroke-width='1.2'/>
+<text x='1276' y='668' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>3  RESV</text>
+<text x='1228' y='668' font-size='11' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<line x1='1234' y1='686' x2='1270' y2='686' stroke='#222' stroke-width='1.2'/>
+<text x='1276' y='690' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>4  INT1</text>
+<text x='1228' y='690' font-size='11' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>IMU_INT1</text>
+<line x1='1234' y1='708' x2='1270' y2='708' stroke='#222' stroke-width='1.2'/>
+<text x='1276' y='712' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>5  VDDIO</text>
+<text x='1228' y='712' font-size='11' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>+3V0</text>
+<line x1='1234' y1='730' x2='1270' y2='730' stroke='#222' stroke-width='1.2'/>
+<text x='1276' y='734' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>6  GND</text>
+<text x='1228' y='734' font-size='11' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<line x1='1234' y1='752' x2='1270' y2='752' stroke='#222' stroke-width='1.2'/>
+<text x='1276' y='756' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>7  RESV</text>
+<text x='1228' y='756' font-size='11' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<line x1='1570' y1='620' x2='1606' y2='620' stroke='#222' stroke-width='1.2'/>
+<text x='1564' y='624' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>VDD  8</text>
+<text x='1612' y='624' font-size='11' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>+3V0_IMU</text>
+<line x1='1570' y1='642' x2='1606' y2='642' stroke='#222' stroke-width='1.2'/>
+<text x='1564' y='646' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>INT2/FSYNC/CLKIN  9</text>
+<text x='1612' y='646' font-size='11' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>IMU_CLKIN</text>
+<line x1='1570' y1='664' x2='1606' y2='664' stroke='#222' stroke-width='1.2'/>
+<text x='1564' y='668' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>RESV  10</text>
+<text x='1612' y='668' font-size='11' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<line x1='1570' y1='686' x2='1606' y2='686' stroke='#222' stroke-width='1.2'/>
+<text x='1564' y='690' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>RESV  11</text>
+<text x='1612' y='690' font-size='11' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<line x1='1570' y1='708' x2='1606' y2='708' stroke='#222' stroke-width='1.2'/>
+<text x='1564' y='712' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>AP_CS  12</text>
+<text x='1612' y='712' font-size='11' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>IMU_CS</text>
+<line x1='1570' y1='730' x2='1606' y2='730' stroke='#222' stroke-width='1.2'/>
+<text x='1564' y='734' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>AP_SCLK  13</text>
+<text x='1612' y='734' font-size='11' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>IMU_SCK</text>
+<line x1='1570' y1='752' x2='1606' y2='752' stroke='#222' stroke-width='1.2'/>
+<text x='1564' y='756' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>AP_SDI  14</text>
+<text x='1612' y='756' font-size='11' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>IMU_SDI</text>
+<rect x='1270' y='844' width='300' height='140' fill='#fff' stroke='#222' stroke-width='1.5'/>
+<text x='1234' y='836' font-size='12' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>J3 — Megastar ZX-TF-281.6J, the microSD slot — the Belka alone</text>
+<line x1='1234' y1='864' x2='1270' y2='864' stroke='#222' stroke-width='1.2'/>
+<text x='1276' y='868' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>1  DAT2</text>
+<text x='1228' y='868' font-size='11' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>SD_DAT2</text>
+<line x1='1234' y1='886' x2='1270' y2='886' stroke='#222' stroke-width='1.2'/>
+<text x='1276' y='890' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>2  CD/DAT3, CS</text>
+<text x='1228' y='890' font-size='11' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>SD_CS</text>
+<line x1='1234' y1='908' x2='1270' y2='908' stroke='#222' stroke-width='1.2'/>
+<text x='1276' y='912' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>3  CMD, DI</text>
+<text x='1228' y='912' font-size='11' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>SD_DI</text>
+<line x1='1234' y1='930' x2='1270' y2='930' stroke='#222' stroke-width='1.2'/>
+<text x='1276' y='934' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>4  VDD</text>
+<text x='1228' y='934' font-size='11' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>+3V0_SD</text>
+<line x1='1570' y1='864' x2='1606' y2='864' stroke='#222' stroke-width='1.2'/>
+<text x='1564' y='868' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>CLK  5</text>
+<text x='1612' y='868' font-size='11' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>SD_CLK</text>
+<line x1='1570' y1='886' x2='1606' y2='886' stroke='#222' stroke-width='1.2'/>
+<text x='1564' y='890' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>VSS  6</text>
+<text x='1612' y='890' font-size='11' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<line x1='1570' y1='908' x2='1606' y2='908' stroke='#222' stroke-width='1.2'/>
+<text x='1564' y='912' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>DAT0, DO  7</text>
+<text x='1612' y='912' font-size='11' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>SD_DO</text>
+<line x1='1570' y1='930' x2='1606' y2='930' stroke='#222' stroke-width='1.2'/>
+<text x='1564' y='934' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>DAT1  8</text>
+<text x='1612' y='934' font-size='11' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>SD_DAT1</text>
+<line x1='1570' y1='952' x2='1606' y2='952' stroke='#222' stroke-width='1.2'/>
+<text x='1564' y='956' font-size='10' text-anchor='end' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>shell</text>
+<text x='1612' y='956' font-size='11' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<text x='30' y='1084' font-size='12' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>VBUS — the inlet, and the buck's input</text>
+<rect x='30' y='1090' width='540' height='218' fill='#fafafa' stroke='#999' stroke-width='1'/>
+<rect x='150' y='1098' width='60' height='20' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='38' y='1112' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>J1</text>
+<text x='220' y='1112' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>5-pin magnetic contact: 1 VBUS · 2 D+ · 3 GND · 4 D− · 5 VBUS</text>
+<line x1='150' y1='1134' x2='170' y2='1134' stroke='#222' stroke-width='1.5' fill='none'/><line x1='190' y1='1134' x2='210' y2='1134' stroke='#222' stroke-width='1.5' fill='none'/><polygon points='170,1127 170,1141 180,1134' stroke='#222' stroke-width='1.5' fill='none'/><polygon points='190,1127 190,1141 180,1134' stroke='#222' stroke-width='1.5' fill='none'/><line x1='180' y1='1126' x2='180' y2='1142' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='146' y='1138' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<text x='214' y='1138' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>VBUS</text>
+<text x='38' y='1138' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>D1</text>
+<text x='300' y='1138' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>SMF12CA, two-way, 12 V stand-off</text>
+<line x1='150' y1='1160' x2='170' y2='1160' stroke='#222' stroke-width='1.5' fill='none'/><line x1='190' y1='1160' x2='210' y2='1160' stroke='#222' stroke-width='1.5' fill='none'/><polygon points='172,1152 172,1168 186,1160' stroke='#222' stroke-width='1.5' fill='none'/><line x1='186' y1='1152' x2='186' y2='1168' stroke='#222' stroke-width='1.5' fill='none'/><line x1='186' y1='1152' x2='182' y2='1152' stroke='#222' stroke-width='1.5' fill='none'/><line x1='186' y1='1168' x2='190' y2='1168' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='146' y='1164' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>USB_DP/DM</text>
+<text x='214' y='1164' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<text x='38' y='1164' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>D2</text>
+<text x='300' y='1164' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>TPD2E2U06DCKR: 1–2 on D+, D−, 3 GND</text>
+<line x1='150' y1='1186' x2='170' y2='1186' stroke='#222' stroke-width='1.5' fill='none'/><line x1='190' y1='1186' x2='210' y2='1186' stroke='#222' stroke-width='1.5' fill='none'/><line x1='177' y1='1177' x2='177' y2='1195' stroke='#222' stroke-width='1.5' fill='none'/><line x1='183' y1='1177' x2='183' y2='1195' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='146' y='1190' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>VBUS</text>
+<text x='214' y='1190' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<text x='38' y='1190' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>C1</text>
+<text x='300' y='1190' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>1 µF 50 V 0805, at U2</text>
+<line x1='150' y1='1212' x2='170' y2='1212' stroke='#222' stroke-width='1.5' fill='none'/><line x1='190' y1='1212' x2='210' y2='1212' stroke='#222' stroke-width='1.5' fill='none'/><line x1='177' y1='1203' x2='177' y2='1221' stroke='#222' stroke-width='1.5' fill='none'/><line x1='183' y1='1203' x2='183' y2='1221' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='146' y='1216' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>VBUS</text>
+<text x='214' y='1216' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<text x='38' y='1216' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>C2</text>
+<text x='300' y='1216' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>100 nF 0402, at U2</text>
+<line x1='150' y1='1238' x2='170' y2='1238' stroke='#222' stroke-width='1.5' fill='none'/><line x1='190' y1='1238' x2='210' y2='1238' stroke='#222' stroke-width='1.5' fill='none'/><line x1='177' y1='1229' x2='177' y2='1247' stroke='#222' stroke-width='1.5' fill='none'/><line x1='183' y1='1229' x2='183' y2='1247' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='146' y='1242' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>VBUS</text>
+<text x='214' y='1242' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<text x='38' y='1242' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>C30</text>
+<text x='300' y='1242' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>10 µF 50 V 1206, at U10</text>
+<line x1='150' y1='1264' x2='170' y2='1264' stroke='#222' stroke-width='1.5' fill='none'/><line x1='190' y1='1264' x2='210' y2='1264' stroke='#222' stroke-width='1.5' fill='none'/><line x1='177' y1='1255' x2='177' y2='1273' stroke='#222' stroke-width='1.5' fill='none'/><line x1='183' y1='1255' x2='183' y2='1273' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='146' y='1268' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>VBUS</text>
+<text x='214' y='1268' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<text x='38' y='1268' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>C31</text>
+<text x='300' y='1268' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>100 nF 0402, at U10</text>
+<line x1='150' y1='1290' x2='174' y2='1290' stroke='#222' stroke-width='1.5' fill='none'/><circle cx='180' cy='1290' r='6' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='146' y='1294' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>VBUS</text>
+<text x='38' y='1294' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>TP3</text>
+<text x='220' y='1294' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>VBUS</text>
+<text x='30' y='1346' font-size='12' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>VBUCK — the buck's output, the charger's input</text>
+<rect x='30' y='1352' width='540' height='296' fill='#fafafa' stroke='#999' stroke-width='1'/>
+<line x1='150' y1='1370' x2='170' y2='1370' stroke='#222' stroke-width='1.5' fill='none'/><line x1='190' y1='1370' x2='210' y2='1370' stroke='#222' stroke-width='1.5' fill='none'/><path d='M170,1370 a5,5 0 0 1 10,0 a5,5 0 0 1 10,0' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='146' y='1374' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>SW</text>
+<text x='214' y='1374' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>VBUCK</text>
+<text x='38' y='1374' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>L1</text>
+<text x='300' y='1374' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>2,2 µH, WPN201610H2R2MT</text>
+<line x1='150' y1='1396' x2='170' y2='1396' stroke='#222' stroke-width='1.5' fill='none'/><line x1='190' y1='1396' x2='210' y2='1396' stroke='#222' stroke-width='1.5' fill='none'/><line x1='177' y1='1387' x2='177' y2='1405' stroke='#222' stroke-width='1.5' fill='none'/><line x1='183' y1='1387' x2='183' y2='1405' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='146' y='1400' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>BST</text>
+<text x='214' y='1400' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>SW</text>
+<text x='38' y='1400' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>C34</text>
+<text x='300' y='1400' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>100 nF 0402</text>
+<line x1='150' y1='1422' x2='170' y2='1422' stroke='#222' stroke-width='1.5' fill='none'/><line x1='190' y1='1422' x2='210' y2='1422' stroke='#222' stroke-width='1.5' fill='none'/><rect x='170' y='1417' width='20' height='10' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='146' y='1426' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>VBUCK</text>
+<text x='214' y='1426' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>FB</text>
+<text x='38' y='1426' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>R4</text>
+<text x='300' y='1426' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>47 kΩ 1 %, the feedback's top</text>
+<line x1='150' y1='1448' x2='170' y2='1448' stroke='#222' stroke-width='1.5' fill='none'/><line x1='190' y1='1448' x2='210' y2='1448' stroke='#222' stroke-width='1.5' fill='none'/><rect x='170' y='1443' width='20' height='10' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='146' y='1452' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>FB</text>
+<text x='214' y='1452' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<text x='38' y='1452' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>R5</text>
+<text x='300' y='1452' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>12 kΩ 1 % — 3,93 V</text>
+<line x1='150' y1='1474' x2='170' y2='1474' stroke='#222' stroke-width='1.5' fill='none'/><line x1='190' y1='1474' x2='210' y2='1474' stroke='#222' stroke-width='1.5' fill='none'/><line x1='177' y1='1465' x2='177' y2='1483' stroke='#222' stroke-width='1.5' fill='none'/><line x1='183' y1='1465' x2='183' y2='1483' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='146' y='1478' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>SS</text>
+<text x='214' y='1478' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<text x='38' y='1478' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>C35</text>
+<text x='300' y='1478' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>10 nF 0402, soft start</text>
+<line x1='150' y1='1500' x2='170' y2='1500' stroke='#222' stroke-width='1.5' fill='none'/><line x1='190' y1='1500' x2='210' y2='1500' stroke='#222' stroke-width='1.5' fill='none'/><line x1='177' y1='1491' x2='177' y2='1509' stroke='#222' stroke-width='1.5' fill='none'/><line x1='183' y1='1491' x2='183' y2='1509' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='146' y='1504' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>VBUCK</text>
+<text x='214' y='1504' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<text x='38' y='1504' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>C32</text>
+<text x='300' y='1504' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>22 µF 25 V 0805</text>
+<line x1='150' y1='1526' x2='170' y2='1526' stroke='#222' stroke-width='1.5' fill='none'/><line x1='190' y1='1526' x2='210' y2='1526' stroke='#222' stroke-width='1.5' fill='none'/><line x1='177' y1='1517' x2='177' y2='1535' stroke='#222' stroke-width='1.5' fill='none'/><line x1='183' y1='1517' x2='183' y2='1535' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='146' y='1530' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>VBUCK</text>
+<text x='214' y='1530' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<text x='38' y='1530' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>C36</text>
+<text x='300' y='1530' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>22 µF 25 V 0805</text>
+<line x1='150' y1='1552' x2='170' y2='1552' stroke='#222' stroke-width='1.5' fill='none'/><line x1='190' y1='1552' x2='210' y2='1552' stroke='#222' stroke-width='1.5' fill='none'/><line x1='177' y1='1543' x2='177' y2='1561' stroke='#222' stroke-width='1.5' fill='none'/><line x1='183' y1='1543' x2='183' y2='1561' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='146' y='1556' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>VBUCK</text>
+<text x='214' y='1556' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<text x='38' y='1556' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>C9</text>
+<text x='300' y='1556' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>100 nF 0402</text>
+<line x1='150' y1='1578' x2='170' y2='1578' stroke='#222' stroke-width='1.5' fill='none'/><line x1='190' y1='1578' x2='210' y2='1578' stroke='#222' stroke-width='1.5' fill='none'/><line x1='177' y1='1569' x2='177' y2='1587' stroke='#222' stroke-width='1.5' fill='none'/><line x1='183' y1='1569' x2='183' y2='1587' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='146' y='1582' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>VBUCK</text>
+<text x='214' y='1582' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<text x='38' y='1582' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>C8</text>
+<text x='300' y='1582' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>1 µF 50 V 0805, at U3's IN</text>
+<line x1='150' y1='1604' x2='170' y2='1604' stroke='#222' stroke-width='1.5' fill='none'/><line x1='190' y1='1604' x2='210' y2='1604' stroke='#222' stroke-width='1.5' fill='none'/><rect x='170' y='1599' width='20' height='10' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='146' y='1608' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>ISET</text>
+<text x='214' y='1608' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<text x='38' y='1608' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>R2</text>
+<text x='300' y='1608' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>1,0 kΩ 1 % — 300 mA</text>
+<line x1='150' y1='1630' x2='170' y2='1630' stroke='#222' stroke-width='1.5' fill='none'/><line x1='190' y1='1630' x2='210' y2='1630' stroke='#222' stroke-width='1.5' fill='none'/><rect x='170' y='1625' width='20' height='10' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='146' y='1634' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>VSET</text>
+<text x='214' y='1634' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<text x='38' y='1634' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>R3</text>
+<text x='300' y='1634' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>100 kΩ 1 % — 3,50 V, LiFePO4</text>
+<text x='30' y='1686' font-size='12' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>BATT− — the cell's minus, the gauge's side</text>
+<rect x='30' y='1692' width='540' height='62' fill='#fafafa' stroke='#999' stroke-width='1'/>
+<line x1='150' y1='1710' x2='170' y2='1710' stroke='#222' stroke-width='1.5' fill='none'/><line x1='190' y1='1710' x2='210' y2='1710' stroke='#222' stroke-width='1.5' fill='none'/><rect x='170' y='1705' width='20' height='10' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='146' y='1714' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>BATT−</text>
+<text x='214' y='1714' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<text x='38' y='1714' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>R1</text>
+<text x='300' y='1714' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>20 mΩ 1 % 0805, the sense resistor</text>
+<line x1='150' y1='1736' x2='170' y2='1736' stroke='#222' stroke-width='1.5' fill='none'/><line x1='190' y1='1736' x2='210' y2='1736' stroke='#222' stroke-width='1.5' fill='none'/><line x1='177' y1='1727' x2='177' y2='1745' stroke='#222' stroke-width='1.5' fill='none'/><line x1='183' y1='1727' x2='183' y2='1745' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='146' y='1740' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>REG</text>
+<text x='214' y='1740' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>BATT−</text>
+<text x='38' y='1740' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>C14</text>
+<text x='300' y='1740' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>470 nF 25 V 0603, at REG</text>
+<text x='30' y='1792' font-size='12' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>VBUS_MOD — the processor's USB supply</text>
+<rect x='30' y='1798' width='540' height='88' fill='#fafafa' stroke='#999' stroke-width='1'/>
+<line x1='150' y1='1816' x2='170' y2='1816' stroke='#222' stroke-width='1.5' fill='none'/><line x1='190' y1='1816' x2='210' y2='1816' stroke='#222' stroke-width='1.5' fill='none'/><line x1='177' y1='1807' x2='177' y2='1825' stroke='#222' stroke-width='1.5' fill='none'/><line x1='183' y1='1807' x2='183' y2='1825' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='146' y='1820' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>VBUS_MOD</text>
+<text x='214' y='1820' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<text x='38' y='1820' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>C4</text>
+<text x='300' y='1820' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>1 µF 50 V 0805, at U2</text>
+<line x1='150' y1='1842' x2='170' y2='1842' stroke='#222' stroke-width='1.5' fill='none'/><line x1='190' y1='1842' x2='210' y2='1842' stroke='#222' stroke-width='1.5' fill='none'/><line x1='177' y1='1833' x2='177' y2='1851' stroke='#222' stroke-width='1.5' fill='none'/><line x1='183' y1='1833' x2='183' y2='1851' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='146' y='1846' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>VBUS_MOD</text>
+<text x='214' y='1846' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<text x='38' y='1846' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>C5</text>
+<text x='300' y='1846' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>1 µF 50 V 0805, at H7</text>
+<line x1='150' y1='1868' x2='170' y2='1868' stroke='#222' stroke-width='1.5' fill='none'/><line x1='190' y1='1868' x2='210' y2='1868' stroke='#222' stroke-width='1.5' fill='none'/><line x1='177' y1='1859' x2='177' y2='1877' stroke='#222' stroke-width='1.5' fill='none'/><line x1='183' y1='1859' x2='183' y2='1877' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='146' y='1872' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>VBUS_MOD</text>
+<text x='214' y='1872' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<text x='38' y='1872' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>C6</text>
+<text x='300' y='1872' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>100 nF 0402, at H7</text>
+<text x='620' y='1084' font-size='12' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>SYS — the ideal diodes' output, the LDOs' input</text>
+<rect x='620' y='1090' width='540' height='140' fill='#fafafa' stroke='#999' stroke-width='1'/>
+<line x1='740' y1='1108' x2='760' y2='1108' stroke='#222' stroke-width='1.5' fill='none'/><line x1='780' y1='1108' x2='800' y2='1108' stroke='#222' stroke-width='1.5' fill='none'/><line x1='767' y1='1099' x2='767' y2='1117' stroke='#222' stroke-width='1.5' fill='none'/><line x1='773' y1='1099' x2='773' y2='1117' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='736' y='1112' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>SYS</text>
+<text x='804' y='1112' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<text x='628' y='1112' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>C7</text>
+<text x='890' y='1112' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>100 µF 6,3 V 1206</text>
+<line x1='740' y1='1134' x2='760' y2='1134' stroke='#222' stroke-width='1.5' fill='none'/><line x1='780' y1='1134' x2='800' y2='1134' stroke='#222' stroke-width='1.5' fill='none'/><line x1='767' y1='1125' x2='767' y2='1143' stroke='#222' stroke-width='1.5' fill='none'/><line x1='773' y1='1125' x2='773' y2='1143' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='736' y='1138' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>SYS</text>
+<text x='804' y='1138' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<text x='628' y='1138' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>C10</text>
+<text x='890' y='1138' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>1 µF 50 V 0805, at the LDOs' inputs</text>
+<line x1='740' y1='1160' x2='760' y2='1160' stroke='#222' stroke-width='1.5' fill='none'/><line x1='780' y1='1160' x2='800' y2='1160' stroke='#222' stroke-width='1.5' fill='none'/><line x1='767' y1='1151' x2='767' y2='1169' stroke='#222' stroke-width='1.5' fill='none'/><line x1='773' y1='1151' x2='773' y2='1169' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='736' y='1164' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>SYS</text>
+<text x='804' y='1164' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<text x='628' y='1164' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>C11</text>
+<text x='890' y='1164' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>100 nF 0402, at U5</text>
+<line x1='740' y1='1186' x2='760' y2='1186' stroke='#222' stroke-width='1.5' fill='none'/><line x1='780' y1='1186' x2='800' y2='1186' stroke='#222' stroke-width='1.5' fill='none'/><line x1='767' y1='1177' x2='767' y2='1195' stroke='#222' stroke-width='1.5' fill='none'/><line x1='773' y1='1177' x2='773' y2='1195' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='736' y='1190' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>SYS</text>
+<text x='804' y='1190' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<text x='628' y='1190' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>C12</text>
+<text x='890' y='1190' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>100 nF 0402, at U6 (B)</text>
+<line x1='740' y1='1212' x2='764' y2='1212' stroke='#222' stroke-width='1.5' fill='none'/><circle cx='770' cy='1212' r='6' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='736' y='1216' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>SYS</text>
+<text x='628' y='1216' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>TP1</text>
+<text x='810' y='1216' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>SYS</text>
+<text x='620' y='1268' font-size='12' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>BAT — the cell's plus</text>
+<rect x='620' y='1274' width='540' height='88' fill='#fafafa' stroke='#999' stroke-width='1'/>
+<rect x='740' y='1282' width='60' height='20' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='628' y='1296' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>J2</text>
+<text x='810' y='1296' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>JST S3B-PH-SM4-TB: BAT · BATT− · NTC</text>
+<line x1='740' y1='1318' x2='760' y2='1318' stroke='#222' stroke-width='1.5' fill='none'/><line x1='780' y1='1318' x2='800' y2='1318' stroke='#222' stroke-width='1.5' fill='none'/><line x1='767' y1='1309' x2='767' y2='1327' stroke='#222' stroke-width='1.5' fill='none'/><line x1='773' y1='1309' x2='773' y2='1327' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='736' y='1322' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>BAT</text>
+<text x='804' y='1322' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<text x='628' y='1322' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>C33</text>
+<text x='890' y='1322' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>1 µF 50 V 0805, at U3's OUT</text>
+<line x1='740' y1='1344' x2='760' y2='1344' stroke='#222' stroke-width='1.5' fill='none'/><line x1='780' y1='1344' x2='800' y2='1344' stroke='#222' stroke-width='1.5' fill='none'/><line x1='767' y1='1335' x2='767' y2='1353' stroke='#222' stroke-width='1.5' fill='none'/><line x1='773' y1='1335' x2='773' y2='1353' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='736' y='1348' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>BAT</text>
+<text x='804' y='1348' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>BATT−</text>
+<text x='628' y='1348' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>C13</text>
+<text x='890' y='1348' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>100 nF 0402, at U4's BATT</text>
+<text x='620' y='1400' font-size='12' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>ON — the board's switch: on by magnet A, held by the processor</text>
+<rect x='620' y='1406' width='540' height='270' fill='#fafafa' stroke='#999' stroke-width='1'/>
+<line x1='740' y1='1424' x2='760' y2='1424' stroke='#222' stroke-width='1.5' fill='none'/><line x1='780' y1='1424' x2='800' y2='1424' stroke='#222' stroke-width='1.5' fill='none'/><rect x='760' y='1419' width='20' height='10' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='736' y='1428' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>BAT</text>
+<text x='804' y='1428' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>ON_R</text>
+<text x='628' y='1428' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>R20</text>
+<text x='890' y='1428' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>1 MΩ 1 % 0402</text>
+<line x1='740' y1='1450' x2='760' y2='1450' stroke='#222' stroke-width='1.5' fill='none'/><line x1='780' y1='1450' x2='800' y2='1450' stroke='#222' stroke-width='1.5' fill='none'/><rect x='760' y='1445' width='20' height='10' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='736' y='1454' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>ON_R</text>
+<text x='804' y='1454' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>ON</text>
+<text x='628' y='1454' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>R21</text>
+<text x='890' y='1454' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>1 MΩ 1 % 0402 — ON held high, the board off</text>
+<line x1='740' y1='1476' x2='760' y2='1476' stroke='#222' stroke-width='1.5' fill='none'/><line x1='780' y1='1476' x2='800' y2='1476' stroke='#222' stroke-width='1.5' fill='none'/><line x1='760' y1='1476' x2='778' y2='1467' stroke='#222' stroke-width='1.5' fill='none'/><circle cx='760' cy='1476' r='2' fill='#222'/><circle cx='780' cy='1476' r='2' fill='#222'/>
+<text x='736' y='1480' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>HALL_A</text>
+<text x='804' y='1480' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<text x='628' y='1480' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>U8</text>
+<text x='890' y='1480' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>DRV5032ZE, magnet A: 1 VCC BAT · 2 OUT · 3 GND</text>
+<line x1='740' y1='1502' x2='760' y2='1502' stroke='#222' stroke-width='1.5' fill='none'/><line x1='780' y1='1502' x2='800' y2='1502' stroke='#222' stroke-width='1.5' fill='none'/><line x1='767' y1='1493' x2='767' y2='1511' stroke='#222' stroke-width='1.5' fill='none'/><line x1='773' y1='1493' x2='773' y2='1511' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='736' y='1506' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>BAT</text>
+<text x='804' y='1506' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<text x='628' y='1506' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>C28</text>
+<text x='890' y='1506' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>100 nF 0402, at U8's VCC</text>
+<line x1='740' y1='1528' x2='760' y2='1528' stroke='#222' stroke-width='1.5' fill='none'/><line x1='780' y1='1528' x2='800' y2='1528' stroke='#222' stroke-width='1.5' fill='none'/><polygon points='762,1520 762,1536 776,1528' stroke='#222' stroke-width='1.5' fill='none'/><line x1='776' y1='1520' x2='776' y2='1536' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='736' y='1532' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>ON</text>
+<text x='804' y='1532' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>HALL_A</text>
+<text x='628' y='1532' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>D4</text>
+<text x='890' y='1532' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>BAT54, Schottky: magnet A pulls ON down</text>
+<line x1='740' y1='1554' x2='760' y2='1554' stroke='#222' stroke-width='1.5' fill='none'/><line x1='780' y1='1554' x2='800' y2='1554' stroke='#222' stroke-width='1.5' fill='none'/><line x1='760' y1='1554' x2='760' y2='1548' stroke='#222' stroke-width='1.5' fill='none'/><line x1='780' y1='1554' x2='780' y2='1548' stroke='#222' stroke-width='1.5' fill='none'/><line x1='758' y1='1548' x2='782' y2='1548' stroke='#222' stroke-width='1.5' fill='none'/><line x1='758' y1='1543' x2='782' y2='1543' stroke='#222' stroke-width='1.5' fill='none'/><line x1='770' y1='1543' x2='770' y2='1538' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='736' y='1558' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>ON</text>
+<text x='804' y='1558' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<text x='628' y='1558' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>Q1</text>
+<text x='890' y='1558' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>BSS138, D ON, S GND, G HOLD — the hold</text>
+<line x1='740' y1='1580' x2='760' y2='1580' stroke='#222' stroke-width='1.5' fill='none'/><line x1='780' y1='1580' x2='800' y2='1580' stroke='#222' stroke-width='1.5' fill='none'/><rect x='760' y='1575' width='20' height='10' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='736' y='1584' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>HOLD</text>
+<text x='804' y='1584' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<text x='628' y='1584' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>R22</text>
+<text x='890' y='1584' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>10 MΩ 1 % 0603, Q1's gate</text>
+<line x1='740' y1='1606' x2='760' y2='1606' stroke='#222' stroke-width='1.5' fill='none'/><line x1='780' y1='1606' x2='800' y2='1606' stroke='#222' stroke-width='1.5' fill='none'/><line x1='767' y1='1597' x2='767' y2='1615' stroke='#222' stroke-width='1.5' fill='none'/><line x1='773' y1='1597' x2='773' y2='1615' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='736' y='1610' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>HOLD</text>
+<text x='804' y='1610' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<text x='628' y='1610' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>C37</text>
+<text x='890' y='1610' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>100 nF 0402 — Q1 held through a reset</text>
+<line x1='740' y1='1632' x2='760' y2='1632' stroke='#222' stroke-width='1.5' fill='none'/><line x1='780' y1='1632' x2='800' y2='1632' stroke='#222' stroke-width='1.5' fill='none'/><line x1='760' y1='1632' x2='760' y2='1626' stroke='#222' stroke-width='1.5' fill='none'/><line x1='780' y1='1632' x2='780' y2='1626' stroke='#222' stroke-width='1.5' fill='none'/><line x1='758' y1='1626' x2='782' y2='1626' stroke='#222' stroke-width='1.5' fill='none'/><line x1='758' y1='1621' x2='782' y2='1621' stroke='#222' stroke-width='1.5' fill='none'/><line x1='770' y1='1621' x2='770' y2='1616' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='736' y='1636' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>HALL_A</text>
+<text x='804' y='1636' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>MAG_A</text>
+<text x='628' y='1636' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>Q2</text>
+<text x='890' y='1636' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>BSS138, D HALL_A, S MAG_A, G +3V0 — the reading</text>
+<line x1='740' y1='1658' x2='760' y2='1658' stroke='#222' stroke-width='1.5' fill='none'/><line x1='780' y1='1658' x2='800' y2='1658' stroke='#222' stroke-width='1.5' fill='none'/><line x1='760' y1='1658' x2='760' y2='1652' stroke='#222' stroke-width='1.5' fill='none'/><line x1='780' y1='1658' x2='780' y2='1652' stroke='#222' stroke-width='1.5' fill='none'/><line x1='758' y1='1652' x2='782' y2='1652' stroke='#222' stroke-width='1.5' fill='none'/><line x1='758' y1='1647' x2='782' y2='1647' stroke='#222' stroke-width='1.5' fill='none'/><line x1='770' y1='1647' x2='770' y2='1642' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='736' y='1662' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>ON</text>
+<text x='804' y='1662' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<text x='628' y='1662' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>Q3</text>
+<text x='890' y='1662' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>BSS138, D ON, S GND, G VBUCK — Povodok alone</text>
+<text x='620' y='1714' font-size='12' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>+3V0_IMU — the sensor's supply, a π (B)</text>
+<rect x='620' y='1720' width='540' height='192' fill='#fafafa' stroke='#999' stroke-width='1'/>
+<line x1='740' y1='1738' x2='760' y2='1738' stroke='#222' stroke-width='1.5' fill='none'/><line x1='780' y1='1738' x2='800' y2='1738' stroke='#222' stroke-width='1.5' fill='none'/><line x1='767' y1='1729' x2='767' y2='1747' stroke='#222' stroke-width='1.5' fill='none'/><line x1='773' y1='1729' x2='773' y2='1747' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='736' y='1742' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>+3V0</text>
+<text x='804' y='1742' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<text x='628' y='1742' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>C21</text>
+<text x='890' y='1742' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>100 nF 0402, before the bead</text>
+<line x1='740' y1='1764' x2='760' y2='1764' stroke='#222' stroke-width='1.5' fill='none'/><line x1='780' y1='1764' x2='800' y2='1764' stroke='#222' stroke-width='1.5' fill='none'/><rect x='760' y='1760' width='20' height='8' fill='#222'/>
+<text x='736' y='1768' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>+3V0</text>
+<text x='804' y='1768' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>+3V0_IMU</text>
+<text x='628' y='1768' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>FB1</text>
+<text x='890' y='1768' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>BLM18PG121SN1D, 120 Ω at 100 MHz</text>
+<line x1='740' y1='1790' x2='760' y2='1790' stroke='#222' stroke-width='1.5' fill='none'/><line x1='780' y1='1790' x2='800' y2='1790' stroke='#222' stroke-width='1.5' fill='none'/><line x1='767' y1='1781' x2='767' y2='1799' stroke='#222' stroke-width='1.5' fill='none'/><line x1='773' y1='1781' x2='773' y2='1799' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='736' y='1794' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>+3V0_IMU</text>
+<text x='804' y='1794' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<text x='628' y='1794' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>C22</text>
+<text x='890' y='1794' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>1 µF 50 V 0805</text>
+<line x1='740' y1='1816' x2='760' y2='1816' stroke='#222' stroke-width='1.5' fill='none'/><line x1='780' y1='1816' x2='800' y2='1816' stroke='#222' stroke-width='1.5' fill='none'/><line x1='767' y1='1807' x2='767' y2='1825' stroke='#222' stroke-width='1.5' fill='none'/><line x1='773' y1='1807' x2='773' y2='1825' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='736' y='1820' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>+3V0_IMU</text>
+<text x='804' y='1820' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<text x='628' y='1820' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>C23</text>
+<text x='890' y='1820' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>1 µF 50 V 0805</text>
+<line x1='740' y1='1842' x2='760' y2='1842' stroke='#222' stroke-width='1.5' fill='none'/><line x1='780' y1='1842' x2='800' y2='1842' stroke='#222' stroke-width='1.5' fill='none'/><line x1='767' y1='1833' x2='767' y2='1851' stroke='#222' stroke-width='1.5' fill='none'/><line x1='773' y1='1833' x2='773' y2='1851' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='736' y='1846' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>+3V0_IMU</text>
+<text x='804' y='1846' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<text x='628' y='1846' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>C24</text>
+<text x='890' y='1846' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>100 nF 0402</text>
+<line x1='740' y1='1868' x2='760' y2='1868' stroke='#222' stroke-width='1.5' fill='none'/><line x1='780' y1='1868' x2='800' y2='1868' stroke='#222' stroke-width='1.5' fill='none'/><line x1='767' y1='1859' x2='767' y2='1877' stroke='#222' stroke-width='1.5' fill='none'/><line x1='773' y1='1859' x2='773' y2='1877' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='736' y='1872' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>+3V0_IMU</text>
+<text x='804' y='1872' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<text x='628' y='1872' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>C25</text>
+<text x='890' y='1872' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>100 nF 0402</text>
+<line x1='740' y1='1894' x2='760' y2='1894' stroke='#222' stroke-width='1.5' fill='none'/><line x1='780' y1='1894' x2='800' y2='1894' stroke='#222' stroke-width='1.5' fill='none'/><line x1='767' y1='1885' x2='767' y2='1903' stroke='#222' stroke-width='1.5' fill='none'/><line x1='773' y1='1885' x2='773' y2='1903' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='736' y='1898' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>+3V0_IMU</text>
+<text x='804' y='1898' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<text x='628' y='1898' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>C26</text>
+<text x='890' y='1898' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>1 nF 50 V 0402, nearest VDD</text>
+<text x='1210' y='1084' font-size='12' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>+3V0 — U5's rail</text>
+<rect x='1210' y='1090' width='540' height='426' fill='#fafafa' stroke='#999' stroke-width='1'/>
+<line x1='1330' y1='1108' x2='1350' y2='1108' stroke='#222' stroke-width='1.5' fill='none'/><line x1='1370' y1='1108' x2='1390' y2='1108' stroke='#222' stroke-width='1.5' fill='none'/><line x1='1357' y1='1099' x2='1357' y2='1117' stroke='#222' stroke-width='1.5' fill='none'/><line x1='1363' y1='1099' x2='1363' y2='1117' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='1326' y='1112' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>+3V0</text>
+<text x='1394' y='1112' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<text x='1218' y='1112' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>C15</text>
+<text x='1480' y='1112' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>1 µF 50 V 0805, at U5</text>
+<line x1='1330' y1='1134' x2='1350' y2='1134' stroke='#222' stroke-width='1.5' fill='none'/><line x1='1370' y1='1134' x2='1390' y2='1134' stroke='#222' stroke-width='1.5' fill='none'/><line x1='1357' y1='1125' x2='1357' y2='1143' stroke='#222' stroke-width='1.5' fill='none'/><line x1='1363' y1='1125' x2='1363' y2='1143' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='1326' y='1138' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>+3V0</text>
+<text x='1394' y='1138' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<text x='1218' y='1138' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>C16</text>
+<text x='1480' y='1138' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>100 nF 0402, at U5</text>
+<line x1='1330' y1='1160' x2='1350' y2='1160' stroke='#222' stroke-width='1.5' fill='none'/><line x1='1370' y1='1160' x2='1390' y2='1160' stroke='#222' stroke-width='1.5' fill='none'/><line x1='1357' y1='1151' x2='1357' y2='1169' stroke='#222' stroke-width='1.5' fill='none'/><line x1='1363' y1='1151' x2='1363' y2='1169' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='1326' y='1164' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>+3V0</text>
+<text x='1394' y='1164' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<text x='1218' y='1164' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>C17</text>
+<text x='1480' y='1164' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>100 µF 6,3 V 1206, at U1</text>
+<line x1='1330' y1='1186' x2='1350' y2='1186' stroke='#222' stroke-width='1.5' fill='none'/><line x1='1370' y1='1186' x2='1390' y2='1186' stroke='#222' stroke-width='1.5' fill='none'/><line x1='1357' y1='1177' x2='1357' y2='1195' stroke='#222' stroke-width='1.5' fill='none'/><line x1='1363' y1='1177' x2='1363' y2='1195' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='1326' y='1190' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>+3V0</text>
+<text x='1394' y='1190' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<text x='1218' y='1190' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>C18</text>
+<text x='1480' y='1190' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>100 nF 0402, at U1</text>
+<line x1='1330' y1='1212' x2='1350' y2='1212' stroke='#222' stroke-width='1.5' fill='none'/><line x1='1370' y1='1212' x2='1390' y2='1212' stroke='#222' stroke-width='1.5' fill='none'/><line x1='1357' y1='1203' x2='1357' y2='1221' stroke='#222' stroke-width='1.5' fill='none'/><line x1='1363' y1='1203' x2='1363' y2='1221' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='1326' y='1216' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>+3V0</text>
+<text x='1394' y='1216' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<text x='1218' y='1216' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>C27</text>
+<text x='1480' y='1216' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>100 nF 0402, at U7 VDDIO (B)</text>
+<line x1='1330' y1='1238' x2='1350' y2='1238' stroke='#222' stroke-width='1.5' fill='none'/><line x1='1370' y1='1238' x2='1390' y2='1238' stroke='#222' stroke-width='1.5' fill='none'/><line x1='1357' y1='1229' x2='1357' y2='1247' stroke='#222' stroke-width='1.5' fill='none'/><line x1='1363' y1='1229' x2='1363' y2='1247' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='1326' y='1242' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>+3V0</text>
+<text x='1394' y='1242' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<text x='1218' y='1242' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>C29</text>
+<text x='1480' y='1242' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>100 nF 0402, at U9</text>
+<line x1='1330' y1='1264' x2='1350' y2='1264' stroke='#222' stroke-width='1.5' fill='none'/><line x1='1370' y1='1264' x2='1390' y2='1264' stroke='#222' stroke-width='1.5' fill='none'/><rect x='1350' y='1259' width='20' height='10' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='1326' y='1268' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>+3V0</text>
+<text x='1394' y='1268' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>CHG_STAT</text>
+<text x='1218' y='1268' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>R6</text>
+<text x='1480' y='1268' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>10 kΩ</text>
+<line x1='1330' y1='1290' x2='1350' y2='1290' stroke='#222' stroke-width='1.5' fill='none'/><line x1='1370' y1='1290' x2='1390' y2='1290' stroke='#222' stroke-width='1.5' fill='none'/><rect x='1350' y='1285' width='20' height='10' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='1326' y='1294' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>+3V0</text>
+<text x='1394' y='1294' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>CHG_PG</text>
+<text x='1218' y='1294' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>R7</text>
+<text x='1480' y='1294' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>100 kΩ</text>
+<line x1='1330' y1='1316' x2='1350' y2='1316' stroke='#222' stroke-width='1.5' fill='none'/><line x1='1370' y1='1316' x2='1390' y2='1316' stroke='#222' stroke-width='1.5' fill='none'/><rect x='1350' y='1311' width='20' height='10' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='1326' y='1320' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>+3V0</text>
+<text x='1394' y='1320' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>SCL</text>
+<text x='1218' y='1320' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>R8</text>
+<text x='1480' y='1320' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>10 kΩ</text>
+<line x1='1330' y1='1342' x2='1350' y2='1342' stroke='#222' stroke-width='1.5' fill='none'/><line x1='1370' y1='1342' x2='1390' y2='1342' stroke='#222' stroke-width='1.5' fill='none'/><rect x='1350' y='1337' width='20' height='10' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='1326' y='1346' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>+3V0</text>
+<text x='1394' y='1346' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>SDA</text>
+<text x='1218' y='1346' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>R9</text>
+<text x='1480' y='1346' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>10 kΩ</text>
+<line x1='1330' y1='1368' x2='1350' y2='1368' stroke='#222' stroke-width='1.5' fill='none'/><line x1='1370' y1='1368' x2='1390' y2='1368' stroke='#222' stroke-width='1.5' fill='none'/><rect x='1350' y='1363' width='20' height='10' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='1326' y='1372' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>+3V0</text>
+<text x='1394' y='1372' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>IMU_CS</text>
+<text x='1218' y='1372' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>R11</text>
+<text x='1480' y='1372' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>100 kΩ (B)</text>
+<line x1='1330' y1='1394' x2='1350' y2='1394' stroke='#222' stroke-width='1.5' fill='none'/><line x1='1370' y1='1394' x2='1390' y2='1394' stroke='#222' stroke-width='1.5' fill='none'/><line x1='1350' y1='1394' x2='1368' y2='1385' stroke='#222' stroke-width='1.5' fill='none'/><circle cx='1350' cy='1394' r='2' fill='#222'/><circle cx='1370' cy='1394' r='2' fill='#222'/>
+<text x='1326' y='1398' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>MAG_B</text>
+<text x='1394' y='1398' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<text x='1218' y='1398' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>U9</text>
+<text x='1480' y='1398' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>DRV5032ZE, magnet B: 1 VCC +3V0 · 2 OUT · 3 GND</text>
+<line x1='1330' y1='1420' x2='1350' y2='1420' stroke='#222' stroke-width='1.5' fill='none'/><line x1='1370' y1='1420' x2='1390' y2='1420' stroke='#222' stroke-width='1.5' fill='none'/><polygon points='1352,1412 1352,1428 1366,1420' stroke='#222' stroke-width='1.5' fill='none'/><line x1='1366' y1='1412' x2='1366' y2='1428' stroke='#222' stroke-width='1.5' fill='none'/><line x1='1358' y1='1410' x2='1363' y2='1405' stroke='#222' stroke-width='1.5' fill='none'/><line x1='1363' y1='1410' x2='1368' y2='1405' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='1326' y='1424' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>+3V0</text>
+<text x='1394' y='1424' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>LED_RK</text>
+<text x='1218' y='1424' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>D3a</text>
+<text x='1480' y='1424' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>LTST-C195KGJRKT red, pads 2→4</text>
+<line x1='1330' y1='1446' x2='1350' y2='1446' stroke='#222' stroke-width='1.5' fill='none'/><line x1='1370' y1='1446' x2='1390' y2='1446' stroke='#222' stroke-width='1.5' fill='none'/><rect x='1350' y='1441' width='20' height='10' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='1326' y='1450' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>LED_RK</text>
+<text x='1394' y='1450' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>LED_R</text>
+<text x='1218' y='1450' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>R18</text>
+<text x='1480' y='1450' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>1,0 kΩ</text>
+<line x1='1330' y1='1472' x2='1350' y2='1472' stroke='#222' stroke-width='1.5' fill='none'/><line x1='1370' y1='1472' x2='1390' y2='1472' stroke='#222' stroke-width='1.5' fill='none'/><polygon points='1352,1464 1352,1480 1366,1472' stroke='#222' stroke-width='1.5' fill='none'/><line x1='1366' y1='1464' x2='1366' y2='1480' stroke='#222' stroke-width='1.5' fill='none'/><line x1='1358' y1='1462' x2='1363' y2='1457' stroke='#222' stroke-width='1.5' fill='none'/><line x1='1363' y1='1462' x2='1368' y2='1457' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='1326' y='1476' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>+3V0</text>
+<text x='1394' y='1476' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>LED_GK</text>
+<text x='1218' y='1476' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>D3b</text>
+<text x='1480' y='1476' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>LTST-C195KGJRKT green, pads 1→3</text>
+<line x1='1330' y1='1498' x2='1350' y2='1498' stroke='#222' stroke-width='1.5' fill='none'/><line x1='1370' y1='1498' x2='1390' y2='1498' stroke='#222' stroke-width='1.5' fill='none'/><rect x='1350' y='1493' width='20' height='10' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='1326' y='1502' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>LED_GK</text>
+<text x='1394' y='1502' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>LED_G</text>
+<text x='1218' y='1502' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>R17</text>
+<text x='1480' y='1502' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>1,0 kΩ</text>
+<text x='1210' y='1554' font-size='12' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>+3V0_SD — U6's rail, the card (B)</text>
+<rect x='1210' y='1560' width='540' height='218' fill='#fafafa' stroke='#999' stroke-width='1'/>
+<line x1='1330' y1='1578' x2='1350' y2='1578' stroke='#222' stroke-width='1.5' fill='none'/><line x1='1370' y1='1578' x2='1390' y2='1578' stroke='#222' stroke-width='1.5' fill='none'/><line x1='1357' y1='1569' x2='1357' y2='1587' stroke='#222' stroke-width='1.5' fill='none'/><line x1='1363' y1='1569' x2='1363' y2='1587' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='1326' y='1582' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>+3V0_SD</text>
+<text x='1394' y='1582' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<text x='1218' y='1582' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>C19</text>
+<text x='1480' y='1582' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>1 µF 50 V 0805, at J3</text>
+<line x1='1330' y1='1604' x2='1350' y2='1604' stroke='#222' stroke-width='1.5' fill='none'/><line x1='1370' y1='1604' x2='1390' y2='1604' stroke='#222' stroke-width='1.5' fill='none'/><line x1='1357' y1='1595' x2='1357' y2='1613' stroke='#222' stroke-width='1.5' fill='none'/><line x1='1363' y1='1595' x2='1363' y2='1613' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='1326' y='1608' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>+3V0_SD</text>
+<text x='1394' y='1608' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<text x='1218' y='1608' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>C20</text>
+<text x='1480' y='1608' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>100 nF 0402, at J3</text>
+<line x1='1330' y1='1630' x2='1350' y2='1630' stroke='#222' stroke-width='1.5' fill='none'/><line x1='1370' y1='1630' x2='1390' y2='1630' stroke='#222' stroke-width='1.5' fill='none'/><rect x='1350' y='1625' width='20' height='10' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='1326' y='1634' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>+3V0_SD</text>
+<text x='1394' y='1634' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>SD_DAT2</text>
+<text x='1218' y='1634' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>R12</text>
+<text x='1480' y='1634' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>100 kΩ</text>
+<line x1='1330' y1='1656' x2='1350' y2='1656' stroke='#222' stroke-width='1.5' fill='none'/><line x1='1370' y1='1656' x2='1390' y2='1656' stroke='#222' stroke-width='1.5' fill='none'/><rect x='1350' y='1651' width='20' height='10' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='1326' y='1660' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>+3V0_SD</text>
+<text x='1394' y='1660' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>SD_CS</text>
+<text x='1218' y='1660' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>R13</text>
+<text x='1480' y='1660' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>100 kΩ</text>
+<line x1='1330' y1='1682' x2='1350' y2='1682' stroke='#222' stroke-width='1.5' fill='none'/><line x1='1370' y1='1682' x2='1390' y2='1682' stroke='#222' stroke-width='1.5' fill='none'/><rect x='1350' y='1677' width='20' height='10' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='1326' y='1686' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>+3V0_SD</text>
+<text x='1394' y='1686' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>SD_DI</text>
+<text x='1218' y='1686' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>R14</text>
+<text x='1480' y='1686' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>100 kΩ</text>
+<line x1='1330' y1='1708' x2='1350' y2='1708' stroke='#222' stroke-width='1.5' fill='none'/><line x1='1370' y1='1708' x2='1390' y2='1708' stroke='#222' stroke-width='1.5' fill='none'/><rect x='1350' y='1703' width='20' height='10' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='1326' y='1712' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>+3V0_SD</text>
+<text x='1394' y='1712' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>SD_DO</text>
+<text x='1218' y='1712' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>R15</text>
+<text x='1480' y='1712' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>100 kΩ</text>
+<line x1='1330' y1='1734' x2='1350' y2='1734' stroke='#222' stroke-width='1.5' fill='none'/><line x1='1370' y1='1734' x2='1390' y2='1734' stroke='#222' stroke-width='1.5' fill='none'/><rect x='1350' y='1729' width='20' height='10' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='1326' y='1738' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>+3V0_SD</text>
+<text x='1394' y='1738' font-size='10' text-anchor='start' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>SD_DAT1</text>
+<text x='1218' y='1738' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>R16</text>
+<text x='1480' y='1738' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>100 kΩ</text>
+<line x1='1330' y1='1760' x2='1354' y2='1760' stroke='#222' stroke-width='1.5' fill='none'/><circle cx='1360' cy='1760' r='6' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='1326' y='1764' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>+3V0_SD</text>
+<text x='1218' y='1764' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>TP2</text>
+<text x='1400' y='1764' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>+3V0_SD</text>
+<text x='1210' y='1816' font-size='12' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>SWD — Tag-Connect's TC2030-NL pads</text>
+<rect x='1210' y='1822' width='540' height='166' fill='#fafafa' stroke='#999' stroke-width='1'/>
+<line x1='1330' y1='1840' x2='1354' y2='1840' stroke='#222' stroke-width='1.5' fill='none'/><circle cx='1360' cy='1840' r='6' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='1326' y='1844' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>+3V0</text>
+<text x='1218' y='1844' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>1</text>
+<text x='1400' y='1844' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>VCC</text>
+<line x1='1330' y1='1866' x2='1354' y2='1866' stroke='#222' stroke-width='1.5' fill='none'/><circle cx='1360' cy='1866' r='6' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='1326' y='1870' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>SWDIO</text>
+<text x='1218' y='1870' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>2</text>
+<text x='1400' y='1870' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>SWDIO</text>
+<line x1='1330' y1='1892' x2='1354' y2='1892' stroke='#222' stroke-width='1.5' fill='none'/><circle cx='1360' cy='1892' r='6' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='1326' y='1896' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>NRESET</text>
+<text x='1218' y='1896' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>3</text>
+<text x='1400' y='1896' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>nRESET</text>
+<line x1='1330' y1='1918' x2='1354' y2='1918' stroke='#222' stroke-width='1.5' fill='none'/><circle cx='1360' cy='1918' r='6' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='1326' y='1922' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>SWDCLK</text>
+<text x='1218' y='1922' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>4</text>
+<text x='1400' y='1922' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>SWCLK</text>
+<line x1='1330' y1='1944' x2='1354' y2='1944' stroke='#222' stroke-width='1.5' fill='none'/><circle cx='1360' cy='1944' r='6' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='1326' y='1948' font-size='10' text-anchor='end' font-weight='bold' fill='#0a4' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<text x='1218' y='1948' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>5</text>
+<text x='1400' y='1948' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>GND</text>
+<line x1='1330' y1='1970' x2='1354' y2='1970' stroke='#222' stroke-width='1.5' fill='none'/><circle cx='1360' cy='1970' r='6' stroke='#222' stroke-width='1.5' fill='none'/>
+<text x='1218' y='1974' font-size='10' text-anchor='start' font-weight='bold' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>6</text>
+<text x='1400' y='1974' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>SWO, open</text>
+<text x='30' y='2008' font-size='10' text-anchor='start' font-weight='normal' fill='#111' font-family='DejaVu Sans, Arial, sans-serif'>Licence: CERN-OHL-P v2. The values and the parts: BOARD.md; the sources: PARTS.md.</text>
+</svg>

@@ -1,0 +1,155 @@
+/* NIC-Strelka — Povodok's pins on the nRF54LM20A, as FIRMWARE.md (The pins) and BOARD.md give
+ * them: the board's own pins as the Belka's, and the WM02C20C's nRF7002 on P1.04–P1.14 inside
+ * the module, as Fanstel's example wires it — the nRF54L15 DK's pinout, which the kit's own Wi-Fi
+ * shield, the nRF7002-EB II, does not use, so the shield is repinned here. The node names follow
+ * the SDK's shield file for the nRF7002-EB II. Built against nRF Connect SDK v3.4.0; not run on
+ * hardware: the kit decides it.
+ */
+
+#include <zephyr/dt-bindings/gpio/nordic-nrf-gpio.h>
+
+/ {
+	chosen {
+		zephyr,console = &cdc_acm_uart0;
+		zephyr,shell-uart = &cdc_acm_uart0;
+		zephyr,uart-mcumgr = &cdc_acm_uart0;
+		zephyr,wifi = &wlan0;
+	};
+
+	aliases {
+		watchdog0 = &wdt31;
+	};
+
+	zephyr,user {
+		led-green-gpios = <&gpio1 30 (GPIO_ACTIVE_LOW | NRF_GPIO_DRIVE_H0H1)>;
+		led-red-gpios = <&gpio1 31 (GPIO_ACTIVE_LOW | NRF_GPIO_DRIVE_H0H1)>;
+		hold-gpios = <&gpio1 23 GPIO_ACTIVE_HIGH>;
+		magnet-a-gpios = <&gpio0 5 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+		magnet-b-gpios = <&gpio0 2 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+		chg-stat-gpios = <&gpio0 0 GPIO_ACTIVE_LOW>;
+		chg-pg-gpios = <&gpio0 1 GPIO_ACTIVE_LOW>;
+	};
+
+	/* the radio and the Wi-Fi sharing the air: the nRF7002's coexistence pins, as the SDK's
+	 * shield nrf7002eb2 names them; status 1, P1.13, the SDK's driver does not read */
+	nrf_radio_coex: coex {
+		compatible = "nordic,nrf7002-coex";
+		status = "okay";
+		status0-gpios = <&gpio1 8 GPIO_ACTIVE_HIGH>;
+		req-gpios = <&gpio1 9 GPIO_ACTIVE_HIGH>;
+		grant-gpios = <&gpio1 12 (GPIO_PULL_DOWN | GPIO_ACTIVE_LOW)>;
+	};
+};
+
+&pinctrl {
+	/* the Wi-Fi: SPIM22 on P1.11 SCK, P1.06 MOSI, P1.07 MISO; CS P1.10 */
+	spi22_default: spi22_default {
+		group1 {
+			psels = <NRF_PSEL(SPIM_SCK, 1, 11)>, <NRF_PSEL(SPIM_MOSI, 1, 6)>,
+				<NRF_PSEL(SPIM_MISO, 1, 7)>;
+		};
+	};
+	spi22_sleep: spi22_sleep {
+		group1 {
+			psels = <NRF_PSEL(SPIM_SCK, 1, 11)>, <NRF_PSEL(SPIM_MOSI, 1, 6)>,
+				<NRF_PSEL(SPIM_MISO, 1, 7)>;
+			low-power-enable;
+		};
+	};
+	/* the gauge: TWIM30 on P0.04 SCL, P0.03 SDA */
+	i2c30_default: i2c30_default {
+		group1 {
+			psels = <NRF_PSEL(TWIM_SCL, 0, 4)>, <NRF_PSEL(TWIM_SDA, 0, 3)>;
+		};
+	};
+	i2c30_sleep: i2c30_sleep {
+		group1 {
+			psels = <NRF_PSEL(TWIM_SCL, 0, 4)>, <NRF_PSEL(TWIM_SDA, 0, 3)>;
+			low-power-enable;
+		};
+	};
+};
+
+&spi22 {
+	status = "okay";
+	pinctrl-0 = <&spi22_default>;
+	pinctrl-1 = <&spi22_sleep>;
+	pinctrl-names = "default", "sleep";
+	cs-gpios = <&gpio1 10 GPIO_ACTIVE_LOW>;
+
+	nrf70: nrf7002-spi@0 {
+		compatible = "nordic,nrf7002-spi";
+		status = "okay";
+		reg = <0>;
+		spi-max-frequency = <8000000>;
+		iovdd-ctrl-gpios = <&gpio1 5 GPIO_ACTIVE_HIGH>;   /* the module's TCK127BG */
+		bucken-gpios = <&gpio1 4 GPIO_ACTIVE_HIGH>;
+		host-irq-gpios = <&gpio1 14 GPIO_ACTIVE_HIGH>;
+		/* the powers the SDK's shield names, which the binding requires; the set's band is
+		 * the radio's, the Wi-Fi at 5 GHz (FIRMWARE.md, The platform) */
+		wifi-max-tx-pwr-2g-dsss = <21>;
+		wifi-max-tx-pwr-2g-mcs0 = <16>;
+		wifi-max-tx-pwr-2g-mcs7 = <16>;
+		wifi-max-tx-pwr-5g-low-mcs0 = <13>;
+		wifi-max-tx-pwr-5g-low-mcs7 = <13>;
+		wifi-max-tx-pwr-5g-mid-mcs0 = <13>;
+		wifi-max-tx-pwr-5g-mid-mcs7 = <13>;
+		wifi-max-tx-pwr-5g-high-mcs0 = <12>;
+		wifi-max-tx-pwr-5g-high-mcs7 = <12>;
+
+		wlan0: wlan0 {
+			compatible = "nordic,wlan";
+		};
+	};
+};
+
+&i2c30 {
+	status = "okay";
+	pinctrl-0 = <&i2c30_default>;
+	pinctrl-1 = <&i2c30_sleep>;
+	pinctrl-names = "default", "sleep";
+	clock-frequency = <I2C_BITRATE_FAST>;
+
+	max17055: gauge@36 {
+		compatible = "strelka,max17055";
+		reg = <0x36>;
+	};
+};
+
+/* the 32 MHz crystal's load at 14,5 pF on the module's board, the kit's 15 pF on the kit: as in
+ * the Belka's overlay, commented out here */
+
+/* USB: the serial port for the console and MCUboot's door, and the network adapter, CDC-NCM,
+ * TCP/IP over it to the application as over the Wi-Fi (FIRMWARE.md, USB; PHONE.md) */
+&zephyr_udc0 {
+	status = "okay";
+
+	cdc_acm_uart0: cdc_acm_uart0 {
+		compatible = "zephyr,cdc-acm-uart";
+	};
+
+	cdc_ncm_eth0: cdc_ncm_eth0 {
+		compatible = "zephyr,cdc-ncm-ethernet";
+		/* the host's side of the link, as Zephyr's samples set it; the unit's own address
+		 * and its bits are an open question (STATUS.md) */
+		remote-mac-address = "00005E005301";
+	};
+};
+
+/* the kit's console UART, uart20, is SERIAL20, the card's SPIM20's own instance: on the kit the
+ * console is the USB port alone */
+&uart20 {
+	status = "disabled";
+};
+
+&wdt31 {
+	status = "okay";
+};
+
+&gpio0 {
+	status = "okay";
+};
+
+&gpio1 {
+	status = "okay";
+};
