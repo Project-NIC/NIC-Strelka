@@ -1,0 +1,10 @@
+/* NIC-Strelka — MCUboot's devicetree: the serial recovery's door is a USB serial port on the
+ * contact's pair, the one CDC ACM node MCUboot's adapter takes (DEVICE_DT_GET_ONE); MCUboot has
+ * no console of its own (FIRMWARE.md, USB). */
+&zephyr_udc0 {
+	status = "okay";
+
+	boot_cdc_acm_uart: boot_cdc_acm_uart {
+		compatible = "zephyr,cdc-acm-uart";
+	};
+};

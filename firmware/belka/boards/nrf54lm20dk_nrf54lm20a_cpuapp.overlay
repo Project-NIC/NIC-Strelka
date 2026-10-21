@@ -1,0 +1,173 @@
+/* NIC-Strelka — the Belka's pins on the nRF54LM20A, as FIRMWARE.md (The pins) and BOARD.md give
+ * them. Built for the nRF54LM20-DK first, the nRF54LM20A emulated on its nRF54LM20B; the module
+ * carries the same chip, so the pins are the chip's. The console and MCUboot's recovery are a USB
+ * serial port on the contact's pair; the kit's debugger UART, SERIAL20, is the card's instance
+ * and stays off. Built against nRF Connect SDK v3.4.0; not run on hardware: the kit decides it.
+ */
+
+#include <zephyr/dt-bindings/gpio/nordic-nrf-gpio.h>
+
+/ {
+	chosen {
+		zephyr,console = &cdc_acm_uart0;
+		zephyr,shell-uart = &cdc_acm_uart0;
+		zephyr,uart-mcumgr = &cdc_acm_uart0;
+	};
+
+	aliases {
+		imu = &icm4268x;
+		watchdog0 = &wdt31;
+	};
+
+	/* the board's own pins, read by shared/light.c, hold.c and magnet.c: the light's cathodes
+	 * sunk on high drive; HOLD; the Hall switches' outputs, low with a magnet there, the
+	 * processor's pull-up on them; the charger's STAT and /PG, held up on the board */
+	zephyr,user {
+		led-green-gpios = <&gpio1 30 (GPIO_ACTIVE_LOW | NRF_GPIO_DRIVE_H0H1)>;
+		led-red-gpios = <&gpio1 31 (GPIO_ACTIVE_LOW | NRF_GPIO_DRIVE_H0H1)>;
+		hold-gpios = <&gpio1 23 GPIO_ACTIVE_HIGH>;
+		magnet-a-gpios = <&gpio0 5 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+		magnet-b-gpios = <&gpio0 2 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+		chg-stat-gpios = <&gpio0 0 GPIO_ACTIVE_LOW>;
+		chg-pg-gpios = <&gpio0 1 GPIO_ACTIVE_LOW>;
+	};
+};
+
+&pinctrl {
+	/* the sensor: SPIM21 on P3.04 SCK, P3.05 the sensor's SDI, P3.07 its SDO; CS P3.02 */
+	spi21_default: spi21_default {
+		group1 {
+			psels = <NRF_PSEL(SPIM_SCK, 3, 4)>, <NRF_PSEL(SPIM_MOSI, 3, 5)>,
+				<NRF_PSEL(SPIM_MISO, 3, 7)>;
+		};
+	};
+	spi21_sleep: spi21_sleep {
+		group1 {
+			psels = <NRF_PSEL(SPIM_SCK, 3, 4)>, <NRF_PSEL(SPIM_MOSI, 3, 5)>,
+				<NRF_PSEL(SPIM_MISO, 3, 7)>;
+			low-power-enable;
+		};
+	};
+	/* the card: SPIM20 on P3.03 CLK, P3.08 DI, P3.09 DO; CS P3.10 (FIRMWARE.md, The pins) */
+	spi20_default: spi20_default {
+		group1 {
+			psels = <NRF_PSEL(SPIM_SCK, 3, 3)>, <NRF_PSEL(SPIM_MOSI, 3, 8)>,
+				<NRF_PSEL(SPIM_MISO, 3, 9)>;
+		};
+	};
+	spi20_sleep: spi20_sleep {
+		group1 {
+			psels = <NRF_PSEL(SPIM_SCK, 3, 3)>, <NRF_PSEL(SPIM_MOSI, 3, 8)>,
+				<NRF_PSEL(SPIM_MISO, 3, 9)>;
+			low-power-enable;
+		};
+	};
+	/* the gauge: TWIM30 on P0.04 SCL, P0.03 SDA */
+	i2c30_default: i2c30_default {
+		group1 {
+			psels = <NRF_PSEL(TWIM_SCL, 0, 4)>, <NRF_PSEL(TWIM_SDA, 0, 3)>;
+		};
+	};
+	i2c30_sleep: i2c30_sleep {
+		group1 {
+			psels = <NRF_PSEL(TWIM_SCL, 0, 4)>, <NRF_PSEL(TWIM_SDA, 0, 3)>;
+			low-power-enable;
+		};
+	};
+};
+
+&spi21 {
+	status = "okay";
+	pinctrl-0 = <&spi21_default>;
+	pinctrl-1 = <&spi21_sleep>;
+	pinctrl-names = "default", "sleep";
+	cs-gpios = <&gpio3 2 GPIO_ACTIVE_LOW>;
+
+	icm4268x: icm4268x@0 {
+		compatible = "strelka,icm4268x";
+		reg = <0>;
+		spi-max-frequency = <8000000>;
+		int-gpios = <&gpio3 1 GPIO_ACTIVE_HIGH>;      /* INT1, the data-ready */
+		clkin-gpios = <&gpio3 0 GPIO_ACTIVE_HIGH>;    /* CLKIN, the sensor's pin 9 */
+	};
+};
+
+&spi20 {
+	status = "okay";
+	pinctrl-0 = <&spi20_default>;
+	pinctrl-1 = <&spi20_sleep>;
+	pinctrl-names = "default", "sleep";
+	cs-gpios = <&gpio3 10 GPIO_ACTIVE_LOW>;
+
+	/* the card in SPI mode: Zephyr's SD stack identifies it at 400 kHz and runs it at 8 MHz,
+	 * the most SPIM20 gives; its supply, U6, switched by P3.06 (BOARD.md, The card) */
+	sdhc0: sdhc@0 {
+		compatible = "zephyr,sdhc-spi-slot";
+		reg = <0>;
+		status = "okay";
+		spi-max-frequency = <8000000>;
+		pwr-gpios = <&gpio3 6 GPIO_ACTIVE_HIGH>;
+
+		mmc {
+			compatible = "zephyr,sdmmc-disk";
+			disk-name = "SD";
+			status = "okay";
+		};
+	};
+};
+
+&i2c30 {
+	status = "okay";
+	pinctrl-0 = <&i2c30_default>;
+	pinctrl-1 = <&i2c30_sleep>;
+	pinctrl-names = "default", "sleep";
+	clock-frequency = <I2C_BITRATE_FAST>;
+
+	max17055: gauge@36 {
+		compatible = "strelka,max17055";
+		reg = <0x36>;
+	};
+};
+
+/* The BM20F's 32 MHz crystal wants the chip's load capacitance at 14,5 pF for ±20 ppm on the
+ * carrier (Fanstel's specification v1.00, Crystal). The kit's own crystal keeps the kit's 15 pF:
+ * this block is for the module's board and stays commented out on the kit.
+ *
+ * &hfxo {
+ *	load-capacitors = "internal";
+ *	load-capacitance-femtofarad = <14500>;
+ * };
+ */
+
+/* USB: the high-speed device on the contact's pair — the serial port for the console and
+ * MCUboot's door; the disk over the card is the MSC class of prj.conf, shared/usb.c naming the
+ * disk "SD" (FIRMWARE.md, USB). */
+&zephyr_udc0 {
+	status = "okay";
+
+	cdc_acm_uart0: cdc_acm_uart0 {
+		compatible = "zephyr,cdc-acm-uart";
+	};
+};
+
+/* the kit's console UART, uart20, is SERIAL20, the card's SPIM20's own instance: on the kit the
+ * console is the USB port alone */
+&uart20 {
+	status = "disabled";
+};
+
+&wdt31 {
+	status = "okay";
+};
+
+&gpio0 {
+	status = "okay";
+};
+
+&gpio1 {
+	status = "okay";
+};
+
+&gpio3 {
+	status = "okay";
+};

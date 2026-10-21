@@ -1,0 +1,8 @@
+# NIC-Strelka — the gauge on its I²C, written the way of ADI's guide by the firmware itself, not
+# by Zephyr's driver, whose model is Li-ion's (FIRMWARE.md, The charger and the supply).
+
+description: ADI MAX17055 fuel gauge on I²C, set by Strelka's own code
+
+compatible: "strelka,max17055"
+
+include: i2c-device.yaml

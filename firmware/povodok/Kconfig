@@ -1,0 +1,12 @@
+# NIC-Strelka — Povodok's own configuration options, beside Zephyr's
+mainmenu "NIC-Strelka Povodok"
+
+config STRELKA_FACTORY_PASSWORD
+	string "the lock's password at the factory settings"
+	default "strelka1"
+	help
+	  The application's password, eight characters at least (COMMANDS.md, The lock), as a
+	  unit has it from the factory and after the factory settings, until the application
+	  changes it by 64/17. The build's own choice; the firmware's default is provisional.
+
+source "Kconfig.zephyr"
