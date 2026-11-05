@@ -1,0 +1,29 @@
+# NIC-Strelka — the Belka's own options.
+
+config STRELKA_SENSOR_FLPR
+	bool "The sensor read by the FLPR"
+	default y
+	help
+	  The sensor set and read by the nRF54LM20A's RISC-V coprocessor, firmware/flpr, its samples
+	  handed over in a ring in shared RAM (FIRMWARE.md, The sensor on the FLPR). Off, the main
+	  core reads it, src/imu.c: the fallback, built with boards/sensor_on_app.overlay laid over
+	  boards/flpr.overlay (firmware/README.md, Building).
+
+config STRELKA_CELL_EMPTY_MV
+	int "The cell's end voltage, mV"
+	default 3100
+	help
+	  Under it for ten seconds running, the record is closed and the unit goes off: the
+	  Belka's LiFePO4 cell at 3,10 V (PARTS.md, The cells); Kryska's 3,30 V until its cell is
+	  chosen (kryska.conf). The fuel gauge's 0 % is not trusted until the cell's own model is
+	  made (FIRMWARE.md, The PMIC).
+
+# The SDK's MCUmgr reboot hook, on by default on the nRF54L series whenever MPSL is in, calls
+# mpsl_uninit() before a reset, and links a part of libmpsl that asks for two callbacks MPSL's
+# FEM-only cut leaves out. It has no prompt; given one here, as Nordic advised (DevZone 129531),
+# prj.conf turns it off: MPSL never started, there is nothing to uninitialise (FIRMWARE.md, The
+# platform).
+config MCUMGR_GRP_OS_REBOOT_BT
+	bool "Disable Bluetooth/MPSL before MCUmgr reboot"
+
+source "Kconfig.zephyr"

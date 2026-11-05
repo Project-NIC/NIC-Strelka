@@ -1,0 +1,24 @@
+/* NIC-Strelka — Kryska's run on the nPM1304, laid over boards/kryska.overlay: the same pins, the
+ * chip's own compatibles, since the SDK's drivers encode its charge's voltage and current
+ * otherwise than the nPM1300's (zephyr/drivers/sensor/nordic/npm13xx_charger); the cell's discharge
+ * fixed at 125 mA (the binding nordic,npm1304-charger); one chip a whole run, never both
+ * (KRYSKA.md). Built with
+ *
+ *     west build -b nrf54lm20dk/nrf54lm20a/cpuapp --sysbuild firmware/belka --
+ *         -Dbelka_EXTRA_CONF_FILE=kryska.conf
+ *         -Dbelka_EXTRA_DTC_OVERLAY_FILE="boards/kryska.overlay;boards/kryska_npm1304.overlay"
+ *
+ * against nRF Connect SDK v3.4.0; not run on hardware. */
+
+&pmic {
+	compatible = "nordic,npm1304";
+};
+
+&pmic_charger {
+	compatible = "nordic,npm1304-charger";
+	dischg-limit-microamp = <125000>;
+};
+
+&pmic_regulators {
+	compatible = "nordic,npm1304-regulator";
+};

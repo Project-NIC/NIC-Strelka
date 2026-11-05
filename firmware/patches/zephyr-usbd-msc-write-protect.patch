@@ -1,0 +1,109 @@
+diff --git a/include/zephyr/usb/class/usbd_msc.h b/include/zephyr/usb/class/usbd_msc.h
+index 66e741f1..5c36e785 100644
+--- a/include/zephyr/usb/class/usbd_msc.h
++++ b/include/zephyr/usb/class/usbd_msc.h
+@@ -11,6 +11,7 @@
+  * Header exposes API for registering LUNs.
+  */
+ 
++#include <stdbool.h>
+ #include <zephyr/sys/iterable_sections.h>
+ 
+ #ifndef ZEPHYR_INCLUDE_USB_CLASS_USBD_MSC_H_
+@@ -23,6 +24,19 @@ struct usbd_msc_lun {
+ 	const char *revision;
+ };
+ 
++/**
++ * @brief Whether a disk is write-protected
++ *
++ * Asked at every MODE SENSE and WRITE(10): a write-protected disk reports the WP bit and refuses
++ * WRITE(10) with DATA PROTECT, WRITE PROTECTED. The class's own definition is weak and says no;
++ * the application may define it. A host reads the bit when it mounts the disk, so a change takes
++ * effect at the next enumeration.
++ *
++ * @param disk the disk's name, as its LUN was defined with
++ * @return true when the disk is to be read alone
++ */
++bool usbd_msc_write_protected(const char *disk);
++
+ /**
+  * @brief USB Mass Storage Class device API
+  * @defgroup usbd_msc_device USB Mass Storage Class device API
+diff --git a/subsys/usb/device_next/class/usbd_msc_scsi.c b/subsys/usb/device_next/class/usbd_msc_scsi.c
+index ad88b08a..1b2ed07c 100644
+--- a/subsys/usb/device_next/class/usbd_msc_scsi.c
++++ b/subsys/usb/device_next/class/usbd_msc_scsi.c
+@@ -8,6 +8,7 @@
+ #include <zephyr/storage/disk_access.h>
+ #include <zephyr/sys/byteorder.h>
+ #include <zephyr/usb/usbd.h>
++#include <zephyr/usb/class/usbd_msc.h>
+ 
+ #include "usbd_msc_scsi.h"
+ 
+@@ -392,6 +393,22 @@ static size_t not_ready(struct scsi_ctx *ctx, enum scsi_additional_sense_code as
+ 	return 0;
+ }
+ 
++static size_t data_protect(struct scsi_ctx *ctx)
++{
++	ctx->status = CHECK_CONDITION;
++	ctx->sense_key = DATA_PROTECT;
++	ctx->asc = WRITE_PROTECTED;
++
++	return 0;
++}
++
++__weak bool usbd_msc_write_protected(const char *disk)
++{
++	ARG_UNUSED(disk);
++
++	return false;
++}
++
+ static size_t medium_error(struct scsi_ctx *ctx, enum scsi_additional_sense_code asc)
+ {
+ 	ctx->status = CHECK_CONDITION;
+@@ -597,7 +614,8 @@ SCSI_CMD_HANDLER(MODE_SENSE_6)
+ 
+ 	r.mode_data_length = 3;
+ 	r.medium_type = 0x00;
+-	r.device_specific_parameter = 0x00;
++	/* SBC-4 6.5.1: bit 7 of the device-specific parameter, WP */
++	r.device_specific_parameter = usbd_msc_write_protected(ctx->disk) ? 0x80 : 0x00;
+ 	r.block_descriptor_length = 0x00;
+ 
+ 	BUILD_ASSERT(sizeof(r) <= CONFIG_USBD_MSC_SCSI_BUFFER_SIZE);
+@@ -808,6 +826,10 @@ SCSI_CMD_HANDLER(WRITE_10)
+ 		return illegal_request(ctx, LOGICAL_BLOCK_ADDRESS_OUT_OF_RANGE);
+ 	}
+ 
++	if (usbd_msc_write_protected(ctx->disk)) {
++		return data_protect(ctx);
++	}
++
+ 	ctx->write_cb = store_write_10;
+ 	ctx->lba = lba;
+ 	ctx->remaining_data = ctx->sector_size * transfer_length;
+@@ -829,7 +851,7 @@ SCSI_CMD_HANDLER(MODE_SENSE_10)
+ 
+ 	r.mode_data_length = sys_cpu_to_be16(6);
+ 	r.medium_type = 0x00;
+-	r.device_specific_parameter = 0x00;
++	r.device_specific_parameter = usbd_msc_write_protected(ctx->disk) ? 0x80 : 0x00;
+ 	r.longlba = 0x00;
+ 	r.reserved5 = 0x00;
+ 	r.block_descriptor_length = sys_cpu_to_be16(0);
+diff --git a/subsys/usb/device_next/class/usbd_msc_scsi.h b/subsys/usb/device_next/class/usbd_msc_scsi.h
+index ef92899d..c93bd24f 100644
+--- a/subsys/usb/device_next/class/usbd_msc_scsi.h
++++ b/subsys/usb/device_next/class/usbd_msc_scsi.h
+@@ -58,6 +58,7 @@ enum scsi_additional_sense_code {
+ 	INVALID_FIELD_IN_CDB = 0x2400,
+ 	MEDIUM_NOT_PRESENT = 0x3A00,
+ 	MEDIUM_REMOVAL_PREVENTED = 0x5302,
++	WRITE_PROTECTED = 0x2700,
+ 	WRITE_ERROR = 0x0C00,
+ };
+ 

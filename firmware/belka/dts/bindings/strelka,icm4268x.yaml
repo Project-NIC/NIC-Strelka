@@ -1,0 +1,19 @@
+# NIC-Strelka — the motion sensor on its SPI, one land: ST's LSM6DSV16X, or TDK's ICM-42686-P
+# or ICM-42688-P.
+
+description: ST LSM6DSV16X, or TDK ICM-42686-P or ICM-42688-P, on SPI, with its data-ready and its pin 9, CLKIN or the reference
+
+compatible: "strelka,icm4268x"
+
+include: spi-device.yaml
+
+properties:
+  int-gpios:
+    type: phandle-array
+    required: true
+    description: INT1, the data-ready, captured by a timer in hardware
+
+  clkin-gpios:
+    type: phandle-array
+    required: true
+    description: CLKIN on the sensor's pin 9, made by a timer of the 16 MHz clock

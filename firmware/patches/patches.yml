@@ -1,0 +1,32 @@
+# NIC-Strelka — the patches the SDK needs for the firmware, applied with west:
+#
+#     west patch -b <repo>/firmware/patches -l <repo>/firmware/patches/patches.yml apply
+#
+# Two. MCUboot's wait for a serial-recovery command asks whether to wait at all, which it has no
+# hook for; Strelka's module answers from VBUS (shared/vbusgate; FIRMWARE.md, USB). Zephyr's USB
+# disk reports and keeps a write-protection the application answers (shared/usb.c; FIRMWARE.md,
+# USB).
+patches:
+  - path: mcuboot-wait-for-dfu-with-vbus.patch
+    sha256sum: e15dd59d8d2ef31128ae84e93138fbdcd10439a95a938ba519fd7609b670fd4c
+    module: mcuboot
+    author: NIC-Strelka
+    email: none@example.invalid
+    date: 2026-10-21
+    upstreamable: true
+    comments: |
+      boot/zephyr/main.c: under CONFIG_BOOT_SERIAL_WAIT_FOR_DFU the console is brought up and the
+      wait run only when strelka_wait_for_dfu() says so, with CONFIG_STRELKA_VBUS_GATE; without
+      that symbol nothing changes. Against nRF Connect SDK v3.4.0's MCUboot (ncs-v3.4.0).
+  - path: zephyr-usbd-msc-write-protect.patch
+    sha256sum: d402cdc5dd7494c746957cfbd29d734c8ebe955a0af38b0a91005876ab26fe98
+    module: zephyr
+    author: NIC-Strelka
+    email: none@example.invalid
+    date: 2026-11-01
+    upstreamable: true
+    comments: |
+      The device-next USB mass storage class asks usbd_msc_write_protected(disk), weak and false
+      in the class, at every MODE SENSE, its WP bit, and at every WRITE(10), refused with DATA
+      PROTECT, WRITE PROTECTED; declared in include/zephyr/usb/class/usbd_msc.h. Against nRF
+      Connect SDK v3.4.0's Zephyr (v4.4.0-ncs).

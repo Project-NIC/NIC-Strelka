@@ -1,0 +1,42 @@
+/* NIC-Strelka — Kryska's board laid over the Belka's devicetree: the Belka's firmware built for
+ * Kryska (FIRMWARE.md, The code; KRYSKA.md; BOARD.md, Kryska). The memory is Winbond's W25Q01JV on
+ * SPIM20, the card's pins, in the card slot's place; the PMIC's BUCK2 at 3,0 V from power-on, set
+ * by its VSET2 resistor, declared so that nothing switches it off; the charge the cell's chosen
+ * with its box, 4,00 V and 32 mA until then. Built with
+ *
+ *     west build -b nrf54lm20dk/nrf54lm20a/cpuapp --sysbuild firmware/belka --
+ *         -Dbelka_EXTRA_CONF_FILE=kryska.conf -Dbelka_EXTRA_DTC_OVERLAY_FILE=boards/kryska.overlay
+ *
+ * against nRF Connect SDK v3.4.0; not run on hardware. */
+
+&spi20 {
+	/delete-node/ sdhc@0;
+
+	/* the W25Q01JV-IQ: JEDEC ID EF 40 21 (its sheet, Rev E, 6.3.1), 1 Gbit, entered into
+	 * 4-byte addressing by B7h; power-down after tDP 3 µs, out of it after tRES1 3 µs (7.6) */
+	rec_flash: flash@0 {
+		compatible = "jedec,spi-nor";
+		reg = <0>;
+		spi-max-frequency = <8000000>;
+		jedec-id = [ef 40 21];
+		size = <0x40000000>;
+		enter-4byte-addr = <0x01>;
+		has-dpd;
+		t-enter-dpd = <3000>;
+		t-exit-dpd = <3000>;
+	};
+};
+
+&pmic_charger {
+	term-microvolt = <4000000>;
+	current-microamp = <32000>;
+};
+
+&pmic_regulators {
+	pmic_buck2: BUCK2 {
+		regulator-min-microvolt = <3000000>;
+		regulator-max-microvolt = <3000000>;
+		regulator-boot-on;
+		regulator-always-on;
+	};
+};

@@ -1,0 +1,23 @@
+name: pusinka
+description: >-
+  Pušinka, NIC-Strelka's application, at its base: one screen joining Povodok through the lock,
+  one showing the set and its live view. The protocol is the strelka package beside it.
+version: 0.1.0
+publish_to: none
+
+environment:
+  sdk: ^3.8.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  strelka:
+    path: ../strelka
+
+dev_dependencies:
+  flutter_lints: ^6.0.0
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
