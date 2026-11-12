@@ -1,0 +1,58 @@
+<!doctype html>
+<!-- Pušinka joining the set, a sketch at 1920 × 1080, landscape (APP.md, What it must do, 1): the
+     first Povodok found by USB or on the Wi-Fi, the password entered once, at the first joining, and
+     kept in the phone's keystore; after it the application locks every unit by itself. The menu
+     waits until joined. An idea, not the finished look. ?lang=en or cs. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Pušinka, joining</title>
+<link rel="stylesheet" href="common.css">
+<style>
+  .main { top: 126px; }
+  td, th { white-space: nowrap; padding: 9px 10px; }
+  .sel td { background: var(--cyan); color: var(--black); }
+  .field { margin-top: 10px; padding: 10px 16px; background: var(--black); color: var(--yellow);
+    font-size: 34px; border: 3px solid var(--lcyan); letter-spacing: 4px; }
+  .keys .key span { background: #335555; color: #779999; }
+  .lbl { color: var(--white); margin-top: 24px; }
+</style>
+</head>
+<body>
+<div class="status"><span>9:02</span><span>USB · 93 %</span></div>
+<div class="title"><b id="ttl"></b><span id="tright"></span></div>
+<div class="main" id="main"></div>
+<div class="keys" id="keys"></div>
+<script src="common.js"></script>
+<script>
+const T = pick({
+  en: { title: 'Pušinka · Joining', right: 'not joined', join: '▶ JOIN', found: 'Povodoks found',
+        head: ['', 'how', 'set', 'address'], how: ['USB', 'Wi-Fi', 'Wi-Fi'],
+        pw: 'Password', first: 'Entered once, at the first joining: 12 characters at least.',
+        kept: '✓ kept in the phone\'s keystore', after: 'From then on the application joins and locks every unit by itself, as headphones paired once. It asks again only before the erasing, the formatting, the disk opened and a unit forgotten.',
+        new: 'A Povodok new from the factory: its Wi-Fi given by Bluetooth LE first.' },
+  cs: { title: 'Pušinka · Připojení', right: 'nepřipojeno', join: '▶ PŘIPOJIT', found: 'Nalezené Povodoky',
+        head: ['', 'jak', 'sada', 'adresa'], how: ['USB', 'Wi-Fi', 'Wi-Fi'],
+        pw: 'Heslo', first: 'Zadává se jednou, při prvním připojení: nejméně 12 znaků.',
+        kept: '✓ uloží se do úložiště klíčů v telefonu', after: 'Pak se aplikace připojuje a přihlašuje ke každé jednotce sama, jako jednou spárovaná sluchátka. Znovu se ptá jen před smazáním, formátováním, otevřením disku a zapomenutím jednotky.',
+        new: 'Povodok nový z továrny: napřed se mu přes Bluetooth LE dá Wi-Fi.' },
+});
+chrome({ title: T.title, right: T.right, menu: -1, action: ['start', T.join] });
+$('main').innerHTML = `
+  <div class="panel active" style="width:900px"><div class="cap">${T.found}</div>
+    <table style="font-size:30px"><tr>${T.head.map(h => `<th>${h}</th>`).join('')}</tr>
+      <tr class="sel"><td>P1</td><td>${T.how[0]}</td><td>0042</td><td>192.168.7.1</td></tr>
+      <tr><td class="v">P2</td><td class="w">${T.how[1]}</td><td class="w">0042</td><td class="k">povodok-2.local</td></tr>
+      <tr><td class="v">P1</td><td class="w">${T.how[2]}</td><td class="w">0017</td><td class="k">povodok-1.local</td></tr>
+    </table>
+    <div class="note" style="margin-top:22px">${T.new}</div>
+  </div>
+  <div class="panel" style="flex:1"><div class="cap">${T.pw}</div>
+    <div class="lbl">${T.first}</div>
+    <div class="field">●●●●●●●●●●●●●●</div>
+    <div class="good" style="margin-top:18px">${T.kept}</div>
+    <div class="note" style="margin-top:22px;white-space:normal">${T.after}</div>
+  </div>`;
+</script>
+</body>
+</html>

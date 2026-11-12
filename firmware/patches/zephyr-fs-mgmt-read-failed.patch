@@ -1,0 +1,87 @@
+diff --git a/include/zephyr/mgmt/mcumgr/grp/fs_mgmt/fs_mgmt.h b/include/zephyr/mgmt/mcumgr/grp/fs_mgmt/fs_mgmt.h
+index f98e98ff..25d74d1e 100644
+--- a/include/zephyr/mgmt/mcumgr/grp/fs_mgmt/fs_mgmt.h
++++ b/include/zephyr/mgmt/mcumgr/grp/fs_mgmt/fs_mgmt.h
+@@ -9,6 +9,10 @@
+ #ifndef H_FS_MGMT_
+ #define H_FS_MGMT_
+ 
++#include <stddef.h>
++#include <stdint.h>
++#include <sys/types.h>
++
+ /**
+  * @brief MCUmgr File System Management API
+  * @defgroup mcumgr_fs_mgmt File System Management
+@@ -98,6 +102,22 @@ enum fs_mgmt_err_code_t {
+ 	FS_MGMT_ERR_FILE_CLOSE_FAILED,
+ };
+ 
++/**
++ * @brief A read failed in a file download, for the application to answer.
++ *
++ * Weak in fs_mgmt, returning -EIO: the download answers FS_MGMT_ERR_FILE_READ_FAILED. An
++ * application may give data of its own instead, such as zeros in place of a sector the medium
++ * cannot read, so that the download goes on; the file is opened again at the next request.
++ *
++ * @param off	The offset asked.
++ * @param len	The file's length.
++ * @param data	Where to write the data, max bytes at most.
++ * @param max	The most bytes one answer carries.
++ *
++ * @return The bytes written into data, or a negative error code.
++ */
++ssize_t fs_mgmt_download_read_failed(uint64_t off, uint64_t len, uint8_t *data, size_t max);
++
+ #ifdef __cplusplus
+ }
+ #endif
+diff --git a/subsys/mgmt/mcumgr/grp/fs_mgmt/src/fs_mgmt.c b/subsys/mgmt/mcumgr/grp/fs_mgmt/src/fs_mgmt.c
+index 44926c7e..24188e2f 100644
+--- a/subsys/mgmt/mcumgr/grp/fs_mgmt/src/fs_mgmt.c
++++ b/subsys/mgmt/mcumgr/grp/fs_mgmt/src/fs_mgmt.c
+@@ -240,6 +240,19 @@ static int fs_mgmt_upload_download_finish_check(void)
+ /**
+  * Command handler: fs file (read)
+  */
++/* A read failed in a download: the application may answer it with data of its own, the bytes
++ * written into data returned; weak here, the error.
++ */
++__weak ssize_t fs_mgmt_download_read_failed(uint64_t off, uint64_t len, uint8_t *data,
++					    size_t max)
++{
++	ARG_UNUSED(off);
++	ARG_UNUSED(len);
++	ARG_UNUSED(data);
++	ARG_UNUSED(max);
++	return -EIO;
++}
++
+ static int fs_mgmt_file_download(struct smp_streamer *ctxt)
+ {
+ 	uint8_t file_data[MCUMGR_GRP_FS_DL_CHUNK_SIZE];
+@@ -359,8 +372,23 @@ static int fs_mgmt_file_download(struct smp_streamer *ctxt)
+ 	bytes_read = fs_read(&fs_mgmt_ctxt.file, file_data, MCUMGR_GRP_FS_DL_CHUNK_SIZE);
+ 
+ 	if (bytes_read < 0) {
+-		ok = smp_add_cmd_err(zse, MGMT_GROUP_ID_FS, FS_MGMT_ERR_FILE_READ_FAILED);
++		uint64_t len = fs_mgmt_ctxt.len;
++
++		bytes_read = fs_mgmt_download_read_failed(off, len, file_data,
++							  MCUMGR_GRP_FS_DL_CHUNK_SIZE);
++		/* the file closed either way: a read failed may leave it unusable, and the next
++		 * request opens it again
++		 */
+ 		(void)fs_mgmt_cleanup();
++		if (bytes_read < 0) {
++			ok = smp_add_cmd_err(zse, MGMT_GROUP_ID_FS, FS_MGMT_ERR_FILE_READ_FAILED);
++			goto end;
++		}
++		ok = fs_mgmt_file_rsp(zse, MGMT_ERR_EOK, off)			&&
++		     zcbor_tstr_put_lit(zse, "data")				&&
++		     zcbor_bstr_encode_ptr(zse, file_data, bytes_read)		&&
++		     ((off != 0)						||
++			(zcbor_tstr_put_lit(zse, "len") && zcbor_uint64_put(zse, len)));
+ 		goto end;
+ 	}
+ 

@@ -1,0 +1,260 @@
+<!doctype html>
+<!-- Pušinka's measurement, a sketch of its four screens at 1920 × 1080, landscape (APP.md, The
+     menus, 3; What it must do, 4–6): A the choice, B the overview, C the curves, D the numbers.
+     An idea, not the finished look; the figures and the curves are made up. ?s=a…d picks the
+     screen, ?lang=en or cs the texts' table; render.js makes the pictures. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Pušinka, measurement</title>
+<link rel="stylesheet" href="common.css">
+</head>
+<body>
+<div class="status"><span>12:53</span><span>Wi-Fi 5 GHz · 86 %</span></div>
+<div class="title"><b id="ttl"></b><span id="tright"></span></div>
+<div class="subtabs" id="subtabs"></div>
+<div class="main" id="main"></div>
+<div class="keys" id="keys"></div>
+<script>
+// the texts, a table a language, as the application keeps them (APP.md, The menus)
+const TEXTS = {
+  en: {
+    title: 'Pušinka · Measurement · Session 44', rec: '● RECORDING 00:12:41', units8: '8 units',
+    sync8: 'Sync 8 of 8 ✓', tabs: ['Choice', 'Overview', 'Curves', 'Numbers'],
+    menu: ['Overview', 'Calibration', 'Measurement', 'Data', 'Diagnostics', 'Settings'],
+    start: '▶ START', stop: '■ STOP', save: '▼ SAVE', saveStop: '■ STOP SAVING',
+    saving: '▼ SAVING 00:03:12 · 2.5 MB',
+    choose: 'Units: choose by a touch', nocal: 'no calibration', expired: 'calibration expired',
+    legend: 'Chosen 8 of 12 · green yes · red no · grey no valid calibration',
+    session: 'Session 44',
+    rows: [['Animal', 'Bára, horse'], ['Template', 'horse, English'], ['Rate', '100 Hz, N 10'],
+           ['Accelerometer', '±16 g'], ['Gyro', '±2000 °/s'], ['Live', 'raw steps 100 Hz'],
+           ['Pause, no SYNC', '10 s'], ['Note', 'Bára trot, left rein']],
+    syncbox: 'Sync: 8 of 8 chosen in step ✓',
+    overview: 'Overview: the units on the horse', units: 'Units',
+    subtitle: 'Bára, horse · trot, left rein · magenta curves, cyan numbers',
+    head: ['code', 'place', 'show', 'signal'], curves: 'curves', numbers: 'numbers',
+    help: ['Move: touch a unit, then its place.', 'Curves or numbers: touch the label.',
+           'The drawing is not needed: this list will do.'],
+    curvescap: 'Curves: {}, the last 5 s', accel: 'acceleration, g:', gap: 'a loss = a gap',
+    numcap: 'Numbers: vertical acceleration, g, the last 10 strides',
+    numhead: ['code', 'place', 'max', 'min', 'range'],
+    numnote: 'Each row changes with every stride. A stride with a loss is not counted.',
+    lr: 'Left against right', lrhead: ['pair', 'range L', 'range R', 'difference'],
+    sides: ['L', 'R'], sym: '0 %, symmetric',
+    lrnote: ['{0}: the left hind swings 12 % less than the right.',
+             'The template gives the pairs; a unit in the curves is not shown here.'],
+    // the template: code, place
+    places: { head: ['HD', 'head'], withers: ['WI', 'withers'], pelvis: ['PE', 'pelvis'],
+              lumbar: ['LS', 'lumbar spine'], thoracic: ['TS', 'thoracic spine'],
+              lf: ['LF', 'left fore'], rf: ['RF', 'right fore'], lh: ['LH', 'left hind'],
+              rh: ['RH', 'right hind'] },
+  },
+  cs: {
+    title: 'Pušinka · Měření · Sezení 44', rec: '● NAHRÁVÁ 00:12:41', units8: '8 jednotek',
+    sync8: 'Synchro 8 z 8 ✓', tabs: ['Výběr', 'Přehled', 'Křivky', 'Čísla'],
+    menu: ['Přehled', 'Kalibrace', 'Měření', 'Data', 'Diagnostika', 'Nastavení'],
+    start: '▶ START', stop: '■ STOP', save: '▼ ULOŽIT', saveStop: '■ ZASTAVIT UKLÁDÁNÍ',
+    saving: '▼ UKLÁDÁ 00:03:12 · 2,5 MB',
+    choose: 'Jednotky: vyber ťuknutím', nocal: 'bez kalibrace', expired: 'kalibrace propadlá',
+    legend: 'Vybráno 8 z 12 · zelená ano · červená ne · šedá bez kalibrace',
+    session: 'Sezení 44',
+    rows: [['Zvíře', 'Bára, kůň'], ['Šablona', 'kůň, česky'], ['Frekvence', '100 Hz, N 10'],
+           ['Akcelerometr', '±16 g'], ['Gyroskop', '±2000 °/s'], ['Live', 'surové kroky 100 Hz'],
+           ['Pauza bez SYNC', '10 s'], ['Poznámka', 'Bára klus, levá ruka']],
+    syncbox: 'Synchro: 8 z 8 vybraných v synchru ✓',
+    overview: 'Přehled: jednotky na koni', units: 'Jednotky',
+    subtitle: 'Bára, kůň · klus, levá ruka · fialová křivky, tyrkysová čísla',
+    head: ['kód', 'místo', 'ukaž', 'signál'], curves: 'křivky', numbers: 'čísla',
+    help: ['Přesun: ťukni na jednotku, pak na místo.', 'Křivky / čísla: ťukni na štítek.',
+           'Obrázek není povinný: stačí tento seznam.'],
+    curvescap: 'Křivky: {}, posledních 5 s', accel: 'zrychlení, g:', gap: 'ztráta = mezera',
+    numcap: 'Čísla: svislé zrychlení, g, posledních 10 kroků',
+    numhead: ['kód', 'místo', 'max', 'min', 'rozkmit'],
+    numnote: 'Každý řádek se mění s každým krokem. Kroky ze ztrát se nepočítají.',
+    lr: 'Levá proti pravé', lrhead: ['dvojice', 'rozkmit L', 'rozkmit P', 'rozdíl'],
+    sides: ['L', 'P'], sym: '0 %, souměrně',
+    lrnote: ['{0}: levá zadní kmitá o 12 % méně než pravá.',
+             'Dvojice dává šablona; jednotka v křivkách se tu neukazuje.'],
+    places: { head: ['HD', 'hlava'], withers: ['WI', 'kohoutek'], pelvis: ['PE', 'pánev'],
+              lumbar: ['LS', 'bederní páteř'], thoracic: ['TS', 'hrudní páteř'],
+              lf: ['LF', 'levá přední'], rf: ['RF', 'pravá přední'], lh: ['LH', 'levá zadní'],
+              rh: ['RH', 'pravá zadní'] },
+  },
+};
+const q = new URLSearchParams(location.search);
+const screen = q.get('s') || 'a';
+const T = TEXTS[q.get('lang')] || TEXTS.en;
+document.documentElement.lang = q.get('lang') || 'en';
+const NS = 'http://www.w3.org/2000/svg';
+function el(svg, name, attrs, text) {
+  const e = document.createElementNS(NS, name);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (text !== undefined) e.textContent = text;
+  svg.appendChild(e); return e;
+}
+const $ = id => document.getElementById(id);
+const recording = screen !== 'a';
+const saving = screen === 'c' || screen === 'd';   // Save touched on the overview (APP.md, 6)
+
+// the set: place, kind and number, state, shown in the curves (c) or the numbers (n), cell, signal
+const set = [
+  ['head', 'B1', 'on', 'c', 87, -61], ['withers', 'B2', 'on', 'n', 85, -63],
+  ['pelvis', 'B3', 'on', 'c', 90, -58], ['lumbar', 'B4', 'on', 'n', 82, -66],
+  ['thoracic', 'B5', 'exp', '', 88, -60], [null, 'B6', 'nocal', '', 0, 0],
+  ['lf', 'K7', 'on', 'c', 79, -64], ['rf', 'K8', 'on', 'c', 81, -62],
+  ['lh', 'K9', 'on', 'n', 77, -70], [null, 'K10', 'off', '', 83, -65],
+  ['rh', 'Z11', 'on', 'n', 92, -59], [null, 'Z12', 'exp', '', 91, -61],
+];
+const units = set.map(([pl, n, st, show, cell, rssi]) => ({
+  key: pl, code: pl ? T.places[pl][0] : '--', place: pl ? T.places[pl][1] : '', n, st, show, cell, rssi }));
+const chosen = units.filter(u => u.st === 'on');
+const code = key => T.places[key][0];
+
+$('ttl').textContent = T.title;
+$('tright').innerHTML = recording ? `<span class="rec">${T.rec}</span>`
+  + (saving ? ` · <span class="warn">${T.saving}</span>` : '') + ` · ${T.units8} · Povodok 1 ●`
+                                  : `${T.sync8} · Povodok 1 ●`;
+$('subtabs').innerHTML = T.tabs.map((t, i) =>
+  `<div class="subtab${'abcd'[i] === screen ? ' cur' : ''}"><b>${'ABCD'[i]}</b>${t}</div>`).join('');
+$('keys').innerHTML = T.menu.map((t, i) =>
+  `<div class="key${i === 2 ? ' cur' : ''}"><b>${i + 1}</b><span>${t}</span></div>`).join('')
+  + (recording ? `<div class="act save">${saving ? T.saveStop : T.save}</div>`
+                + `<div class="act stop">${T.stop}</div>` : `<div class="act start">${T.start}</div>`);
+const main = $('main');
+
+if (screen === 'a') {               // the choice, before the start
+  main.innerHTML = `
+  <div class="panel active" style="width:1130px"><div class="cap">${T.choose}</div>
+    <div class="grid">${units.map(u => `
+      <div class="tile ${u.st === 'exp' ? 'nocal' : u.st}"><div class="c">${u.st === 'nocal' ? u.n : u.code}</div>
+        <div class="n">${u.st === 'nocal' ? T.nocal : u.n}</div>
+        <div class="s">${u.st === 'nocal' ? '' : u.st === 'exp' ? T.expired : u.cell + ' % ' + u.rssi + ' dBm'}</div></div>`).join('')}
+    </div>
+    <div style="margin-top:18px;color:#ffff55">${T.legend}</div>
+  </div>
+  <div class="panel" style="flex:1"><div class="cap">${T.session}</div>
+    <table style="font-size:30px">${T.rows.map(([k, v], i) =>
+      `<tr><td class="k">${k}</td><td class="${i === 0 || i === 8 ? 'w' : 'v'}">${v}</td></tr>`).join('')}
+    </table>
+    <div style="margin-top:22px;padding:12px 16px;background:#000;color:#55ff55;border:3px solid #55ffff">
+      ${T.syncbox}</div>
+  </div>`;
+}
+
+if (screen === 'b') {               // the overview: the units on a drawing of a few lines
+  main.innerHTML = `
+  <div class="panel active" style="width:1130px"><div class="cap">${T.overview}</div>
+    <svg width="1088" height="730" id="horse"></svg></div>
+  <div class="panel" style="flex:1"><div class="cap">${T.units}</div>
+    <table style="font-size:27px"><tr><th>${T.head[0]}</th><th>${T.head[1]}</th><th></th>
+      <th>${T.head[2]}</th><th class="num">${T.head[3]}</th></tr>
+    ${chosen.map(u => `<tr><td class="v">${u.code}</td><td class="w">${u.place}</td>
+      <td class="k">${u.n}</td><td><span class="pill ${u.show}">${u.show === 'c' ? T.curves : T.numbers}</span></td>
+      <td class="num ${u.rssi <= -70 ? 'warn' : 'good'}">${u.rssi} dBm</td></tr>`).join('')}
+    </table>
+    <div class="note" style="margin-top:16px">${T.help.join('<br>')}</div>
+  </div>`;
+  const h = $('horse');
+  const L = { stroke: '#aaaaaa', 'stroke-width': 9, 'stroke-linecap': 'round',
+              'stroke-linejoin': 'round', fill: 'none' };
+  for (const pts of ['200,330 760,330 890,160 990,200', '200,330 120,470',
+                     '720,330 700,460 720,600', '760,330 800,460 830,600',
+                     '230,330 200,460 215,600', '270,330 320,460 335,600']) {
+    el(h, 'polyline', Object.assign({ points: pts }, L));
+  }
+  el(h, 'line', { x1: 30, y1: 615, x2: 1060, y2: 615, stroke: '#00aaaa', 'stroke-width': 3,
+                  'stroke-dasharray': '12 12' });
+  const spots = { head: [985, 198, 'up'], withers: [755, 318, 'up'], pelvis: [240, 318, 'up'],
+                  lumbar: [400, 330, 'up'], lf: [720, 600, 'down'], rf: [830, 600, 'down'],
+                  lh: [215, 600, 'down'], rh: [335, 600, 'down'] };
+  for (const u of chosen) {
+    const [x, y, side] = spots[u.key];
+    el(h, 'circle', { cx: x, cy: y, r: 20, fill: u.show === 'c' ? '#ff55ff' : '#55ffff',
+                      stroke: '#000', 'stroke-width': 3 });
+    const ty = side === 'up' ? y - 34 : y + 56;
+    el(h, 'text', { x, y: ty, fill: '#ffff55', 'font-size': 32, 'font-weight': 'bold',
+                    'text-anchor': 'middle' }, u.code);
+    el(h, 'text', { x, y: ty + (side === 'up' ? -36 : 30), fill: '#ffffff', 'font-size': 22,
+                    'text-anchor': 'middle' }, u.n);
+  }
+  el(h, 'text', { x: 544, y: 60, fill: '#aaaaaa', 'font-size': 26, 'text-anchor': 'middle' }, T.subtitle);
+}
+
+if (screen === 'c') {               // the curves: the units chosen for them, large
+  const shown = chosen.filter(u => u.show === 'c');
+  main.innerHTML = `<div class="panel active" style="flex:1"><div class="cap">${T.curvescap.replace('{}', shown.map(u => u.code).join(', '))}</div>
+    <div style="display:flex;gap:24px;font-size:24px;color:#fff;margin-bottom:6px">
+      <span>${T.accel}</span><span style="color:#ffff55">AX</span><span style="color:#55ffff">AY</span>
+      <span style="color:#ff55ff">AZ</span><span class="note">${T.gap}</span></div>
+    <svg width="1850" height="690" id="cv"></svg></div>`;
+  const s = $('cv'), W = 1850, left = 230, right = 10, strip = 168, seconds = 5, hz = 100;
+  const x = t => left + (W - left - right) * t / seconds;
+  const w = 2 * Math.PI * 2.4;
+  const colors = ['#ffff55', '#55ffff', '#ff55ff'];
+  shown.forEach((u, i) => {
+    const top = i * (strip + 6), mid = top + strip / 2;
+    const y = v => mid - (strip / 2 - 8) * v / 2.5;
+    el(s, 'rect', { x: left, y: top, width: W - left - right, height: strip, fill: '#000055' });
+    el(s, 'line', { x1: left, x2: W - right, y1: y(0), y2: y(0), stroke: '#00aaaa', 'stroke-width': 2 });
+    el(s, 'text', { x: 10, y: mid - 4, fill: '#ffff55', 'font-size': 40, 'font-weight': 'bold' }, u.code);
+    el(s, 'text', { x: 10, y: mid + 30, fill: '#ffffff', 'font-size': 22 }, u.n + ' ' + u.place);
+    const hoof = u.key === 'lf' || u.key === 'rf', ph = i * 0.9;
+    const fns = hoof
+      ? [t => 0.6 * Math.sin(w * t + ph), t => 0.3 * Math.sin(w * t + ph + 1),
+         t => 1 + 1.3 * Math.max(0, Math.sin(w * t + ph)) ** 6 - 0.4 * Math.sin(2 * w * t + ph)]
+      : [t => 0.3 * Math.sin(w * t + ph), t => 0.15 * Math.sin(w * t + ph + 1),
+         t => 1 + 0.7 * Math.sin(2 * w * t + ph)];
+    const lost = u.key === 'pelvis' ? [2.2, 2.45] : null;     // a gap shown as a gap
+    fns.forEach((fn, j) => {
+      let pts = [];
+      const flush = () => { if (pts.length > 1) el(s, 'polyline', { points: pts.join(' '),
+        fill: 'none', stroke: colors[j], 'stroke-width': 3 }); pts = []; };
+      for (let k = 0; k <= seconds * hz; k++) {
+        const t = k / hz;
+        if (lost && t >= lost[0] && t < lost[1]) { flush(); continue; }
+        pts.push(x(t).toFixed(1) + ',' + y(fn(t)).toFixed(1));
+      }
+      flush();
+    });
+    if (lost) el(s, 'rect', { x: x(lost[0]), y: top, width: x(lost[1]) - x(lost[0]), height: strip,
+                              fill: '#aa0000', opacity: 0.3 });
+  });
+}
+
+if (screen === 'd') {               // the numbers, and left against right by the template's pairs
+  const rows = [['withers', 1.62, 0.41], ['lumbar', 1.71, 0.33], ['lh', 3.94, -0.58], ['rh', 4.51, -0.62]];
+  const hind = code('lh') + '–' + code('rh'), fore = code('lf') + '–' + code('rf');
+  main.innerHTML = `
+  <div class="panel active" style="width:1060px"><div class="cap">${T.numcap}</div>
+    <table style="font-size:30px"><tr><th>${T.numhead[0]}</th><th>${T.numhead[1]}</th>
+      <th class="num">${T.numhead[2]}</th><th class="num">${T.numhead[3]}</th><th class="num">${T.numhead[4]}</th></tr>
+    ${rows.map(([key, mx, mn]) => { const u = units.find(v => v.key === key);
+      return `<tr><td class="v" style="font-size:40px;font-weight:bold">${u.code}</td>
+      <td class="w">${u.place}<span class="note"> ${u.n}</span></td><td class="num w">${mx.toFixed(2)}</td>
+      <td class="num w">${mn.toFixed(2)}</td><td class="num v">${(mx - mn).toFixed(2)}</td></tr>`; }).join('')}
+    </table>
+    <div class="note" style="margin-top:20px">${T.numnote}</div>
+  </div>
+  <div class="panel" style="flex:1"><div class="cap">${T.lr}</div>
+    <table style="font-size:30px"><tr><th>${T.lrhead[0]}</th><th class="num">${T.lrhead[1]}</th>
+      <th class="num">${T.lrhead[2]}</th><th class="num">${T.lrhead[3]}</th></tr>
+      <tr><td class="v" style="font-size:36px;font-weight:bold">${hind}</td><td class="num w">4.52</td>
+        <td class="num w">5.13</td><td class="num bad">−12 %</td></tr>
+      <tr><td class="v" style="font-size:36px;font-weight:bold">${fore}</td><td class="num note">${T.curves}</td>
+        <td class="num note">${T.curves}</td><td class="num note">—</td></tr>
+    </table>
+    <svg width="740" height="190" id="bar" style="margin-top:26px"></svg>
+    <div class="note">${T.lrnote[0].replace('{0}', hind)}<br>${T.lrnote[1]}</div>
+  </div>`;
+  const b = $('bar');
+  el(b, 'line', { x1: 370, x2: 370, y1: 10, y2: 150, stroke: '#ffffff', 'stroke-width': 3 });
+  el(b, 'rect', { x: 370 - 12 * 12, y: 50, width: 12 * 12, height: 56, fill: '#ff5555' });
+  el(b, 'text', { x: 30, y: 88, fill: '#ffffff', 'font-size': 28 }, T.sides[0]);
+  el(b, 'text', { x: 700, y: 88, fill: '#ffffff', 'font-size': 28 }, T.sides[1]);
+  el(b, 'text', { x: 370, y: 180, fill: '#aaaaaa', 'font-size': 22, 'text-anchor': 'middle' }, T.sym);
+  el(b, 'text', { x: 370 - 72, y: 40, fill: '#ff5555', 'font-size': 26, 'text-anchor': 'middle' }, '−12 %');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!doctype html>
+<!-- Pušinka's data manager, a sketch of its two screens at 1920 × 1080, landscape (APP.md, The
+     menus, 4; What it must do, 8 and 11): A the list, on the left what is on the phone, on the
+     right the sessions on the units with the units each needs; B a session's download into one
+     C3D, a bar a unit. An idea, not the finished look; the figures are made up. ?s=a or b,
+     ?lang=en or cs. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Pušinka, data</title>
+<link rel="stylesheet" href="common.css">
+<style>
+  td, th { white-space: nowrap; padding: 6px 6px; }
+  .sel td { background: #0000ff; }
+  .btns { display: flex; gap: 14px; margin-top: 22px; }
+  .btn { padding: 10px 18px; font-size: 26px; background: var(--cyan); color: var(--black); }
+  .btn.go { background: var(--green); }
+  .btn.pw { background: var(--red); color: var(--white); }
+  .bar { height: 28px; background: #000055; border: 2px solid var(--lcyan); }
+  .bar i { display: block; height: 100%; background: var(--lgreen); }
+  .bar.gone i { background: var(--lred); }
+  .big { font-size: 34px; color: var(--white); margin: 6px 0; }
+  .shade { position: absolute; left: 0; top: 102px; width: 1920px; height: 904px; background: #000; opacity: 0.45; }
+  .dlg { position: absolute; left: 460px; top: 300px; width: 1000px; padding: 34px 40px 30px;
+    background: var(--red); color: var(--white); border: 6px double var(--white); font-size: 30px; }
+  .dlg h2 { font-size: 34px; text-align: center; margin-bottom: 20px; color: var(--yellow); }
+  .dlg .field { margin: 12px 0 24px; padding: 10px 16px; background: var(--black); color: var(--yellow);
+    border: 3px solid var(--white); letter-spacing: 4px; }
+  .dlg .btns { justify-content: center; }
+</style>
+</head>
+<body>
+<div class="status"><span>13:31</span><span>Wi-Fi 5 GHz · 83 %</span></div>
+<div class="title"><b id="ttl"></b><span id="tright"></span></div>
+<div class="subtabs" id="subtabs"></div>
+<div class="main" id="main"></div>
+<div class="keys" id="keys"></div>
+<script src="common.js"></script>
+<script>
+const T = pick({
+  en: { title: 'Pušinka · Data', right: 'Povodoks 1 2 3 joined ●', tabs: ['List', 'Download'],
+        phone: 'On the phone', phead: ['file', 'date', 'units', 'length', 'size'],
+        tolive: ['To CSV'], units: 'On the units', uhead: ['session', 'date', 'rate', 'length', 'units', 'size', ''],
+        st: { got: 'on the phone ✓', ready: 'ready', on: 'switch on B13', big: 'large: dock or cable' },
+        btns: ['Download', 'To CSV', 'Erase… (password)', 'Format… (password)'],
+        dl: 'Downloading session 42 into S00042.c3d', dlunits: 'A bar a unit',
+        lines: ['63 % · 61 of 96 MB', 'pace 410 kB/s · 1:30 left', 'the C3D written as it comes: no other file'],
+        left: 'left out: K10, out of reach', stop: '■ STOP', cont: '▶ CONTINUE',
+        fmt: 'Format the card of Z12', fmtwhat: 'Every session on its card goes: 5 sessions, 28.6 GB, two of them not on the phone.',
+        fmtpw: 'The password again:', fmtbtns: ['Format', 'Cancel'] },
+  cs: { title: 'Pušinka · Data', right: 'Povodoky 1 2 3 připojené ●', tabs: ['Seznam', 'Stahování'],
+        phone: 'V telefonu', phead: ['soubor', 'datum', 'jedn.', 'délka', 'velikost'],
+        tolive: ['Do CSV'], units: 'Na jednotkách', uhead: ['sezení', 'datum', 'frekv.', 'délka', 'jedn.', 'velikost', ''],
+        st: { got: 'v telefonu ✓', ready: 'připraveno', on: 'zapni B13', big: 'velké: dok nebo kabel' },
+        btns: ['Stáhnout', 'Do CSV', 'Smazat… (heslo)', 'Formátovat… (heslo)'],
+        dl: 'Stahuji sezení 42 do S00042.c3d', dlunits: 'Pruh na jednotku',
+        lines: ['63 % · 61 z 96 MB', 'tempo 410 kB/s · zbývá 1:30', 'C3D se píše, jak data chodí: žádný jiný soubor'],
+        left: 'vynechána: K10, mimo dosah', stop: '■ STOP', cont: '▶ POKRAČOVAT',
+        fmt: 'Formátovat kartu Z12', fmtwhat: 'Zmizí všechna sezení na její kartě: 5 sezení, 28,6 GB, dvě z nich nejsou v telefonu.',
+        fmtpw: 'Heslo znovu:', fmtbtns: ['Formátovat', 'Zrušit'] },
+});
+chrome({ title: T.title, right: T.right, menu: 3, tabs: T.tabs,
+         action: SCREEN === 'b' ? ['stop', T.stop] : null });
+
+if (SCREEN === 'a' || SCREEN === 'c') {
+  // named by the date, the session and the note (APP.md, The names): the cards' C3D and their own
+  // files, STRK, and the live view saved, a C3D; a C3D into CSV by a touch
+  const files = [['2026-11-07_1240_S44_Bára klus_card.c3d', '7. 11.', 8, '15:02', '312 MB'],
+                 ['2026-11-07_1240_S44_Bára klus_card_S00044B01.STRK … B12', '7. 11.', 8, '15:02', '160 MB'],
+                 ['2026-11-07_1240_S44_Bára klus_live.c3d', '7. 11.', 8, '15:02', '24 MB'],
+                 ['2026-11-06_1605_S43_card.c3d', '6. 11.', 6, '4:40', '61 MB']];
+  const sessions = [[45, '7. 11. 13:20', '100 Hz', '0:42', 9, '6 MB', 'on'],
+                    [44, '7. 11. 12:40', '100 Hz', '15:02', 8, '312 MB', 'got'],
+                    [43, '6. 11. 16:05', '100 Hz', '4:40', 6, '61 MB', 'got'],
+                    [42, '6. 11. 15:10', '200 Hz', '3:30', 10, '96 MB', 'ready'],
+                    [41, '5. 11. 10:00', '1 kHz', '22:00', 12, '2,1 GB', 'big']];
+  $('main').innerHTML = `
+  <div class="panel" style="width:780px"><div class="cap">${T.phone}</div>
+    <table style="font-size:26px"><tr>${T.phead.map((h, i) => `<th${i > 1 ? ' class="num"' : ''}>${h}</th>`).join('')}</tr>
+    ${files.map((f, i) => `<tr class="${i === 0 ? 'sel' : ''}"><td class="w"
+      style="white-space:normal; word-break:break-all; max-width:300px">${f[0]}</td><td class="k">${f[1]}</td><td class="num w">${f[2]}</td>
+      <td class="num w">${f[3]}</td><td class="num v">${f[4]}</td></tr>`).join('')}</table>
+    <div class="btns">${T.tolive.map(b => `<div class="btn">${b}</div>`).join('')}</div>
+  </div>
+  <div class="panel active" style="flex:1"><div class="cap">${T.units}</div>
+    <table style="font-size:26px"><tr>${T.uhead.map((h, i) => `<th${i > 1 && i < 6 ? ' class="num"' : ''}>${h}</th>`).join('')}</tr>
+    ${sessions.map(s => `<tr class="${s[0] === 42 ? 'sel' : ''}"><td class="v" style="font-weight:bold">${s[0]}</td>
+      <td class="k">${s[1]}</td><td class="num w">${s[2]}</td><td class="num w">${s[3]}</td>
+      <td class="num w">${s[4]}</td><td class="num v">${s[5]}</td>
+      <td class="${s[6] === 'got' ? 'good' : s[6] === 'on' ? 'warn' : s[6] === 'big' ? 'note' : 'w'}">${T.st[s[6]]}</td></tr>`).join('')}
+    </table>
+    <div class="btns"><div class="btn go">${T.btns[0]}</div><div class="btn">${T.btns[1]}</div>
+      <div class="btn pw">${T.btns[2]}</div><div class="btn pw">${T.btns[3]}</div></div>
+  </div>`;
+}
+
+if (SCREEN === 'b') {
+  const units = [['head', 'B1', 72, 'P1'], ['withers', 'B2', 65, 'P2'], ['pelvis', 'B3', 70, 'P1'],
+                 ['lumbar', 'B4', 58, 'P3'], ['lf', 'K7', 61, 'P2'], ['rf', 'K8', 66, 'P3'],
+                 ['lh', 'K9', 49, 'P1'], ['rh', 'Z11', 63, 'P2'], [null, 'Z12', 69, 'P3'],
+                 [null, 'K10', 22, '']];
+  $('main').innerHTML = `
+  <div class="panel" style="width:780px"><div class="cap">${T.dl}</div>
+    <div class="bar" style="height:44px;margin-top:10px"><i style="width:63%"></i></div>
+    ${T.lines.map((l, i) => `<div class="${i === 2 ? 'note' : 'big'}" style="margin-top:14px">${l}</div>`).join('')}
+    <div class="warn" style="margin-top:22px">${T.left}</div>
+    <div class="btns"><div class="btn go">${T.cont}</div></div>
+  </div>
+  <div class="panel active" style="flex:1"><div class="cap">${T.dlunits}</div>
+    <table style="font-size:26px">
+    ${units.map(([key, n, pct, pov]) => `<tr><td class="v" style="font-weight:bold;width:70px">${codeOf(key)}</td>
+      <td class="w" style="width:80px">${n}</td>
+      <td style="width:620px"><div class="bar${pov ? '' : ' gone'}"><i style="width:${pct}%"></i></div></td>
+      <td class="num w">${pct} %</td><td class="k">${pov}</td></tr>`).join('')}
+    </table>
+  </div>`;
+}
+
+if (SCREEN === 'c') {               // the formatting, under the password asked again
+  document.querySelector('.subtab').classList.add('cur');
+  document.body.insertAdjacentHTML('beforeend', `<div class="shade"></div><div class="dlg">
+    <h2>${T.fmt}</h2><div>${T.fmtwhat}</div><div style="margin-top:22px">${T.fmtpw}</div>
+    <div class="field">●●●●●●●●●●●●●●</div>
+    <div class="btns"><div class="btn pw" style="border:3px solid #fff">${T.fmtbtns[0]}</div>
+      <div class="btn">${T.fmtbtns[1]}</div></div></div>`);
+}
+</script>
+</body>
+</html>

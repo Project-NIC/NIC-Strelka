@@ -1,0 +1,521 @@
+{
+  "@@locale": "en",
+  "menuOverview": "Overview",
+  "menuCalibration": "Calibration",
+  "menuMeasurement": "Measurement",
+  "menuData": "Data",
+  "menuDiagnostics": "Diagnostics",
+  "menuSettings": "Settings",
+  "joinAddress": "Povodok's address",
+  "joinPassword": "Password",
+  "joinButton": "Join",
+  "joinJoining": "Joining…",
+  "joinRefused": "Povodok refused the password.",
+  "joinNoAnswer": "Povodok does not answer: {message}",
+  "@joinNoAnswer": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "joinTimeout": "Povodok does not answer in time.",
+  "settingsLanguage": "Language",
+  "settingsAbout": "About",
+  "aboutPicture": "Pušinka, Strelka's puppy, drawn.",
+  "aboutOpen": "Open, for anyone to build; nothing is sold.",
+  "overviewUnits": "Units of the set",
+  "overviewNone": "No unit heard yet.",
+  "measSession": "Session {s}",
+  "@measSession": {
+    "placeholders": {
+      "s": {
+        "type": "int"
+      }
+    }
+  },
+  "measChoose": "Units: choose by a touch",
+  "measNote": "Note: the place, the animal, what happened",
+  "measNone": "No unit of the set heard yet.",
+  "measChosen": "Chosen {chosen} of {all}",
+  "@measChosen": {
+    "placeholders": {
+      "chosen": {
+        "type": "int"
+      },
+      "all": {
+        "type": "int"
+      }
+    }
+  },
+  "measRate": "Rate",
+  "measAcc": "Accelerometer",
+  "measGyro": "Gyro",
+  "measHg": "High-g channel",
+  "measHgOff": "off",
+  "measLive": "Live view",
+  "liveOff": "off",
+  "liveQuat50": "quaternions 50 Hz",
+  "liveQuat100": "quaternions 100 Hz",
+  "liveRaw50": "raw steps 50 Hz",
+  "liveRaw100": "raw steps 100 Hz",
+  "measSyncFirst": "Synchro: the session not sent yet",
+  "measInStep": "Synchro: {n} of {all} chosen in step",
+  "@measInStep": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "all": {
+        "type": "int"
+      }
+    }
+  },
+  "measSync": "Synchro",
+  "measStart": "START",
+  "measLiveOnly": "Live",
+  "measNoCal": "no calibration",
+  "measExpired": "calibration expired",
+  "measUnreachable": "out of reach",
+  "measTempApart": "{deg} °C from its calibration",
+  "@measTempApart": {
+    "placeholders": {
+      "deg": {
+        "type": "int"
+      }
+    }
+  },
+  "setMeasurement": "Measurement and calibration",
+  "setCalValid": "the calibration valid",
+  "calEvery": "every measurement",
+  "cal2h": "2 h",
+  "calDay": "a day",
+  "cal30": "30 days",
+  "calUnlimited": "without a limit",
+  "setTempApart": "warned of a temperature apart by",
+  "setCurves": "the curves' window",
+  "setNumbers": "the numbers over the last",
+  "strides": "{n} strides",
+  "@strides": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "setLost": "The connection to Povodok is lost",
+  "setPower": "the radio's power",
+  "powerFull": "full, within the rules",
+  "setLight": "the light while measuring",
+  "lightUsual": "as usual",
+  "lightFaults": "faults alone",
+  "lightOff": "off",
+  "setToCome": "sent to the units once their firmware has it",
+  "setLocked": "Changed outside the measurement alone.",
+  "dataPhone": "On the phone",
+  "dataUnits": "On the units",
+  "dataNoFiles": "Nothing on the phone yet.",
+  "dataNoSessions": "No session on the units.",
+  "dataGot": "on the phone ✓",
+  "dataSwitchOn": "switch on {units}",
+  "@dataSwitchOn": {
+    "placeholders": {
+      "units": {
+        "type": "String"
+      }
+    }
+  },
+  "dataLarge": "large: dock or cable",
+  "dataReady": "ready",
+  "dataToCsv": "To CSV",
+  "dataToC3d": "To C3D",
+  "dataAsk": "Download it from {n} unit(s) into one C3D?",
+  "@dataAsk": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "dataCancel": "Cancel",
+  "dataDownload": "Download",
+  "ovPovodoks": "Povodoks",
+  "ovToPhone": "to the phone",
+  "ovHeard": "heard",
+  "ovNotHeard": "not heard",
+  "ovCode": "code",
+  "ovUnit": "unit",
+  "ovState": "state",
+  "ovCell": "cell",
+  "ovCard": "card",
+  "ovHeardAgo": "heard",
+  "ovFault": "fault",
+  "ovFlash": "flash",
+  "stRecording": "recording",
+  "stAlone": "recording alone",
+  "stSearching": "recording, seeking",
+  "stPaused": "paused",
+  "stWaiting": "waiting",
+  "stCalibrating": "calibrating",
+  "stGiving": "giving its record",
+  "stFirmware": "taking firmware",
+  "stErasing": "erasing",
+  "fNoCard": "no card",
+  "fCardFull": "card full",
+  "fWrite": "card write failed",
+  "fFs": "file system unreadable",
+  "fDropped": "blocks dropped",
+  "fSensor": "sensor silent",
+  "fClock": "clock on its fallback",
+  "fCellLow": "cell low",
+  "fCharger": "charger fault",
+  "fPmic": "PMIC silent",
+  "fNoCal": "no calibration",
+  "fRefused": "settings refused",
+  "uKind": "kind, number",
+  "uChip": "chip",
+  "uSensor": "sensor",
+  "uFirmware": "firmware",
+  "uTemp": "temperature",
+  "uCal": "calibration",
+  "uWith": "With it",
+  "uBlink": "Blink 10 s",
+  "uErase": "Erase the card… (password)",
+  "uForget": "Forget… (password)",
+  "uOff": "Switch off",
+  "uPassword": "The password again",
+  "uForgotten": "Forgotten, the unit leaves the set and keeps its records.",
+  "uDone": "Done.",
+  "uNotNow": "Not now: while the set records, or Povodok at work.",
+  "calOnto": "Every unit onto the face {face}, then touch Confirm.",
+  "@calOnto": {
+    "placeholders": {
+      "face": {
+        "type": "String"
+      }
+    }
+  },
+  "calTurn": "Turn every unit about its {axis} axis onto the face {face}, then touch Confirm.",
+  "@calTurn": {
+    "placeholders": {
+      "axis": {
+        "type": "String"
+      },
+      "face": {
+        "type": "String"
+      }
+    }
+  },
+  "calConfirm": "Confirm",
+  "calMeasuring": "Hold still: 5 s…",
+  "calTaken": "still ✓",
+  "calMoved": "moved ✗, again",
+  "calOtherFace": "another face ✗, again",
+  "calDone": "Done: every unit keeps its new calibration.",
+  "calAge": "{days, plural, =0{today} =1{1 day} other{{days} days}}",
+  "@calAge": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "dlStarting": "Starting…",
+  "dlDone": "Done: {path}",
+  "@dlDone": {
+    "placeholders": {
+      "path": {
+        "type": "String"
+      }
+    }
+  },
+  "dlOf": "{got} of {all} kB",
+  "@dlOf": {
+    "placeholders": {
+      "got": {
+        "type": "int"
+      },
+      "all": {
+        "type": "int"
+      }
+    }
+  },
+  "dlLeft": "{s} s left",
+  "@dlLeft": {
+    "placeholders": {
+      "s": {
+        "type": "int"
+      }
+    }
+  },
+  "dlLeftOut": "left out: not reached, or its file missing",
+  "actStop": "Stop",
+  "liveSave": "Save",
+  "liveSaveStop": "Stop saving",
+  "liveSaving": "saving {time} · {mb} MB",
+  "@liveSaving": {
+    "placeholders": {
+      "time": {
+        "type": "Object"
+      },
+      "mb": {
+        "type": "Object"
+      }
+    }
+  },
+  "actContinue": "Continue",
+  "setToWork": "To work",
+  "setNoLive": "No live view yet",
+  "diagBand": "The band: noise by channel, dBm",
+  "diagSet": "the set {ch}",
+  "@diagSet": {
+    "placeholders": {
+      "ch": {
+        "type": "Object"
+      }
+    }
+  },
+  "diagSpare": "spare {ch}",
+  "@diagSpare": {
+    "placeholders": {
+      "ch": {
+        "type": "Object"
+      }
+    }
+  },
+  "diagMargin": "Povodok {k}: margin {db} dB",
+  "@diagMargin": {
+    "placeholders": {
+      "k": {
+        "type": "Object"
+      },
+      "db": {
+        "type": "Object"
+      }
+    }
+  },
+  "diagUnits": "Units",
+  "diagHeard": "heard {s} s ago",
+  "@diagHeard": {
+    "placeholders": {
+      "s": {
+        "type": "Object"
+      }
+    }
+  },
+  "diagNotHeard": "not heard",
+  "diagSync": "SYNC {dbm} dBm, {missed} missed",
+  "@diagSync": {
+    "placeholders": {
+      "dbm": {
+        "type": "Object"
+      },
+      "missed": {
+        "type": "Object"
+      }
+    }
+  },
+  "diagClock": "clock {ns} ns",
+  "@diagClock": {
+    "placeholders": {
+      "ns": {
+        "type": "Object"
+      }
+    }
+  },
+  "diagOut": "out of range {acc}/{gyro}",
+  "@diagOut": {
+    "placeholders": {
+      "acc": {
+        "type": "Object"
+      },
+      "gyro": {
+        "type": "Object"
+      }
+    }
+  },
+  "diagCell": "cell {pct} %",
+  "@diagCell": {
+    "placeholders": {
+      "pct": {
+        "type": "Object"
+      }
+    }
+  },
+  "diagCard": "card {free} % free, {dropped} dropped",
+  "@diagCard": {
+    "placeholders": {
+      "free": {
+        "type": "Object"
+      },
+      "dropped": {
+        "type": "Object"
+      }
+    }
+  },
+  "liveCurves": "Curves",
+  "liveNumbers": "Numbers",
+  "liveAccel": "vertical acceleration, g",
+  "liveTilt": "tilt from the vertical, °",
+  "liveRange": "range",
+  "liveStrides": "strides",
+  "liveLastStrides": "the last {n} strides",
+  "@liveLastStrides": {
+    "placeholders": {
+      "n": {
+        "type": "Object"
+      }
+    }
+  },
+  "liveNoRhythm": "no stride yet",
+  "liveLeftRight": "Left against right",
+  "liveDifference": "difference",
+  "placesTitle": "Places' templates",
+  "placesTemplate": "Template",
+  "placesAnimal": "The animal's name",
+  "placesNote": "The code shows the unit everywhere; the set's table goes with the session into every unit's file.",
+  "animalHorse": "horse",
+  "animalDog": "dog",
+  "animalPerson": "person",
+  "placeHead": "head",
+  "placeWithers": "withers",
+  "placeThoracic": "thoracic spine",
+  "placeLumbar": "lumbar spine",
+  "placePelvis": "pelvis",
+  "placeLeftFore": "left fore",
+  "placeRightFore": "right fore",
+  "placeLeftHind": "left hind",
+  "placeRightHind": "right hind",
+  "placeLeftShoulder": "left shoulder",
+  "placeRightShoulder": "right shoulder",
+  "placeLeftElbow": "left elbow",
+  "placeRightElbow": "right elbow",
+  "placeLeftHip": "left hip",
+  "placeRightHip": "right hip",
+  "animalCow": "cow",
+  "animalCat": "cat",
+  "setNewUnits": "New units",
+  "fwTitle": "Firmware",
+  "fwReady": "Firmware {version} on the phone, signed and checked",
+  "@fwReady": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "fwNone": "No firmware on the phone yet.",
+  "fwFetch": "Fetch from GitHub",
+  "fwFetched": "Fetched: {version}",
+  "@fwFetched": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "fwNotPublished": "No firmware published yet.",
+  "fwUpdateAll": "Update all",
+  "fwWaiting": "waiting",
+  "fwTaking": "taking it",
+  "fwDone": "done ✓",
+  "fwCurrent": "up to date ✓",
+  "fwOff": "off: later",
+  "fwFailed": "failed, again",
+  "fwHow": "By SMP through Povodok, one unit at a time, Povodok last; each unit checks the image's signature and keeps the old one should the new not start; a unit off takes it when it is on.",
+  "fwPovodokAgain": "Povodok starts again with the new firmware: join it again.",
+  "setNewSet": "A new set",
+  "nsIntro": "A new set — its address, key and channel — given to Povodok, which starts again in it. The units then come in by the search, a Belka also by the file on its cable.",
+  "nsChannel": "Channel",
+  "nsNotMeasured": "not measured",
+  "nsQuietest": "the quietest",
+  "nsLabel": "The set's own number, 1–9999, if any",
+  "nsDraw": "Draw a new set",
+  "nsDrawn": "The set: {address}, channel {ch}",
+  "@nsDrawn": {
+    "placeholders": {
+      "address": {
+        "type": "String"
+      },
+      "ch": {
+        "type": "Object"
+      }
+    }
+  },
+  "nsPovodok": "This Povodok's number in the set",
+  "nsPassword": "Povodok's password, again",
+  "nsGive": "Give it to this Povodok",
+  "nsAsk": "Povodok leaves its set for the new one and starts again; the units of the old set stay out until they are given the new one.",
+  "nsGiven": "Povodok takes the new set and starts again: join it again, then search for the units.",
+  "nsFileFor": "STRELKA.SET for the Belka numbered",
+  "nsSave": "Save",
+  "nsSaved": "Saved: {path} — copied onto the Belka's disk on its cable, it is taken when the cable leaves.",
+  "@nsSaved": {
+    "placeholders": {
+      "path": {
+        "type": "String"
+      }
+    }
+  },
+  "newTitle": "New units: the search",
+  "newSearching": "Povodok calls; a new unit answers in its window.",
+  "newNone": "No new unit heard yet.",
+  "newTake": "Take as {n}",
+  "@newTake": {
+    "placeholders": {
+      "n": {
+        "type": "Object"
+      }
+    }
+  },
+  "newTaken": "taken as {n}",
+  "@newTaken": {
+    "placeholders": {
+      "n": {
+        "type": "Object"
+      }
+    }
+  },
+  "newCable": "A Belka on its cable takes the set faster, the file STRELKA.SET on its disk.",
+  "pwTitle": "Password",
+  "pwOld": "The password now",
+  "pwNew": "The new password, 12 characters at least",
+  "pwAgain": "The new password again",
+  "pwShort": "At least 12 characters.",
+  "pwMismatch": "The two do not match.",
+  "pwChange": "Change",
+  "pwChanged": "The password changed: join again with it.",
+  "offTitle": "Switch Povodok off",
+  "offAsk": "Switch Povodok off? Recording, it stops the set first.",
+  "keyNew": "Povodok's key kept: {fp}",
+  "@keyNew": {
+    "placeholders": {
+      "fp": {
+        "type": "Object"
+      }
+    }
+  },
+  "keyChangedTitle": "Another key",
+  "keyChanged": "Povodok answers with another key ({now}) than the one kept ({old}). After its factory settings that is right; otherwise someone else answers. Take the new key?",
+  "@keyChanged": {
+    "placeholders": {
+      "now": {
+        "type": "Object"
+      },
+      "old": {
+        "type": "Object"
+      }
+    }
+  },
+  "keyTake": "Take it",
+  "keyFingerprint": "Povodok's key",
+  "pwFactory": "The factory password: give a new one, 12 characters at least.",
+  "diagMove": "Move the set to {ch}",
+  "@diagMove": {
+    "placeholders": {
+      "ch": {
+        "type": "Object"
+      }
+    }
+  }
+}

@@ -1,0 +1,59 @@
+/* Pušinka's sketches, the look they share, "Volkov" (APP.md, The menus): the DOS commanders' blue,
+   light monospaced letters, double-lined panels, the menu a bar of six along the bottom. */
+:root { --blue:#0000aa; --cyan:#00aaaa; --lcyan:#55ffff; --white:#ffffff; --yellow:#ffff55;
+  --black:#000000; --green:#00aa00; --lgreen:#55ff55; --red:#aa0000; --lred:#ff5555;
+  --grey:#555555; --lgrey:#aaaaaa; --magenta:#ff55ff; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { width: 1920px; height: 1080px; overflow: hidden; background: var(--blue); position: relative;
+  font-family: "IBM Plex Mono", "DejaVu Sans Mono", monospace; color: var(--lcyan); font-size: 28px; }
+.status { height: 40px; background: var(--black); color: var(--white); font-size: 22px;
+  display: flex; justify-content: space-between; align-items: center; padding: 0 24px; }
+.title { height: 62px; background: var(--cyan); color: var(--black); display: flex;
+  justify-content: space-between; align-items: center; padding: 0 22px; font-size: 30px; }
+.rec { color: var(--red); font-weight: bold; }
+.subtabs { height: 60px; display: flex; gap: 10px; padding: 8px 16px 0; }
+.subtab { padding: 6px 26px; background: var(--cyan); color: var(--black); font-size: 30px; }
+.subtab.cur { background: var(--yellow); }
+.subtab b { color: var(--white); background: var(--black); padding: 0 6px; margin-right: 8px; }
+.main { position: absolute; top: 196px; left: 16px; right: 16px; bottom: 90px; display: flex; gap: 16px; }
+.panel { position: relative; border: 5px double var(--lcyan); padding: 30px 16px 14px; }
+.panel.active { border-color: var(--yellow); }
+.panel > .cap { position: absolute; top: -22px; left: 50%; transform: translateX(-50%);
+  background: var(--blue); color: var(--white); padding: 0 12px; white-space: nowrap; }
+.panel.active > .cap { color: var(--yellow); }
+.grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.tile { height: 168px; display: flex; flex-direction: column; justify-content: center;
+  align-items: center; border: 3px solid var(--black); }
+.tile .c { font-size: 50px; font-weight: bold; }
+.tile .n { font-size: 28px; margin-top: 2px; }
+.tile .s { font-size: 22px; margin-top: 4px; }
+.on { background: var(--green); color: var(--black); }
+.off { background: var(--red); color: var(--white); }
+.nocal { background: var(--grey); color: var(--lgrey); }
+table { width: 100%; border-collapse: collapse; }
+td, th { padding: 6px 8px; text-align: left; }
+th { color: var(--white); font-weight: normal; border-bottom: 2px solid var(--lcyan); }
+td.k { color: var(--lcyan); }
+td.v { color: var(--yellow); }
+td.w { color: var(--white); }
+.num { text-align: right; }
+.warn { color: var(--yellow); }
+.bad { color: var(--lred); }
+.good { color: var(--lgreen); }
+.note { color: var(--lgrey); font-size: 22px; }
+.keys { position: absolute; bottom: 0; left: 0; width: 1920px; height: 74px; display: flex;
+  background: var(--black); align-items: center; }
+.key { flex: 1; display: flex; align-items: center; font-size: 26px; }
+.key b { color: var(--white); padding: 0 6px 0 12px; }
+.key span { background: var(--cyan); color: var(--black); height: 54px; flex: 1;
+  display: flex; align-items: center; padding-left: 8px; margin-right: 6px; }
+.key.cur span { background: var(--yellow); }
+.act { width: 230px; height: 58px; margin: 0 12px 0 6px; display: flex; align-items: center;
+  justify-content: center; font-size: 32px; font-weight: bold; }
+.act.stop { background: var(--red); color: var(--white); }
+.act.start { background: var(--green); color: var(--black); }
+.act.save { width: auto; padding: 0 18px; font-size: 26px; background: var(--yellow); color: var(--black); }
+.pill { display: inline-block; padding: 0 10px; font-size: 22px; }
+.pill.c { background: var(--magenta); color: var(--black); }
+.pill.n { background: var(--lcyan); color: var(--black); }
+svg text { font-family: "IBM Plex Mono", "DejaVu Sans Mono", monospace; }

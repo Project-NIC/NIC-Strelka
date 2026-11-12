@@ -1,0 +1,75 @@
+<!doctype html>
+<!-- Pušinka's calibration, a sketch at 1920 × 1080, landscape (APP.md, The menus, 2; What it must
+     do, 7): on the table after the warm-up, six faces, every unit onto the same face, confirmed
+     by a touch, each asked by 64/22 and left still 5 s; a unit moved named and asked again alone;
+     each calibration's age. An idea, not the finished look; the figures are made up. ?lang=en or cs. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Pušinka, calibration</title>
+<link rel="stylesheet" href="common.css">
+<style>
+  .main { top: 126px; }
+  td, th { white-space: nowrap; }
+  .face { font-size: 30px; padding: 7px 10px; }
+  .face.done { color: var(--lgreen); }
+  .face.cur { background: var(--yellow); color: var(--black); }
+  .face.todo { color: var(--lgrey); }
+  .bar { height: 30px; background: #000055; border: 2px solid var(--lcyan); margin-top: 8px; }
+  .bar i { display: block; height: 100%; background: var(--lgreen); }
+</style>
+</head>
+<body>
+<div class="status"><span>9:12</span><span>Wi-Fi 5 GHz · 91 %</span></div>
+<div class="title"><b id="ttl"></b><span id="tright"></span></div>
+<div class="main" id="main"></div>
+<div class="keys" id="keys"></div>
+<script src="common.js"></script>
+<script>
+const T = pick({
+  en: { title: 'Pušinka · Calibration · Set 0042', right: 'warm-up 1:05 ✓ · Povodok 1 ●',
+        confirm: '✓ CONFIRM', faces: 'The six faces',
+        names: ['Z up', 'Z down', 'X up', 'X down', 'Y up', 'Y down'],
+        now: 'Every unit onto the face X down, then touch Confirm.', still: 'Still: 2 of 5 s',
+        units: 'Units: step 4 of 6', head: ['code', 'unit', 'step 4', 'calibration'],
+        ok: 'still ✓', moved: 'moved ✗, again', ages: ['today', '12 days', '3 months: expired', 'never'],
+        note: 'K9 moved during the step: the step is repeated for it. Valid 30 days (Settings).' },
+  cs: { title: 'Pušinka · Kalibrace · Sada 0042', right: 'zahřátí 1:05 ✓ · Povodok 1 ●',
+        confirm: '✓ POTVRDIT', faces: 'Šest stran',
+        names: ['Z nahoru', 'Z dolů', 'X nahoru', 'X dolů', 'Y nahoru', 'Y dolů'],
+        now: 'Všechny jednotky na stranu X dolů, pak ťukni Potvrdit.', still: 'V klidu: 2 z 5 s',
+        units: 'Jednotky: krok 4 ze 6', head: ['kód', 'jednotka', 'krok 4', 'kalibrace'],
+        ok: 'v klidu ✓', moved: 'pohnula se ✗, znovu', ages: ['dnes', '12 dní', '3 měsíce: propadlá', 'nikdy'],
+        note: 'K9 se během kroku pohnula: krok se pro ni opakuje. Platnost 30 dní (Nastavení).' },
+});
+chrome({ title: T.title, right: T.right, menu: 1, action: ['start', T.confirm] });
+
+const age = [1, 1, 1, 1, 2, 3, 1, 1, 1, 0, 1, 2];
+$('main').innerHTML = `
+  <div class="panel active" style="width:820px"><div class="cap">${T.faces}</div>
+    ${T.names.map((n, i) => `<div class="face ${i < 3 ? 'done' : i === 3 ? 'cur' : 'todo'}">`
+      + `${i + 1}. ${n} ${i < 3 ? '✓' : i === 3 ? '◄' : ''}</div>`).join('')}
+    <svg width="780" height="250" id="box" style="margin-top:14px"></svg>
+    <div style="color:#ffffff">${T.now}</div>
+    <div class="note" style="margin-top:10px">${T.still}</div>
+    <div class="bar"><i style="width:66%"></i></div>
+  </div>
+  <div class="panel" style="flex:1"><div class="cap">${T.units}</div>
+    <table style="font-size:27px"><tr>${T.head.map(h => `<th>${h}</th>`).join('')}</tr>
+    ${SET.map(([key, n], i) => `<tr><td class="v" style="font-weight:bold">${codeOf(key)}</td>
+      <td class="w">${n}</td><td class="${n === 'K9' ? 'bad' : 'good'}">${n === 'K9' ? T.moved : T.ok}</td>
+      <td class="${age[i] === 3 ? 'warn' : age[i] === 2 ? 'bad' : 'w'}">${T.ages[age[i]]}</td></tr>`).join('')}
+    </table>
+    <div class="note" style="margin-top:12px">${T.note}</div>
+  </div>`;
+
+// a unit on the table, the face X down: the box seen from the side, the arrow its X axis
+const b = $('box');
+el(b, 'line', { x1: 40, y1: 210, x2: 740, y2: 210, stroke: '#00aaaa', 'stroke-width': 4 });
+el(b, 'rect', { x: 290, y: 90, width: 200, height: 120, fill: '#00aa00', stroke: '#000', 'stroke-width': 4 });
+el(b, 'line', { x1: 390, y1: 40, x2: 390, y2: 170, stroke: '#ffff55', 'stroke-width': 8 });
+el(b, 'polygon', { points: '370,165 410,165 390,200', fill: '#ffff55' });
+el(b, 'text', { x: 420, y: 70, fill: '#ffff55', 'font-size': 36, 'font-weight': 'bold' }, 'X');
+</script>
+</body>
+</html>

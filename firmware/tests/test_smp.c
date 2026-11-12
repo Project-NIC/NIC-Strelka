@@ -1,0 +1,611 @@
+/* SMP's frames and Strelka's group 64 on the host (COMMANDS.md): the request frames built by
+ * Python's cbor2 in tools/test_firmware.py are read from a file, fed through the stream's framing
+ * in pieces of every size, and handled by a unit that stands in — the lock first, and again just
+ * before the card's command and the forgetting, every command of the group, the codes on a wrong
+ * value, a wrong op, an unknown command; the answers go to a
+ * file for Python to read back. The values the unit stands in with are fixed here and in Python
+ * alike. Beside it, SHA-256 and HMAC-SHA256 over a few strings, for Python's hashlib. */
+#include <stdio.h>
+#include <string.h>
+#include "crypto.h"
+#include "strelka_mgmt.h"
+#include "test.h"
+
+/* the password's hash, held by the unit: SHA-256 of "strelka1", as Python computes it too */
+static uint8_t password_hash[32];
+static struct strelka_session got_session;
+static struct strelka_cal got_cal;
+static struct strelka_join got_join;
+static struct strelka_table_piece got_table;
+static uint8_t got_table_csv[STRELKA_TABLE_PIECE_MAX];
+static unsigned calls[CMD_MOVE + 1];
+static bool record_on, search_on;
+static uint8_t live_code;
+static uint8_t blink_s, card_do, drop_n;
+static uint64_t take_chip;
+static uint8_t take_n;
+
+static int f_info(struct strelka_info *out, void *ctx)
+{
+	(void)ctx;
+	calls[CMD_INFO]++;
+	out->chip = 0x0102030405060708ull;
+	out->n = 5;
+	out->who = WHO_BELKA;
+	out->fw[0] = STRELKA_FW_MAJOR; out->fw[1] = STRELKA_FW_MINOR; out->fw[2] = STRELKA_FW_PATCH;
+	memcpy(out->build, "\xde\xad\xbe\xef", 4);
+	out->sensor = 0x44;
+	out->kind = KIND_ZVJOZDOCKA;
+	out->card_in = true;
+	out->card_mb = 30436;
+	out->card_free_mb = 29000;
+	out->card_fs = 2;
+	out->cell_pct = 87;
+	out->cell_mv = 3291;
+	out->temp_centi = 2512;
+	out->state = BELKA_WAITING;
+	out->fault = FAULT_NONE;
+	out->cal_time = 1760000000u;
+	return 0;
+}
+
+static int f_session(const struct strelka_session *s, void *ctx)
+{
+	(void)ctx;
+	calls[CMD_SESSION]++;
+	got_session = *s;
+	return 0;
+}
+
+static int f_sessions(uint32_t from, struct strelka_session_entry *list, unsigned max,
+		      unsigned *n, bool *more, void *ctx)
+{
+	(void)ctx;
+	calls[CMD_SESSIONS]++;
+	CHECK(from == 2 && max == STRELKA_SESSIONS_A_PAGE);
+	memset(list, 0, 2 * sizeof(*list));
+	list[0].s = 7;
+	strcpy(list[0].file, "S00007B05.STRK");
+	list[0].steps = 130;
+	list[0].blocks = 9;
+	list[0].p0 = 1000;
+	list[0].end = END_SYNC_STOP;
+	list[0].bytes = 4608;
+	list[1].s = 8;
+	strcpy(list[1].file, "S00008B05.STRK");
+	list[1].steps = 1;
+	list[1].blocks = 4;
+	list[1].p0 = 5000;
+	list[1].end = END_UNFINISHED;
+	list[1].bytes = 2048;
+	*n = 2;
+	*more = true;
+	return 0;
+}
+
+static int f_cal_write(const struct strelka_cal *cal, void *ctx)
+{
+	(void)ctx;
+	calls[CMD_CAL]++;
+	got_cal = *cal;
+	return 0;
+}
+
+static int f_cal_read(struct strelka_cal *cal, void *ctx)
+{
+	(void)ctx;
+	calls[CMD_CAL]++;
+	*cal = got_cal;
+	return 0;
+}
+
+static struct strelka_calibrate got_face;
+
+/* 64/23: one Belka with every item but the state, one heard of long ago, the band */
+static int f_diag(uint32_t from, struct strelka_diag_band *band, struct strelka_diag_belka *list,
+		  unsigned max, unsigned *n, bool *more, void *ctx)
+{
+	(void)ctx;
+	(void)max;
+	calls[CMD_DIAG]++;
+	band->ch = 7;
+	band->spare = 23;
+	band->margin[0] = 31;
+	band->margin[1] = 12;
+	band->margin[2] = 31;
+	band->margin[3] = 31;
+	for (unsigned c = 0; c < STRELKA_CHANNELS; c++) {
+		band->noise[0][c] = (int8_t)(-90 - (int)(c % 5));
+		for (unsigned p = 1; p < STRELKA_POVODOKS_MAX; p++) {
+			band->noise[p][c] = INT8_MIN;
+		}
+		band->bnoise[c] = c == 7 ? -93 : INT8_MIN;
+	}
+	*n = 0;
+	*more = false;
+	if (from != 0) {
+		return 0;
+	}
+	list[0] = (struct strelka_diag_belka){ .n = 5, .rssi = -61, .ago = 2 };
+	list[0].item[ITEM_CELL_TEMP] = ITEM_BYTES(87, 25);
+	list[0].item[ITEM_CELL_MV] = 3291;
+	list[0].item[ITEM_CARD] = ITEM_BYTES(90, 1);
+	list[0].item[ITEM_SYNCS] = ITEM_BYTES(-58, 2);
+	list[0].item[ITEM_OFFSET] = (uint16_t)-1234;
+	list[0].item[ITEM_OUT] = ITEM_BYTES(3, 0);
+	list[0].item[ITEM_CHANNEL] = ITEM_BYTES(7u | 1u << 6, -93);
+	for (unsigned i = ITEM_FIRST; i <= ITEM_LAST; i++) {
+		list[0].known[i] = i != ITEM_STATE;
+	}
+	list[1] = (struct strelka_diag_belka){ .n = 9, .rssi = REC_NO_SIGNAL, .ago = 300 };
+	*n = 2;
+	return 0;
+}
+
+static int f_calibrate(const struct strelka_calibrate *q, void *ctx)
+{
+	(void)ctx;
+	calls[CMD_CALIBRATE]++;
+	got_face = *q;
+	return 0;
+}
+
+/* the answer: face 0 taken; face 5 taken, the calibration */
+static int f_calibrated(uint8_t *face, uint8_t *got, bool *done, struct strelka_cal *cal,
+			void *ctx)
+{
+	(void)ctx;
+	calls[CMD_CALIBRATE]++;
+	*face = got_face.face;
+	*got = 0;
+	*done = got_face.face == 5;
+	*cal = got_cal;
+	return 0;
+}
+
+static int f_blink(uint32_t s, void *ctx)
+{
+	(void)ctx;
+	calls[CMD_BLINK]++;
+	blink_s = (uint8_t)s;
+	return 0;
+}
+
+static int f_card(uint8_t what, void *ctx)
+{
+	(void)ctx;
+	calls[CMD_CARD]++;
+	card_do = what;
+	return SMP_ERR_BUSY;             /* recording: refused */
+}
+
+static int f_off(void *ctx)
+{
+	(void)ctx;
+	calls[CMD_OFF]++;
+	return 0;
+}
+
+static int f_forget(void *ctx)
+{
+	(void)ctx;
+	calls[CMD_FORGET]++;
+	return 0;
+}
+
+static int f_key(const uint8_t pub[32], uint8_t pub_out[32], void *ctx)
+{
+	(void)ctx;
+	calls[CMD_KEY]++;
+	for (int i = 0; i < 32; i++) {
+		CHECK(pub[i] == (uint8_t)(0x40 + i));
+		pub_out[i] = (uint8_t)(0x80 + i);
+	}
+	return 0;
+}
+
+static int f_join(const struct strelka_join *j, void *ctx)
+{
+	(void)ctx;
+	calls[CMD_JOIN]++;
+	got_join = *j;
+	return 0;
+}
+
+static int f_record(bool run, void *ctx)
+{
+	(void)ctx;
+	calls[CMD_RECORD]++;
+	record_on = run;
+	return 0;
+}
+
+static int f_live(uint8_t code, void *ctx)
+{
+	(void)ctx;
+	calls[CMD_LIVE]++;
+	live_code = code;
+	return 0;
+}
+
+static int f_search(bool run, void *ctx)
+{
+	(void)ctx;
+	calls[CMD_SEARCH]++;
+	search_on = run;
+	return 0;
+}
+
+static int f_found(struct strelka_found *list, unsigned max, unsigned *n, void *ctx)
+{
+	(void)ctx;
+	calls[CMD_SEARCH]++;
+	CHECK(max == STRELKA_FOUND_MAX);
+	list[0].chip = 0x1122334455667788ull;
+	list[0].rssi = -67;
+	list[0].ago_s = 3;
+	list[1].chip = 0xA1A2A3A4A5A6A7A8ull;
+	list[1].rssi = -80;
+	list[1].ago_s = 12;
+	*n = 2;
+	return 0;
+}
+
+static int f_take(uint64_t chip, uint8_t n, void *ctx)
+{
+	(void)ctx;
+	calls[CMD_TAKE]++;
+	take_chip = chip;
+	take_n = n;
+	return n == 33 ? SMP_ERR_NOENT : 0;   /* 33: not heard */
+}
+
+static int f_set(struct strelka_set *out, void *ctx)
+{
+	(void)ctx;
+	calls[CMD_SET]++;
+	out->n = 2;
+	out->belka[0] = (struct strelka_set_belka){ 1, 0x0101, 0, 0, BELKA_RECORDING, 0, false, 0,
+						    false, 0 };
+	out->belka[1] = (struct strelka_set_belka){ 2, 0x0202, 3, 2, BELKA_RECORDING_ALONE,
+						    FAULT_CELL_LOW, true, 3, true, 2 };   /* 64/1 refused */
+	out->povodoks = 0x05;
+	out->ch = 23;
+	out->spare = 7;
+	return 0;
+}
+
+static int f_drop(uint8_t n, void *ctx)
+{
+	(void)ctx;
+	calls[CMD_DROP]++;
+	drop_n = n;
+	return n == 9 ? STRELKA_RC(STRELKA_ERR_UNREACHABLE) : 0;
+}
+
+static int f_password_hash(uint8_t hash[32], void *ctx)
+{
+	(void)ctx;
+	memcpy(hash, password_hash, 32);
+	return 0;
+}
+
+static uint8_t got_move;
+
+static int f_move(uint8_t ch, void *ctx)
+{
+	(void)ctx;
+	calls[CMD_MOVE]++;
+	got_move = ch;
+	return 0;
+}
+
+/* the unit's own long-term key, the same in every lock: 0x21 32 times */
+static int f_identity(uint8_t priv[32], void *ctx)
+{
+	(void)ctx;
+	memset(priv, 0x21, 32);
+	return 0;
+}
+
+static int f_password_set(const uint8_t hash[32], void *ctx)
+{
+	(void)ctx;
+	calls[CMD_PASSWORD]++;
+	memcpy(password_hash, hash, 32);
+	return 0;
+}
+
+static int f_table(const struct strelka_table_piece *p, void *ctx)
+{
+	(void)ctx;
+	calls[CMD_TABLE]++;
+	got_table = *p;
+	memcpy(got_table_csv, p->csv, p->csv_len);
+	return 0;
+}
+
+static struct strelka_give got_give;
+
+static int f_work(void *ctx)
+{
+	(void)ctx;
+	calls[CMD_WORK]++;
+	return 0;
+}
+
+static struct strelka_fetch got_fetch;
+
+static int f_fetch(const struct strelka_fetch *f, void *ctx)
+{
+	(void)ctx;
+	calls[CMD_FETCH]++;
+	got_fetch = *f;
+	return 0;
+}
+
+static int f_give(const struct strelka_give *g, void *ctx)
+{
+	(void)ctx;
+	calls[CMD_GIVE]++;
+	got_give = *g;
+	return 0;
+}
+
+static const struct strelka_ops ops = {
+	.info = f_info, .session = f_session, .sessions = f_sessions, .cal_write = f_cal_write,
+	.cal_read = f_cal_read, .blink = f_blink, .card = f_card, .off = f_off, .forget = f_forget,
+	.key = f_key, .join = f_join, .record = f_record, .live = f_live, .search = f_search,
+	.found = f_found, .take = f_take, .set = f_set, .drop = f_drop,
+	.password_hash = f_password_hash, .password_set = f_password_set, .table = f_table,
+	.identity = f_identity,
+	.give = f_give, .work = f_work, .fetch = f_fetch, .calibrate = f_calibrate,
+	.calibrated = f_calibrated, .diag = f_diag, .move = f_move,
+};
+
+void test_random_reset(void);           /* tests/sha256_soft.c: the nonces the same again */
+
+static struct smp_lock lock;
+static FILE *answers;
+static unsigned frames;
+static uint8_t all_answers[65536];
+static size_t all_answers_len;
+
+static bool on_frame(const uint8_t *frame, size_t len, void *ctx)
+{
+	uint8_t out[SMP_HDR_BYTES + SMP_FRAME_MAX];
+	size_t n = strelka_mgmt_frame(frame, len, out, sizeof(out), &ops, &lock, NULL);
+
+	(void)ctx;
+	CHECK(n >= SMP_HDR_BYTES + 1);
+	frames++;
+	if (answers) {
+		fwrite(out, 1, n, answers);
+	}
+	CHECK(all_answers_len + n <= sizeof(all_answers));
+	memcpy(all_answers + all_answers_len, out, n);
+	all_answers_len += n;
+	return true;
+}
+
+/* a transport taking one frame at a time: stop after each, the rest kept and resumed */
+static bool one_at_a_time(const uint8_t *frame, size_t len, void *ctx)
+{
+	on_frame(frame, len, ctx);
+	return false;
+}
+
+/* a callback that stops after every frame, as a transport with one request in flight */
+static unsigned held_frames;
+static uint8_t held_ids[4];
+
+static bool stop_each(const uint8_t *frame, size_t len, void *ctx)
+{
+	(void)len; (void)ctx;
+	if (held_frames < 4) {
+		held_ids[held_frames] = frame[7];
+	}
+	held_frames++;
+	return false;
+}
+
+int main(int argc, char **argv)
+{
+	static uint8_t requests[65536];
+	size_t n;
+	FILE *f;
+	struct smp_stream stream;
+
+	CHECK(argc == 4);
+	f = fopen(argv[1], "rb");
+	CHECK(f != NULL);
+	n = fread(requests, 1, sizeof(requests), f);
+	fclose(f);
+	CHECK(n > 0);
+	strelka_sha256((const uint8_t *)"strelka1", 8, password_hash);
+
+	/* the frames one by one, the answers kept */
+	answers = fopen(argv[2], "wb");
+	CHECK(answers != NULL);
+	smp_stream_init(&stream);
+	CHECK(smp_stream_feed(&stream, requests, n, on_frame, NULL));
+	fclose(answers);
+	answers = NULL;
+	CHECK(stream.have == 0 && frames == 69);
+
+	/* what the unit was told */
+	CHECK(calls[CMD_INFO] == 1 && calls[CMD_SESSION] == 2 && calls[CMD_SESSIONS] == 1 &&
+	      calls[CMD_CAL] == 2 && calls[CMD_BLINK] == 2 && calls[CMD_CARD] == 1 &&
+	      calls[CMD_OFF] == 1 && calls[CMD_FORGET] == 1 && calls[CMD_KEY] == 1 &&
+	      calls[CMD_JOIN] == 1 && calls[CMD_RECORD] == 1 && calls[CMD_LIVE] == 1 &&
+	      calls[CMD_SEARCH] == 2 && calls[CMD_TAKE] == 2 && calls[CMD_SET] == 1 &&
+	      calls[CMD_DROP] == 2 && calls[CMD_PASSWORD] == 1 && calls[CMD_TABLE] == 1 &&
+	      calls[CMD_GIVE] == 1 && calls[CMD_WORK] == 1 && calls[CMD_FETCH] == 1 &&
+	      calls[CMD_CALIBRATE] == 4 && calls[CMD_DIAG] == 2 && calls[CMD_MOVE] == 1);
+	CHECK(got_move == 20);
+	/* 64/22: the last face asked, 5; the calibration's ranges by 64/3 */
+	CHECK(got_face.face == 5);
+	CHECK(got_cal.range[0] == 16 && got_cal.range[1] == 2000);
+	/* 64/21: the session from two Belkas, the second from byte 4 096 */
+	CHECK(got_fetch.s == 8 && got_fetch.n == 2 && got_fetch.belka[0] == 3 &&
+	      got_fetch.belka[1] == 5 && got_fetch.from[0] == 0 && got_fetch.from[1] == 4096);
+	/* 64/19: the set given, its key opened under the write's own lock */
+	CHECK(got_give.n == 2 && got_give.ch == 9 && got_give.addr[0] == 0x44 && got_give.addr[3] == 0x11 &&
+	      got_give.label == 7);
+	for (int i = 0; i < 16; i++) {
+		CHECK(got_give.key[i] == 0x61 + i);
+	}
+	CHECK(got_session.s == 7 && got_session.rate_hz == 1000 && got_session.n == 10 &&
+	      got_session.acc_g == 16 && got_session.gyro_dps == 2000 && got_session.net &&
+	      got_session.live == S0_QUAT_50 && got_session.stop_s == 15 &&
+	      got_session.t_us == 1760000000000000ull && got_session.tz_min == 120 &&
+	      got_session.p_given && got_session.p == 123456);
+	/* the session's units 5 and 7, 5 a Zvjozdočka and 7 a Kryska */
+	CHECK(got_session.units_given && got_session.units[0] == 0xA0 && got_session.units[1] == 0 &&
+	      got_session.kinds[0] == 0 && got_session.kinds[1] == 0x48 && got_session.kinds[2] == 0);
+	CHECK(got_cal.acc[0] == 16380 && got_cal.acc[1] == -16390 && got_cal.acc[5] == -16400 &&
+	      got_cal.gscale[0] == 32768 && got_cal.gscale[2] == 32700 && got_cal.gzero[1] == -12 &&
+	      got_cal.temp == 2550 && got_cal.t == 1759999000u);
+	CHECK(blink_s == 5 && card_do == 3 && record_on && live_code == S0_RAW_50 && search_on &&
+	      take_chip == 0x0807060504030201ull && take_n == 33 && drop_n == 9);
+	CHECK(got_join.n == 12 && got_join.ch == 7 && memcmp(got_join.addr, "\xd4\xc3\xb2\xa1", 4) == 0 &&
+	      got_join.key[0] == 1 && got_join.key[15] == 16 && got_join.nonce[12] == 0x6c &&
+	      got_join.mic[3] == 0xff);
+	CHECK(got_table.off == 10 && got_table.len == 40 && got_table.csv_len == 11 &&
+	      memcmp(got_table_csv, "druh;k\xc5\xaf\xc5\x88\n", 11) == 0);
+	CHECK(lock.open);
+	{
+		uint8_t want[32];
+
+		strelka_sha256((const uint8_t *)"novy-klic-2026", 14, want);
+		CHECK(memcmp(password_hash, want, 32) == 0);   /* 64/17 changed it */
+	}
+	OK("every command of group 64 handled, the values Python sent");
+
+	/* the same bytes in pieces of every size give the same answers */
+	for (size_t piece = 1; piece <= 2100; piece = piece < 20 ? piece + 1 : piece * 3) {
+		uint8_t first[65536];
+		size_t first_len = all_answers_len;
+
+		memcpy(first, all_answers, first_len);
+		all_answers_len = 0;
+		frames = 0;
+		smp_lock_init(&lock);
+		test_random_reset();
+		strelka_sha256((const uint8_t *)"strelka1", 8, password_hash);
+		memset(calls, 0, sizeof(calls));
+		smp_stream_init(&stream);
+		for (size_t at = 0; at < n; at += piece) {
+			CHECK(smp_stream_feed(&stream, requests + at, at + piece <= n ? piece : n - at,
+					      on_frame, NULL));
+		}
+		CHECK(frames == 69 && all_answers_len == first_len &&
+		      memcmp(first, all_answers, first_len) == 0);
+	}
+	OK("the stream cut anywhere, the same answers");
+
+	/* fed whole, the callback stopping after each frame: the rest kept and resumed, the same
+	 * answers once more */
+	{
+		uint8_t first[65536];
+		size_t first_len = all_answers_len;
+
+		memcpy(first, all_answers, first_len);
+		all_answers_len = 0;
+		frames = 0;
+		smp_lock_init(&lock);
+		test_random_reset();
+		strelka_sha256((const uint8_t *)"strelka1", 8, password_hash);
+		memset(calls, 0, sizeof(calls));
+		smp_stream_init(&stream);
+		for (size_t at = 0; at < n; at += 700) {
+			CHECK(smp_stream_feed(&stream, requests + at, at + 700 <= n ? 700 : n - at,
+					      one_at_a_time, NULL));
+			while (smp_stream_has_rest(&stream)) {
+				CHECK(smp_stream_resume(&stream, one_at_a_time, NULL));
+			}
+		}
+		CHECK(frames == 69 && all_answers_len == first_len &&
+		      memcmp(first, all_answers, first_len) == 0);
+	}
+	OK("one frame at a time, the rest kept and resumed");
+
+	/* a header saying more than a frame holds closes the connection */
+	{
+		uint8_t bad[SMP_HDR_BYTES] = { 0x0A, 0, 0x07, 0xF9, 0, 64, 0, 0 };   /* a body of
+									      * 2 041 B: a frame of 2 049 */
+
+		smp_stream_init(&stream);
+		CHECK(!smp_stream_feed(&stream, bad, sizeof(bad), on_frame, NULL));
+		bad[2] = 0x07;
+		bad[3] = 0xF8;                   /* 2 040 B, the frame 2 048: taken, waited for */
+		CHECK(smp_stream_feed(&stream, bad, sizeof(bad), on_frame, NULL) && stream.have == 8);
+	}
+	OK("a frame too long refused");
+
+	/* the hashes for Python */
+	f = fopen(argv[3], "w");
+	CHECK(f != NULL);
+	{
+		static const char *texts[] = { "", "abc", "strelka1", "The quick brown fox jumps over "
+					       "the lazy dog, sixty-four bytes at least, yes." };
+		uint8_t h[32], m[32];
+
+		for (unsigned i = 0; i < 4; i++) {
+			CHECK(strelka_sha256((const uint8_t *)texts[i], strlen(texts[i]), h) == 0);
+			CHECK(strelka_hmac_sha256((const uint8_t *)"key", 3, (const uint8_t *)texts[i],
+						  strlen(texts[i]), m) == 0);
+			fprintf(f, "%s|", texts[i]);
+			for (int j = 0; j < 32; j++) {
+				fprintf(f, "%02x", h[j]);
+			}
+			fprintf(f, " ");
+			for (int j = 0; j < 32; j++) {
+				fprintf(f, "%02x", m[j]);
+			}
+			fprintf(f, "\n");
+		}
+	}
+	fclose(f);
+	{	/* a lock's pair let go before its answer, as a connection closed: nothing to agree */
+		struct strelka_x25519 k;
+		uint8_t pub[32], secret[32];
+
+		CHECK(strelka_x25519_begin(&k, pub) == 0);
+		strelka_x25519_end(&k);
+		CHECK(!k.live);
+		CHECK(strelka_x25519_agree(&k, pub, secret) != 0);
+		strelka_x25519_end(&k);          /* twice, or never begun: nothing */
+	}
+	{	/* two locks begun on two connections: each pair its own, agreeing with the other */
+		struct strelka_x25519 a, b;
+		uint8_t pa[32], pb[32], sa[32], sb[32];
+
+		CHECK(strelka_x25519_begin(&a, pa) == 0 && strelka_x25519_begin(&b, pb) == 0);
+		CHECK(memcmp(pa, pb, 32) != 0);
+		CHECK(strelka_x25519_agree(&a, pb, sa) == 0 && strelka_x25519_agree(&b, pa, sb) == 0);
+		CHECK(memcmp(sa, sb, 32) == 0);
+	}
+	{	/* bytes fed while the rest is held go behind it, and come out in order */
+		struct smp_stream st;
+		uint8_t three[3][SMP_HDR_BYTES];
+
+		for (int i = 0; i < 3; i++) {
+			struct smp_head h = { .op = SMP_OP_READ, .version = 1, .len = 0,
+					      .group = SMP_GROUP_STRELKA, .seq = 0, .id = (uint8_t)i };
+
+			smp_head_write(three[i], &h);
+		}
+		smp_stream_init(&st);
+		CHECK(smp_stream_feed(&st, three[0], 2 * SMP_HDR_BYTES, stop_each, NULL));
+		CHECK(held_frames == 1 && smp_stream_has_rest(&st));
+		CHECK(smp_stream_feed(&st, three[2], SMP_HDR_BYTES, stop_each, NULL));
+		CHECK(held_frames == 1);
+		CHECK(smp_stream_resume(&st, stop_each, NULL) && held_frames == 2);
+		CHECK(smp_stream_resume(&st, stop_each, NULL) && held_frames == 3);
+		CHECK(!smp_stream_has_rest(&st));
+		CHECK(held_ids[0] == 0 && held_ids[1] == 1 && held_ids[2] == 2);
+	}
+	printf("SMP OK\n");
+	return 0;
+}

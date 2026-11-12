@@ -1,0 +1,55 @@
+<!doctype html>
+<!-- A unit's own page, a sketch at 1920 × 1080, landscape, reached from the overview by a touch on
+     its row (APP.md, The menus, 1; What it must do, 2): what the unit says of itself by 64/0, its
+     calibration, and what can be done with it — a blink, the calibration, the forgetting under the
+     password, off. An idea, not the finished look; the figures are made up. ?lang=en or cs. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Pušinka, a unit</title>
+<link rel="stylesheet" href="common.css">
+<style>
+  .main { top: 126px; }
+  td, th { white-space: nowrap; padding: 7px 10px; }
+  .btns { display: flex; flex-direction: column; gap: 16px; margin-top: 10px; width: 520px; }
+  .btn { padding: 14px 20px; font-size: 30px; background: var(--cyan); color: var(--black); }
+  .btn.pw { background: var(--red); color: var(--white); }
+</style>
+</head>
+<body>
+<div class="status"><span>12:44</span><span>Wi-Fi 5 GHz · 87 %</span></div>
+<div class="title"><b id="ttl"></b><span id="tright"></span></div>
+<div class="main" id="main"></div>
+<div class="keys" id="keys"></div>
+<script src="common.js"></script>
+<script>
+const T = pick({
+  en: { title: 'Pušinka · Overview · Z12', right: '◄ back to the overview', what: 'Z12: a Zvjozdočka, no place',
+        rows: [['kind, number', 'Zvjozdočka, 12'], ['chip', '7C1E 09A4 3B7F 6A02'], ['sensor', 'ICM-42686-P'],
+               ['firmware', '0.8.0 (3f9c2e1a)'], ['cell', '91 % · 4 012 mV'], ['temperature', '22.8 °C'],
+               ['card', 'exFAT, 29 724 MB, 4 % free'], ['calibration', '4. 8. 2026, 3 months: expired'],
+               ['signal', '−61 dBm, Povodok 1'], ['clock', 'steered'], ['state', 'waiting']],
+        fault: 'card nearly full', acts: 'With it', btns: ['Blink 10 s', 'Calibrate', 'Erase the card… (password)',
+        'Forget… (password)', 'Switch off'], note: 'Forgotten, the unit leaves the set and keeps its records.' },
+  cs: { title: 'Pušinka · Přehled · Z12', right: '◄ zpět na přehled', what: 'Z12: Zvjozdočka, bez místa',
+        rows: [['druh, číslo', 'Zvjozdočka, 12'], ['čip', '7C1E 09A4 3B7F 6A02'], ['snímač', 'ICM-42686-P'],
+               ['firmware', '0.8.0 (3f9c2e1a)'], ['baterie', '91 % · 4 012 mV'], ['teplota', '22,8 °C'],
+               ['karta', 'exFAT, 29 724 MB, volných 4 %'], ['kalibrace', '4. 8. 2026, před 3 měsíci: propadlá'],
+               ['signál', '−61 dBm, Povodok 1'], ['hodiny', 'řízené'], ['stav', 'čeká']],
+        fault: 'karta skoro plná', acts: 'S jednotkou', btns: ['Bliknout 10 s', 'Kalibrovat', 'Smazat kartu… (heslo)',
+        'Zapomenout… (heslo)', 'Vypnout'], note: 'Zapomenutá jednotka opustí sadu a záznamy si nechá.' },
+});
+chrome({ title: T.title, right: T.right, menu: 0 });
+$('main').innerHTML = `
+  <div class="panel active" style="width:1100px"><div class="cap">${T.what}</div>
+    <table style="font-size:30px">${T.rows.map(([k, v], i) =>
+      `<tr><td class="k">${k}</td><td class="${i === 6 || i === 7 ? 'bad' : 'w'}">${v}</td></tr>`).join('')}
+      <tr><td class="k"></td><td class="bad">${T.fault}</td></tr></table>
+  </div>
+  <div class="panel" style="flex:1"><div class="cap">${T.acts}</div>
+    <div class="btns">${T.btns.map((b, i) => `<div class="btn${i === 2 || i === 3 ? ' pw' : ''}">${b}</div>`).join('')}</div>
+    <div class="note" style="margin-top:22px">${T.note}</div>
+  </div>`;
+</script>
+</body>
+</html>
