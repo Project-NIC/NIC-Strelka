@@ -1,0 +1,102 @@
+/* NIC-Strelka — the FLPR's view (FIRMWARE.md, The sensor on the FLPR): SPIM21 and the sensor on
+ * it, as the Belka's overlay had them; the ring in RAM shared with the main core, and the card's
+ * buffer beside it, the main core's while it holds the card; the code's
+ * partition inside the Belka's first image slot, at the place belka/boards/flpr.overlay reserves;
+ * no console and no GPIOTE, which the main core keeps. */
+
+/ {
+	chosen {
+		/delete-property/ zephyr,console;
+		/delete-property/ zephyr,shell-uart;
+	};
+
+	aliases {
+		imu = &icm4268x;
+	};
+
+	reserved-memory {
+		#address-cells = <1>;
+		#size-cells = <1>;
+		ranges;
+
+		/* the card's buffer: 256 blocks of 512 B, belka/boards/flpr.overlay's */
+		card_buffer: memory@20040000 {
+			reg = <0x20040000 0x20000>;
+		};
+
+		/* the ring: 32 B of head and 1 024 samples of 24 B (common/sensor_ring.h) */
+		sensor_ring: memory@20061800 {
+			reg = <0x20061800 0x6400>;
+		};
+	};
+};
+
+&cpuflpr_rram {
+	reg = <0x70000 DT_SIZE_K(96)>;
+	ranges = <0x0 0x70000 DT_SIZE_K(96)>;
+};
+
+&cpuflpr_code_partition {
+	reg = <0x0 DT_SIZE_K(96)>;
+};
+
+&uart30 {
+	status = "disabled";
+};
+
+&gpio0 {
+	status = "disabled";
+};
+
+&gpio1 {
+	status = "disabled";
+};
+
+&gpio2 {
+	status = "disabled";
+};
+
+&gpiote20 {
+	status = "disabled";
+};
+
+&gpiote30 {
+	status = "disabled";
+};
+
+&pinctrl {
+	/* the sensor: SPIM21 on P3.04 SCK, P3.05 the sensor's SDI, P3.07 its SDO; CS P3.02 */
+	spi21_default: spi21_default {
+		group1 {
+			psels = <NRF_PSEL(SPIM_SCK, 3, 4)>, <NRF_PSEL(SPIM_MOSI, 3, 5)>,
+				<NRF_PSEL(SPIM_MISO, 3, 7)>;
+		};
+	};
+	spi21_sleep: spi21_sleep {
+		group1 {
+			psels = <NRF_PSEL(SPIM_SCK, 3, 4)>, <NRF_PSEL(SPIM_MOSI, 3, 5)>,
+				<NRF_PSEL(SPIM_MISO, 3, 7)>;
+			low-power-enable;
+		};
+	};
+};
+
+&spi21 {
+	status = "okay";
+	pinctrl-0 = <&spi21_default>;
+	pinctrl-1 = <&spi21_sleep>;
+	pinctrl-names = "default", "sleep";
+	cs-gpios = <&gpio3 2 GPIO_ACTIVE_LOW>;
+
+	icm4268x: icm4268x@0 {
+		compatible = "strelka,icm4268x";
+		reg = <0>;
+		spi-max-frequency = <8000000>;
+		int-gpios = <&gpio3 1 GPIO_ACTIVE_HIGH>;      /* INT1, the data-ready */
+		clkin-gpios = <&gpio3 0 GPIO_ACTIVE_HIGH>;    /* pin 9, the main core's */
+	};
+};
+
+&gpio3 {
+	status = "okay";
+};

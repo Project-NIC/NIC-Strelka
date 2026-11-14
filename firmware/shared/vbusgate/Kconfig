@@ -1,0 +1,7 @@
+# NIC-Strelka — Strelka's addition to MCUboot: the VBUS gate (FIRMWARE.md, USB)
+config STRELKA_VBUS_GATE
+	bool "Wait for a serial-recovery command only with VBUS present"
+	help
+	  With VBUS present at start the recovery waits its seconds on the USB serial port;
+	  without it the image boots at once. VBUS is read from the nRF54LM20A's USB regulator.
+	  MCUboot asks through the patch in firmware/patches/, which the build needs applied.

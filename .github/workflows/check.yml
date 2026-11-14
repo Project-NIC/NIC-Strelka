@@ -1,0 +1,57 @@
+name: check
+
+# Strelka's checks on every change: the pages' generated tables against the scripts in calc/,
+# the line widths and the relative links; the analysis, the record's tools and the firmware's
+# common code on the host; the application's protocol in Dart and its first screens in Flutter.
+
+on:
+  push:
+    branches: [main]              # once a change: the working branch is pushed to main with it
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: the pages against the scripts
+        run: python3 calc/check.py
+      - name: the drawn schematic's netlist checker, held to the board's own nets in four forms
+        run: python3 board/netcheck.py --selftest
+      - name: numpy, for the analysis
+        run: python3 -m pip install --quiet numpy
+      - name: the analysis on synthetic trots
+        run: python3 analysis/test_lameness.py
+      - name: the record built, read back and exported, as RECORD.md has it
+        run: python3 tools/test_record.py
+      - name: the calibration from the six faces on a unit made up
+        run: python3 tools/test_cal.py
+      - name: c3d, to read the converter's files back
+        run: python3 -m pip install --quiet c3d
+      - name: the C3D converter on two Belkas' records made here, one a period late
+        run: python3 tools/test_c3d.py
+      - name: cryptography, to hold the firmware's AES-CCM to a second implementation; zcbor 0.9.1 for its C sources, the SDK's version; cbor2 for SMP's bodies
+        run: python3 -m pip install --quiet cryptography zcbor==0.9.1 cbor2
+      - name: the firmware's common code on the host, its record held to the tools' byte for byte
+        run: python3 tools/test_firmware.py
+      - name: the Povodok simulated in Python, driven as the application drives it
+        run: python3 tools/test_povodok_sim.py
+      - name: SMP's frames over the serial port, in the console's lines and in pieces
+        run: python3 tools/test_smp.py
+      - name: the live view saved on the phone, joined from every Povodok, and its export
+        run: python3 tools/test_live.py
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+      - name: the protocol in Dart, held to the tools' vectors and driving the simulator
+        working-directory: app/strelka
+        run: dart pub get && dart analyze --fatal-infos && dart test
+      - name: the application's first screens, analysed and tested as widgets
+        working-directory: app/pusinka
+        run: flutter pub get && flutter analyze --fatal-infos && flutter test

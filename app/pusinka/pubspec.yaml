@@ -1,0 +1,35 @@
+name: pusinka
+description: >-
+  Pušinka, NIC-Strelka's application, at its base: Povodok joined through the lock, then the six
+  menus along the bottom, the texts a table a language. The protocol is the strelka package
+  beside it.
+version: 0.1.0
+publish_to: none
+
+environment:
+  sdk: ^3.8.0
+
+dependencies:
+  cupertino_ui: ^1.1.6
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  flutter_secure_storage: ^11.2.0
+  intl: any
+  material_ui: ^1.11.0
+  path_provider: ^2.1.6
+  strelka:
+    path: ../strelka
+
+dev_dependencies:
+  cryptography: any                 # the tests' hashes, the strelka package's own
+  flutter_lints: ^6.0.0
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+  generate: true
+  assets:
+    - assets/pusinka.jpg

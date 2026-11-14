@@ -1,0 +1,62 @@
+/* NIC-Strelka — the Belka with its sensor on the FLPR (FIRMWARE.md, The sensor on the FLPR), as
+ * Nordic's guide lays it out (the SDK's nrf54l_signing_with_payload.rst): the FLPR's code in a
+ * partition inside the first image slot, 0x70000-0x88000, as large as the RAM it is copied into,
+ * which Nordic's launcher asks, so that MCUboot signs and updates it with the Belka's own; right
+ * above the Belka's code, which has 0x10000-0x70000, 384 KB, so that the signed image spans no
+ * empty slot, and the slot's rest, 0x88000-0x102000, left for MCUboot's swap. The RAM in its two parts (the owner,
+ * 1 Nov 2026): RAM_00, 256 KB, the main core's alone, which the running FLPR never slows; in
+ * RAM_01 the card's buffer of 128 KB, shared, whichever core holds the card using it, 14 KB
+ * spare, the sensor's ring, and the FLPR's 96 KB at the top. SPIM21 the FLPR's. The fallback's
+ * boards/sensor_on_app.overlay, laid over it, gives SPIM21 back and leaves the FLPR off. */
+
+/ {
+	soc {
+		reserved-memory {
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			cpuflpr_code_partition: image@70000 {
+				reg = <0x70000 DT_SIZE_K(96)>;
+			};
+		};
+
+		cpuflpr_sram_code_data: memory@20067c00 {
+			compatible = "mmio-sram";
+			reg = <0x20067c00 DT_SIZE_K(96)>;
+			#address-cells = <1>;
+			#size-cells = <1>;
+			ranges = <0x0 0x20067c00 0x18000>;
+		};
+	};
+
+	reserved-memory {
+		#address-cells = <1>;
+		#size-cells = <1>;
+		ranges;
+
+		/* the card's buffer: 256 blocks of 512 B (belka/src/card.c) */
+		card_buffer: memory@20040000 {
+			reg = <0x20040000 0x20000>;
+		};
+
+		/* the ring: 32 B of head and 1 024 samples of 24 B (common/sensor_ring.h) */
+		sensor_ring: memory@20061800 {
+			reg = <0x20061800 0x6400>;
+		};
+	};
+};
+
+&cpuapp_sram {
+	reg = <0x20000000 DT_SIZE_K(256)>;
+	ranges = <0x0 0x20000000 DT_SIZE_K(256)>;
+};
+
+&cpuflpr_vpr {
+	status = "okay";
+	execution-memory = <&cpuflpr_sram_code_data>;
+	source-memory = <&cpuflpr_code_partition>;
+};
+
+&spi21 {
+	status = "disabled";
+};

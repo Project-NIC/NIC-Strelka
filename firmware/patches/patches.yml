@@ -1,0 +1,46 @@
+# NIC-Strelka — the patches the SDK needs for the firmware, applied with west:
+#
+#     west patch -b <repo>/firmware/patches -l <repo>/firmware/patches/patches.yml apply
+#
+# Three. MCUboot's wait for a serial-recovery command asks whether to wait at all, which it has no
+# hook for; Strelka's module answers from VBUS (shared/vbusgate; FIRMWARE.md, USB). Zephyr's USB
+# disk reports and keeps a write-protection the application answers (shared/usb.c; FIRMWARE.md,
+# USB). Zephyr's file download asks the application what a read failed gives, the Belka answering
+# zeros for a sector the card cannot read (belka/src/main.c; FIRMWARE.md, A session).
+patches:
+  - path: mcuboot-wait-for-dfu-with-vbus.patch
+    sha256sum: e15dd59d8d2ef31128ae84e93138fbdcd10439a95a938ba519fd7609b670fd4c
+    module: mcuboot
+    author: NIC-Strelka
+    email: none@example.invalid
+    date: 2026-10-21
+    upstreamable: true
+    comments: |
+      boot/zephyr/main.c: under CONFIG_BOOT_SERIAL_WAIT_FOR_DFU the console is brought up and the
+      wait run only when strelka_wait_for_dfu() says so, with CONFIG_STRELKA_VBUS_GATE; without
+      that symbol nothing changes. Against nRF Connect SDK v3.4.0's MCUboot (ncs-v3.4.0).
+  - path: zephyr-usbd-msc-write-protect.patch
+    sha256sum: d402cdc5dd7494c746957cfbd29d734c8ebe955a0af38b0a91005876ab26fe98
+    module: zephyr
+    author: NIC-Strelka
+    email: none@example.invalid
+    date: 2026-11-01
+    upstreamable: true
+    comments: |
+      The device-next USB mass storage class asks usbd_msc_write_protected(disk), weak and false
+      in the class, at every MODE SENSE, its WP bit, and at every WRITE(10), refused with DATA
+      PROTECT, WRITE PROTECTED; declared in include/zephyr/usb/class/usbd_msc.h. Against nRF
+      Connect SDK v3.4.0's Zephyr (v4.4.0-ncs).
+  - path: zephyr-fs-mgmt-read-failed.patch
+    sha256sum: e01b157b62f12808365f8ff13ed39d2cd6acd578756af4bb3b24623d326e6ddd
+    module: zephyr
+    author: NIC-Strelka
+    email: none@example.invalid
+    date: 2026-11-07
+    upstreamable: true
+    comments: |
+      MCUmgr's file download, 8/0, asks fs_mgmt_download_read_failed(off, len, data, max), weak
+      and -EIO in the group, when fs_read fails: data of the application's own answers the request
+      instead of FS_MGMT_ERR_FILE_READ_FAILED, and the file is closed, to be opened again at the
+      next request; declared in include/zephyr/mgmt/mcumgr/grp/fs_mgmt/fs_mgmt.h. Against nRF
+      Connect SDK v3.4.0's Zephyr (v4.4.0-ncs).

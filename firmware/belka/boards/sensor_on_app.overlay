@@ -1,0 +1,12 @@
+/* NIC-Strelka — the fallback, should the FLPR not prove itself on the kit (FIRMWARE.md, Reading the
+ * sensor): the sensor on the main core again, SPIM21 its own, the FLPR not started. Laid over
+ * boards/flpr.overlay with -Dbelka_EXTRA_DTC_OVERLAY_FILE, with
+ * -Dbelka_CONFIG_STRELKA_SENSOR_FLPR=n (firmware/README.md, Building). */
+
+&spi21 {
+	status = "okay";
+};
+
+&cpuflpr_vpr {
+	status = "disabled";
+};

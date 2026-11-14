@@ -1,0 +1,135 @@
+<!doctype html>
+<!-- Pušinka's settings, a sketch of six screens at 1920 × 1080, landscape (APP.md, The menus, 6
+     and About, The settings; What it must do, 3, 4, 7 and 13): on the left the settings, on the
+     right the one chosen — A the language of the seven, B About, the version and Pušinka drawn,
+     C new units found by the search and given their numbers, D a template of the places, its
+     English codes and its pairs, E the firmware, F the measurement's settings, the calibration's
+     validity among them; Povodok's key in the list. An idea, not the finished look; the figures
+     are made up. ?s=a…f, ?lang=en or cs. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Pušinka, settings</title>
+<link rel="stylesheet" href="common.css">
+<style>
+  .main { top: 126px; }
+  td, th { white-space: nowrap; padding: 9px 10px; }
+  .sel td { background: var(--cyan); color: var(--black); }
+  .radio { font-size: 32px; padding: 10px 6px; color: var(--white); }
+  .radio.on { color: var(--yellow); }
+  .photo { height: 560px; border: 4px solid var(--lgrey); display: block; }
+  .btns { display: flex; gap: 14px; margin-top: 22px; }
+  .btn { padding: 10px 18px; font-size: 26px; background: var(--cyan); color: var(--black); }
+  .btn.go { background: var(--green); }
+  .box { display: inline-block; min-width: 56px; padding: 0 8px; background: var(--black);
+    color: var(--yellow); text-align: center; }
+  .bar { height: 26px; width: 260px; background: #000055; border: 2px solid var(--lcyan); display: inline-block;
+    vertical-align: middle; }
+  .bar i { display: block; height: 100%; background: var(--lgreen); }
+  .r td { padding: 6px 10px; }
+</style>
+</head>
+<body>
+<div class="status"><span>13:40</span><span>Wi-Fi 5 GHz · 82 %</span></div>
+<div class="title"><b id="ttl"></b><span id="tright"></span></div>
+<div class="main" id="main"></div>
+<div class="keys" id="keys"></div>
+<script src="common.js"></script>
+<script>
+const T = pick({
+  en: { title: 'Pušinka · Settings', right: 'Povodok 1 ●', list: 'Settings',
+        items: [['Language', 'English'], ['Password', 'change…'], ['Wi-Fi for Povodok', 'Stable-5G'],
+                ['The set', '13 units'], ['New units', 'search'], ['Places\' templates', 'horse, cow, dog …'],
+                ['Measurement', '30 days, 10 °C …'],
+                ['Povodok\'s key', '3F2A 9C11 07BD 44E0'], ['Firmware', '0.8.5'], ['Povodok', 'switch off'],
+                ['About', '']],
+        lang: 'Language', langnote: 'A table of the texts a language; a new language a new table.',
+        about: 'About', photo: 'Pušinka, Strelka’s puppy, drawn',
+        aboutnote: 'Open, for anyone to build; nothing is sold.',
+        search: 'New units: the search', searching: 'Povodok 1 calls, a new unit answers in its window',
+        fhead: ['chip', 'signal', 'heard', 'number'], ago: 's ago',
+        fbtns: ['Search again', 'Into the set'],
+        fnote: 'A Belka on its cable takes the set faster, the file STRELKA.SET on its disk.',
+        tpl: 'Template: horse', thead: ['code', 'place', 'pair'],
+        tnote: 'The codes English in the record, in every language; each unit given its place by a touch.',
+        fw: 'Firmware: 0.8.1 signed, ready', fwhead: ['unit', 'now', '', 'state'],
+        fwst: ['done ✓', 'taking it', 'waiting', 'off: later'], fwbtns: ['Update all'],
+        fwnote: 'By SMP through Povodok 1, one unit at a time; a unit off takes it when it is on.',
+        meas: 'Measurement and calibration',
+        mrows: [['the calibration valid', '30 days'], ['a temperature apart from the calibration\'s', '10 °C'],
+                ['the curves\' window', '5 s'], ['the numbers over the last', '10 strides'],
+                ['the connection lost after', '3 s'], ['the radio\'s power', '+5 dBm'],
+                ['the light while measuring', 'as usual']],
+        mnote: ['Changed outside the measurement alone, never while the set records.',
+                'Fixed: the cell\'s end voltage, the password\'s 12 characters, the magnets, the radio\'s timing.'] },
+  cs: { title: 'Pušinka · Nastavení', right: 'Povodok 1 ●', list: 'Nastavení',
+        items: [['Jazyk', 'čeština'], ['Heslo', 'změnit…'], ['Wi-Fi pro Povodok', 'Stáj-5G'],
+                ['Sada', '13 jednotek'], ['Nové jednotky', 'hledat'], ['Šablony míst', 'kůň, kráva, pes …'],
+                ['Měření a kalibrace', '30 dní, 10 °C …'],
+                ['Klíč Povodoku', '3F2A 9C11 07BD 44E0'], ['Firmware', '0.8.5'], ['Povodok', 'vypnout'],
+                ['O programu', '']],
+        lang: 'Jazyk', langnote: 'Každý jazyk má svou tabulku textů; nový jazyk je nová tabulka.',
+        about: 'O programu', photo: 'Pušinka, Strelčino štěně, kreslená',
+        aboutnote: 'Otevřené, pro každého k postavení; nic se neprodává.',
+        search: 'Nové jednotky: hledání', searching: 'Povodok 1 volá, nová jednotka odpoví ve svém okně',
+        fhead: ['čip', 'signál', 'slyšet', 'číslo'], ago: 's',
+        fbtns: ['Hledat znovu', 'Do sady'],
+        fnote: 'Bělka na kabelu dostane sadu rychleji: soubor STRELKA.SET na jejím disku.',
+        tpl: 'Šablona: kůň', thead: ['kód', 'místo', 'dvojice'],
+        tnote: 'Kódy v záznamu anglicky, v každém jazyce; jednotce se místo přiřadí dotykem.',
+        fw: 'Firmware: 0.8.1 podepsaný, připravený', fwhead: ['jednotka', 'teď', '', 'stav'],
+        fwst: ['hotovo ✓', 'přijímá', 'čeká', 'vypnutá: později'], fwbtns: ['Aktualizovat vše'],
+        fwnote: 'Přes Povodok 1 po SMP, jedna jednotka po druhé; vypnutá ho dostane, až se zapne.',
+        meas: 'Měření a kalibrace',
+        mrows: [['platnost kalibrace', '30 dní'], ['teplota jiná než při kalibraci o', '10 °C'],
+                ['okno křivek', '5 s'], ['čísla za posledních', '10 kroků'],
+                ['ztráta spojení po', '3 s'], ['výkon vysílače', '+5 dBm'],
+                ['světlo při měření', 'normálně']],
+        mnote: ['Mění se jen mimo měření, nikdy když sada nahrává.',
+                'Pevně: napětí článku, heslo 12 znaků, magnety, časování rádia.'] },
+});
+chrome({ title: T.title, right: T.right, menu: 5 });
+const LANGS = ['English', 'Čeština', 'Русский', 'Español', 'Português (Brasil)', 'Deutsch', 'Français'];
+const sel = { a: 0, b: 10, c: 4, d: 5, e: 8, f: 6 }[SCREEN];
+const P = pick(PLACES);
+const right = {
+  a: [T.lang, LANGS.map((l, i) => `<div class="radio${i === (LANG === 'cs' ? 1 : 0) ? ' on' : ''}">`
+        + `${i === (LANG === 'cs' ? 1 : 0) ? '(•)' : '( )'} ${l}</div>`).join('')
+        + `<div class="note" style="margin-top:20px">${T.langnote}</div>`],
+  b: [T.about, `<div style="font-size:36px;color:#ffffff;margin:10px 0 24px">Pušinka 0.1 · NIC-Strelka 0.85</div>
+        <img class="photo" src="../../pictures/pusinka.jpg"/><div class="note">${T.photo}</div>
+        <div class="note" style="margin-top:20px">${T.aboutnote}</div>`],
+  c: [T.search, `<div class="good" style="margin-bottom:12px">● ${T.searching}</div>
+        <table class="r" style="font-size:27px"><tr>${T.fhead.map(h => `<th>${h}</th>`).join('')}</tr>
+        ${[['7C1E 09A4 55D2 31F0', -52, 2, 13], ['7C1E 09A4 61B8 0E27', -58, 5, 14], ['7C1E 0A11 2C40 9D53', -71, 9, 15]]
+          .map(([c, r, a, n]) => `<tr><td class="w">${c}</td><td class="${r <= -70 ? 'warn' : 'good'}">${r} dBm</td>
+          <td class="k">${a} ${T.ago}</td><td><span class="box">${n}</span></td></tr>`).join('')}</table>
+        <div class="btns"><div class="btn">${T.fbtns[0]}</div><div class="btn go">${T.fbtns[1]}</div></div>
+        <div class="note" style="margin-top:18px">${T.fnote}</div>`],
+  d: [T.tpl, `<table class="r" style="font-size:27px"><tr>${T.thead.map(h => `<th>${h}</th>`).join('')}</tr>
+        ${[['lf', 'rf'], ['rf', 'lf'], ['lh', 'rh'], ['rh', 'lh'], ['head', ''], ['withers', ''], ['pelvis', ''],
+           ['lumbar', ''], ['thoracic', '']].map(([k, pair]) => `<tr><td class="v" style="font-weight:bold">${P[k][0]}</td>
+          <td class="w">${P[k][1]}</td><td class="k">${pair ? '↔ ' + P[pair][0] : ''}</td></tr>`).join('')}</table>
+        <div class="note" style="margin-top:18px">${T.tnote}</div>`],
+  e: [T.fw, `<table class="r" style="font-size:26px"><tr>${T.fwhead.map(h => `<th>${h}</th>`).join('')}</tr>
+        ${[['P1', 0, 100], ['P2', 0, 100], ['P3', 0, 100], ['B1', 0, 100], ['B2', 0, 100], ['B3', 1, 45],
+           ['B4', 2, 0], ['K7', 2, 0], ['B13', 3, 0]].map(([u, s, pct]) => `<tr><td class="v" style="font-weight:bold">${u}</td>
+          <td class="w">${s === 0 ? '0.8.1' : '0.8.0'}</td><td><div class="bar"><i style="width:${pct}%"></i></div></td>
+          <td class="${s === 0 ? 'good' : s === 1 ? 'v' : s === 3 ? 'note' : 'w'}">${T.fwst[s]}</td></tr>`).join('')}</table>
+        <div class="btns"><div class="btn go">${T.fwbtns[0]}</div></div>
+        <div class="note" style="margin-top:18px">${T.fwnote}</div>`],
+  f: [T.meas, `<table class="r" style="font-size:28px">${T.mrows.map(([k, v], i) =>
+          `<tr class="${i === 0 ? 'sel' : ''}"><td class="${i === 0 ? '' : 'k'}">${k}</td>
+           <td class="${i === 0 ? '' : 'v'}">◄ ${v} ►</td></tr>`).join('')}</table>
+        <div class="note" style="margin-top:22px">${T.mnote.join('<br>')}</div>`],
+}[SCREEN];
+$('main').innerHTML = `
+  <div class="panel" style="width:860px"><div class="cap">${T.list}</div>
+    <table style="font-size:30px">${T.items.map(([k, v], i) =>
+      `<tr class="${i === sel ? 'sel' : ''}"><td class="${i === sel ? '' : 'k'}">${k}</td>
+       <td class="${i === sel ? '' : 'v'}">${v}</td></tr>`).join('')}</table>
+  </div>
+  <div class="panel active" style="flex:1"><div class="cap">${right[0]}</div>${right[1]}</div>`;
+</script>
+</body>
+</html>

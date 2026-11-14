@@ -1,0 +1,110 @@
+<!doctype html>
+<!-- Pušinka's overview, a sketch at 1920 × 1080, landscape (APP.md, The menus, 1; What it must
+     do, 2): the Povodoks on the left, every unit of the set on the right, on or off, its cell, its
+     card, its signal, its clock and its fault. An idea, not the finished look; the figures are
+     made up. ?lang=en or cs the texts' table; render.js makes the pictures. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Pušinka, overview</title>
+<link rel="stylesheet" href="common.css">
+<style>
+  .main { top: 126px; }
+  td, th { padding: 6px 8px; white-space: nowrap; }
+  .dim td { color: var(--lgrey); }
+  .ok { color: var(--lgreen); }
+</style>
+</head>
+<body>
+<div class="status"><span>12:41</span><span>Wi-Fi 5 GHz · 87 %</span></div>
+<div class="title"><b id="ttl"></b><span id="tright"></span></div>
+<div class="main" id="main"></div>
+<div class="keys" id="keys"></div>
+<script>
+const TEXTS = {
+  en: {
+    title: 'Pušinka · Overview · Set 0042', right: 'channel 20 · spare 7 · Povodok 1 ●',
+    menu: ['Overview', 'Calibration', 'Measurement', 'Data', 'Diagnostics', 'Settings'],
+    povodoks: 'Povodoks', units: 'Units: 13 in the set, 12 on',
+    phead: ['', 'state', 'cell', 'signal'],
+    pstate: ['first, to the phone', 'joined, Wi-Fi', 'heard', 'not heard'],
+    head: ['code', 'unit', 'state', 'cell', '°C', 'card', 'signal', 'clock', 'fault'],
+    st: { wait: 'waiting', off: 'off' }, flash: 'flash', nocal: 'no calibration',
+    cardlow: 'card nearly full', offago: 'off, 3 h ago',
+    note: 'A unit\'s state once a minute, its fault at once. Touch a row: the unit\'s own page.',
+    places: { head: 'HD', withers: 'WI', pelvis: 'PE', lumbar: 'LS', thoracic: 'TS', lf: 'LF',
+              rf: 'RF', lh: 'LH', rh: 'RH' },
+    setline: 'The set: Bára, horse · template horse, English',
+  },
+  cs: {
+    title: 'Pušinka · Přehled · Sada 0042', right: 'kanál 20 · náhradní 7 · Povodok 1 ●',
+    menu: ['Přehled', 'Kalibrace', 'Měření', 'Data', 'Diagnostika', 'Nastavení'],
+    povodoks: 'Povodoky', units: 'Jednotky: 13 v sadě, 12 zapnutých',
+    phead: ['', 'stav', 'baterie', 'signál'],
+    pstate: ['první, k telefonu', 'připojený, Wi-Fi', 'slyšet', 'neslyšet'],
+    head: ['kód', 'jednotka', 'stav', 'baterie', '°C', 'karta', 'signál', 'hodiny', 'porucha'],
+    st: { wait: 'čeká', off: 'vypnutá' }, flash: 'flash', nocal: 'bez kalibrace',
+    cardlow: 'karta skoro plná', offago: 'vypnutá před 3 h',
+    note: 'Stav jednotky jednou za minutu, porucha hned. Ťukni na řádek: stránka jednotky.',
+    places: { head: 'HL', withers: 'KO', pelvis: 'ZA', lumbar: 'BP', thoracic: 'HP', lf: 'LP',
+              rf: 'PP', lh: 'LZ', rh: 'PZ' },
+    setline: 'Sada: Bára, kůň · šablona kůň, česky',
+  },
+};
+const q = new URLSearchParams(location.search);
+const T = TEXTS[q.get('lang')] || TEXTS.en;
+document.documentElement.lang = q.get('lang') || 'en';
+const $ = id => document.getElementById(id);
+
+$('ttl').textContent = T.title;
+$('tright').textContent = T.right;
+$('keys').innerHTML = T.menu.map((t, i) =>
+  `<div class="key${i === 0 ? ' cur' : ''}"><b>${i + 1}</b><span>${t}</span></div>`).join('');
+
+// the Povodoks: number, state, cell, signal as this phone's Povodok hears it
+const povodoks = [[1, 0, '92 %', '—'], [2, 1, '88 %', '−55 dBm'], [3, 2, '74 %', '−68 dBm'], [4, 3, '', '']];
+// the units: place, kind and number, state, cell, temperature, card, signal, clock, fault
+const units = [
+  ['head', 'B1', 'wait', 87, 23.4, '61 %', -61, true, ''],
+  ['withers', 'B2', 'wait', 85, 23.1, '58 %', -63, true, ''],
+  ['pelvis', 'B3', 'wait', 90, 23.6, '64 %', -58, true, ''],
+  ['lumbar', 'B4', 'wait', 82, 23.0, '60 %', -66, true, ''],
+  ['thoracic', 'B5', 'wait', 88, 23.3, '63 %', -60, true, ''],
+  [null, 'B6', 'wait', 84, 22.9, '71 %', -62, true, 'nocal'],
+  ['lf', 'K7', 'wait', 79, 24.1, 'flash 40 %', -64, true, ''],
+  ['rf', 'K8', 'wait', 81, 24.0, 'flash 41 %', -62, true, ''],
+  ['lh', 'K9', 'wait', 77, 24.4, 'flash 38 %', -70, true, ''],
+  [null, 'K10', 'wait', 83, 23.8, 'flash 45 %', -65, true, ''],
+  ['rh', 'Z11', 'wait', 92, 22.7, '66 %', -59, true, ''],
+  [null, 'Z12', 'wait', 91, 22.8, '4 %', -61, true, 'cardlow'],
+  [null, 'B13', 'off', null, null, '', null, false, 'offago'],
+];
+
+$('main').innerHTML = `
+  <div class="panel" style="width:690px"><div class="cap">${T.povodoks}</div>
+    <table style="font-size:26px"><tr>${T.phead.map((h, i) => `<th${i > 1 ? ' class="num"' : ''}>${h}</th>`).join('')}</tr>
+    ${povodoks.map(([n, s, cell, sig]) => `<tr class="${s === 3 ? 'dim' : ''}">
+      <td class="v" style="font-size:36px;font-weight:bold">P${n}</td>
+      <td class="${s === 0 ? 'ok' : s === 3 ? '' : 'w'}">${T.pstate[s]}</td>
+      <td class="num w">${cell}</td><td class="num ${sig.startsWith('−6') ? 'warn' : 'good'}">${sig}</td></tr>`).join('')}
+    </table>
+    <div class="note" style="margin-top:28px">${T.setline}</div>
+  </div>
+  <div class="panel active" style="flex:1"><div class="cap">${T.units}</div>
+    <table style="font-size:25px"><tr>${T.head.map((h, i) =>
+      `<th${i >= 3 && i <= 6 ? ' class="num"' : ''}>${h}</th>`).join('')}</tr>
+    ${units.map(([pl, n, st, cell, temp, card, sig, clock, fault]) => `<tr class="${st === 'off' ? 'dim' : ''}">
+      <td class="v" style="font-weight:bold">${pl ? T.places[pl] : '--'}</td><td class="w">${n}</td>
+      <td class="${st === 'off' ? '' : 'w'}">${T.st[st]}</td>
+      <td class="num w">${cell === null ? '' : cell + ' %'}</td>
+      <td class="num w">${temp === null ? '' : temp.toFixed(1)}</td>
+      <td class="num ${fault === 'cardlow' ? 'bad' : 'w'}">${card.replace('flash', T.flash)}</td>
+      <td class="num ${sig === null ? '' : sig <= -70 ? 'warn' : 'good'}">${sig === null ? '' : sig + ' dBm'}</td>
+      <td class="${clock ? 'ok' : ''}">${clock ? '✓' : ''}</td>
+      <td class="${fault === 'cardlow' ? 'bad' : fault === 'nocal' ? 'warn' : ''}">${fault ? T[fault] : ''}</td></tr>`).join('')}
+    </table>
+    <div class="note" style="margin-top:12px">${T.note}</div>
+  </div>`;
+</script>
+</body>
+</html>

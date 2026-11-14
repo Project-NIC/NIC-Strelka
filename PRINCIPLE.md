@@ -1,0 +1,618 @@
+<div align="center">
+
+# The principle
+
+**Each block's physics and a rough calculation.**
+
+↑ [NIC-Strelka](README.md)
+
+</div>
+
+---
+
+Every figure in a table here is computed by a script in [`calc/`](calc/) from the inputs in
+[`calc/params.py`](calc/params.py), each with its source or marked as assumed;
+`python3 calc/check.py --write` writes the tables, `python3 calc/check.py` checks that they still
+match. No part is chosen on this page.
+
+## The inside link — the Povodoks' SYNCs, the Belkas' slots
+
+**The set's rules, first:**
+
+- **A set** is one Povodok, or up to four for the reach, and at most 63 units together, of any
+  kinds — Belkas, Kryskas, Zvjozdočkas — in any mix; 32 on one animal as the design has it
+  ([`README.md`](README.md)).
+- **Each unit has a number, 1–63, its own alone in the set whatever its kind**, given once at its
+  pairing — by its cable or by the search — and kept: B1 and K1 are never in one set. A number
+  another chip holds is refused (64/13).
+- **The number is the unit's slot** in every period. Switched on in any order and at any time, a
+  unit finds the set, takes the set's time from the first SYNC and sends in its own slot; nothing
+  is handed out as units come, nothing rearranged as they come or go.
+- **A Povodok takes the set's time from the lowest number it hears**, not from the first alone: the
+  second from the first, the third from the second where the first is hidden from it, and so on
+  down. So the Povodoks stand where each hears a lower number — one overhead and the others round
+  it, each hearing every other, an animal in the way hiding one or another for a moment. One that
+  hears no lower number for five seconds stands as a first of its own, its Belkas going by its
+  clock. Every SYNC names the first its time comes from — the first's its own number, a repeating
+  Povodok's in its who — and whoever hears two firsts' SYNCs, a Belka or a Povodok, takes the lower
+  first's: a Belka takes nothing from a higher first until five seconds have passed without the
+  lower, so that two firsts are never mixed in one unit's time.
+- **The set works on one channel at a time**: chosen at its making, the quietest offered from the
+  map of the band; moved by the first Povodok on its own when the margin falls and another channel
+  is quieter, or at the application's word at rest (64/24). Two sets side by side keep apart by
+  their channels; one measurement is one set's.
+
+Strelka's own frame carries the small things alone, in six packets. The settings, the commands,
+the download and the firmware go by the maker's own, ESB with SMP on it (*The download*, below),
+and so does the taking of a new Belka — its number, the set's address and key.
+
+| the packet | what | sent by | when |
+|---|---|---|---|
+| **SYNC** | the set's time and state | a Povodok | at each period's start, in its fixed slot |
+| **LIVE** | the steps and the Belka's state | a Belka | in its slot, every period |
+| **MISS** | "these I missed", the Belkas the first Povodok did not hear in the period | the first Povodok | after the slots |
+| **PASS** | the missed Belkas' LIVEs, handed to the first Povodok | the other Povodoks | each in its window after the MISS |
+| **CALL** | "is a new Belka here?" | a Povodok | searching for new Belkas |
+| **HERE** | "here I am", the new Belka's chip ID | a new Belka | in its window after a CALL |
+
+Every packet has one shape, in bytes:
+
+```
+preamble 2 | address 4 | who 1 | length 1 | S0 1 | period 4 | state 2 | body | CRC 3
+```
+
+| the field | what |
+|---|---|
+| preamble | 0xAAAA or 0x5555, the radio's own, two bytes with PCNF0.PLEN set to 16 bits — at 2 Mbit/s the radio's default is 8 bits |
+| address | the set's, heard by the set alone — the radio's base of 3 B and its prefix; or the search's, 0x52E6B438, the same in every firmware, for a new Belka |
+| who | bits 7–6 the sender, 0 a Povodok, 1 a Povodok repeating, in its SYNC alone, 2 a Belka, 3 free; bits 5–0 a Belka's number, 1–63, 0 a new Belka; a Povodok's in bits 1–0, 0–3, and in the first Povodok's SYNC bits 5–2 the flight to Povodok k, the period's number mod 4 being k, in ticks of 62,5 ns, 0 not yet measured (*The clock loop*); in a repeating Povodok's SYNC bits 3–2 the first its time comes from, a lower number than its own, bits 5–4 zero; zeros in a Povodok's other packets; the radio's S0 field |
+| length | the period, the state and the body, 255 B at most, so that the radio finds the CRC; the radio's LENGTH field |
+| S0 | what the packet carries, two nibbles, below; the radio's S1 field, 8 bits |
+| period | the period's number, the set's common time, the same 4 B the record carries — 2,7 years of periods before it wraps |
+| state | from a Povodok the set's, from a Belka its own, below |
+| body | by the packet, below |
+| CRC | the radio's |
+
+| S0 | the high nibble | the low nibble |
+|---|---|---|
+| from a Povodok | the live view: 0 off, 1–2 quaternions at 50, 100 Hz, 4–5 raw at 50, 100 Hz; 15 (0xF) a CALL, 14 (0xE) a MISS, 12 (0xC) a PASS | the item of the Belkas' state asked; in a CALL, the attempt, 0–15; in a MISS or a PASS, 0 |
+| from a Belka | its steps: 0 none, 1–2 quaternions, 4–5 raw, as above, 3 and 6 the raw at 50 and 100 Hz whose accelerometer is the high-g channel's; 13 (0xD) a HERE | the item its state carries |
+
+**The set's state**, in a SYNC: the record and the move the first Povodok's, the margin, the
+measurement and bit 13 the sending Povodok's own, bit 14 set by any with a frame waiting and
+repeated by every one that hears it. Its bits read two ways, by the move: in an even period the
+spare channel and the margin, in an odd one the Povodok's measurement, and during a move the move.
+
+| bits | the move 0, 1, 2 | the move 3, the measurement |
+|---|---|---|
+| 15 | the record: 1 runs, 0 not | the record |
+| 14 | ESB: a frame waits for a Belka, the SYNCs to pause for it (*The download*) | the same |
+| 13 | the sender joined to the phone, downloading on a channel of its own | the same |
+| 12–8 | the margin: the Belkas' signals over the channel's noise at this Povodok, 0–31 by 2 dB | the noise on the channel measured, −100 to −38 dBm by 2 dB |
+| 7–6 | the move: 0 none, 2 in two periods, 1 the next period | 3 |
+| 5–0 | the spare channel, 0–38, where a move goes; with bit 14, the sender's channel on ESB | the channel measured, 0–39 |
+
+**A Belka's state**, in its LIVE: one item a period, the one the SYNC's S0 asks, named in the LIVE's
+own S0. The SYNC asks item 8 in every other period the Belkas send in, and items 1–7 in turn
+between: the first Povodok holds every Belka's whole state in some 14 s with the live view off, a
+LIVE a second, and several times a second with it on, and the channels' measurements from the
+Belkas at half that pace (*The channels*, below); the two bytes are there in every LIVE, whatever
+is asked. Trouble first: a Belka whose state or fault changes sends item 6 in its next
+LIVE, whatever is asked.
+
+| item | the state's 2 B |
+|---|---|
+| 0 | nothing, zeros |
+| 1 | the cell u8, %; the temperature i8, °C |
+| 2 | the cell u16, mV |
+| 3 | the card's free room u8, %; the blocks dropped u8 |
+| 4 | the SYNCs' mean signal i8, dBm; the SYNCs missed in the last second u8 |
+| 5 | the clock's offset i16, ns |
+| 6 | the state u8; the fault u8, below |
+| 7 | the steps out of range since the start: the accelerometer's u8, the gyro's u8 |
+| 8 | the channel measured, bits 5–0, 0–39, and the Povodok it downloads with, bits 7–6 (*The download*); its noise i8, dBm |
+| 9–15 | free |
+
+| the state | | the fault | |
+|---|---|---|---|
+| 0 | recording, all well | 0 | none |
+| 1 | recording without a SYNC, on its own clock | 1 | no card |
+| 2 | recording, looking for the set's channel | 2 | the card full |
+| 3 | paused after ten seconds without a SYNC, listening | 3 | a write failed |
+| 4 | in the set, waiting | 4 | the card's file system unreadable |
+| 5 | calibrating | 5 | blocks dropped |
+| 6 | giving its record | 6 | the sensor silent |
+| 7 | taking a firmware | 7 | the sensor's clock not steered, the fallback running |
+| 8 | erasing or formatting the card | 8 | the cell under 20 % |
+| | | 9 | the charger's fault |
+| | | 10 | the PMIC silent |
+| | | 11 | no calibration |
+| | | 12 | the last session's settings refused, no record until a good one ([`COMMANDS.md`](COMMANDS.md), 64/1) |
+
+<!-- calc:radio-packets -->
+| the packet | its state | its body | all |
+|---|---|---|---|
+| SYNC | the set's | a signature of 4 B | 22 B |
+| LIVE | the Belka's | the steps of the last whole period, 0–24 B | 18–42 B |
+| MISS | the set's | a bit for each Belka missed, 8 B | 26 B |
+| PASS | the set's | each missed Belka's number, S0, state and steps, up to 28 B a Belka, 249 B at most | up to 267 B |
+| CALL | a SYNC's, a new Belka not reading it | a SYNC's | 22 B |
+| HERE | 0 | the chip's ID, 8 B | 26 B |
+<!-- /calc -->
+
+**The SYNC's signature** is AES-CCM's tag of 4 B with the set's key over the packet's head, who to
+the state, the nonce the set's address, who, the period, S0 and three zeros, 13 B — the fragment's
+nonce with the period in the count's place and no receiver, the SYNC being everyone's
+([`COMMANDS.md`](COMMANDS.md), *The frame over ESB*); a Belka drops a SYNC whose signature fails, so
+that no one forges the set's time or its state.
+
+**A period of 20 ms, the SYNCs first.** Up to four Povodoks stand round the animal, each sending its
+SYNC in a fixed slot of its own at the period's start — four slots always, a missing Povodok's
+silent. The first Povodok's clock is the set's; the others lock on its SYNC and send theirs from
+their own clocks, the content the first one's, a period later; what the first sends to the Belkas,
+the others repeat in their own slots. **At rest**, nothing recorded and the live view off, the
+Belkas asleep, the SYNCs go in the state's period alone, once a second, and in the periods of a
+move, the others' too, each in its slot with the first's last content; a Belka counts a SYNC missed
+only where one comes. Each sends its SYNC as one repeating, the first its time comes from named in
+it; of two lower numbers heard in a period the one with the lower first is taken. A Povodok that has
+heard a lower number and hears none sends no SYNC, holding the set's time on its own clock; after
+five seconds without one, the lowest number left takes over — a first hidden a moment is not a first
+gone, and five seconds lie under the ten that pause a Belka's record. At the switching on a Povodok
+listens a second, three at rest, before its first SYNC, taking the set's time and state from whoever
+sends them, so that the lowest number present stands up as the first and a Povodok coming back does
+not break the set's time. **The record is a state**, sent in every SYNC, not a command — a Belka
+records from the period after the first SYNC heard saying it runs, and stops after five heard saying
+it does not, or after ten seconds with none. A Belka a period early or late lines up all the same,
+by the period number in its blocks. After the SYNCs come the Belkas' slots, then the MISS and the
+PASSes (*The first Povodok gathers the set*, below), and at the period's end every Povodok measures
+a channel (*The channels*, below).
+
+<!-- calc:radio-syncs -->
+A SYNC is 22 B, its signature of 4 B among them, 88 µs on the air; with 50 µs to turn from receiving
+to sending, Povodok k sends at 30 + k × 138 µs, and the guard and the slots of 4 Povodoks take 582
+µs of the 20 ms period.
+<!-- /calc -->
+
+**The channels.** The band holds 40 channels, 2402–2480 MHz by 2 MHz, as wide as a packet at 2
+Mbit/s takes, numbered 0–39; the set works on one of the first 39, the last, 2480 MHz, the search's
+alone (*The search for new Belkas*, below). Everyone measures the set's 39, the search's left out.
+Every Belka measures one more in each period, outside its slot and the SYNCs — its number and the
+period's, modulo 39 — and sends the channel and its noise as an item of its state. Every Povodok
+measures one at the period's end, going through the 39 in turn from ten times its number, and sends
+it in its next odd period's SYNC. A measurement is told in every other period, and once in a hundred
+at rest; 39 being odd, every channel is told all the same. No one changes anything on its own: the
+first Povodok keeps the map — its own measurements, the other Povodoks' and their margins from their
+SYNCs, the Belkas' from their LIVEs and the PASSes — and decides alone, the phone only showing it.
+It names a spare channel in the SYNC — the channel with the least noise anyone measured, neither the
+set's nor the search's — and moves the set to it before the losses come, when the margin at any
+Povodok has stood under 10 dB for a second and the spare was measured quieter than the set's own
+channel by 6 dB or more — a margin low because the units are far finds the two alike, and the set
+stays; the move counted down in the state, 2 and then 1, so that every Belka moves in the same
+period, having heard it in any of eight SYNCs, four Povodoks' in two periods — at rest the 2 said in
+a state's period, so that the Belkas asleep hear it and stay awake for the move; a new spare is
+named after. A Belka that heard none of them, hearing no SYNC after the move, looks for the set on
+the spare channel every other period; failing that, after a second without a SYNC, it listens a
+period on each of the set's other channels in turn, the set's own between each — where another
+Povodok stands up as the first after five seconds — its clock and its record running on meanwhile; a
+Povodok that lost the first tries the spare the same way, and takes over on the set's channel after
+the five seconds. At rest a Belka goes by the state's periods: a SYNC missed there is a second's,
+the set's own heard again in the next, the spare after two missed, the other channels after four,
+one a state's period, the own between, asleep in the periods between; a Belka that never had the
+set's time listens a second on its own channel, then a second on the others, a period each:
+
+<!-- calc:radio-channels -->
+32 Belkas, each measuring a channel a period, go through the set's 39 in 2 periods, 40 ms; a Belka
+that lost the set listens a period on each of the set's other 38, the set's own between each, all in
+1,5 s.
+<!-- /calc -->
+
+**A Belka takes its time from any SYNC it hears**, of the lowest first it has heard in the last five
+seconds — the SYNC names its Povodok, so the Belka knows where the period began — and needs one now
+and then, its clock holding between (*The clock loop*, below). It sends its LIVE in its own slot, by
+its number from the taking, in every period, a SYNC heard or not: its clock holds the slot, and a
+Povodok may hear the Belka when the Belka does not hear it. No Belka relays anything and none sends
+again: what no Povodok hears lies in the Belka's memory and comes afterwards, on the table. Ten
+seconds without a SYNC stop the record, a setting, and the Belka's sending; it listens on, and a
+SYNC saying the record runs takes it up again in the same session. Ten seconds leave its clock
+within microseconds of the set's (*The clock loop*), far inside the 36 µs between two slots.
+
+**The LIVE**'s body is the steps of the last whole period, 1 or 2 at 50 or 100 Hz, each a quaternion
+of 4 B or a raw step of 12 B; with the live view off, the Belka's state alone. Both come of the step
+calibrated: the Belka puts every step into the sensor's own steps as an ideal sensor would give it,
+by the calibration it keeps, and turns the quaternion and sends the raw step from that, while the
+record keeps the step as the sensor gave it — the live view is the Belka's own view, the record the
+original. Where the session keeps both of the hoof's accelerometer channels, the raw steps' three
+come from the low-g, and in a period the low-g clipped in from the high-g, the whole period's steps
+the same channel, its S0 then 3 or 6 in the place of 4 or 5: a hoof's strike is seen whole, at the
+high-g's step, the radio the same. The quaternion is "the smallest three": the largest of its four
+components, kept positive, is named by 2 bits and left out, the other three go in 10 bits each,
+±1/√2 as ±511, an error under 0,2° a component. **The slots are fixed:** slot k for the Belka
+numbered k, 1–63, a missing number's slot silent — nothing compacted, nothing sent to the Belkas to
+set it — and every slot as long as the longest LIVE, so that nothing moves when the live view
+changes:
+
+<!-- calc:radio-live -->
+| the live view a Belka | its packet | on the air |
+|---|---|---|
+| the state alone | 18 B | 72 µs |
+| quaternions 50 Hz | 22 B | 88 µs |
+| quaternions 100 Hz | 26 B | 104 µs |
+| raw 50 Hz | 30 B | 120 µs |
+| raw 100 Hz | 42 B | 168 µs |
+<!-- /calc -->
+
+<!-- calc:radio-slots -->
+Every slot is 204 µs: the raw steps at 100 Hz, 42 B and 168 µs on the air, and the gap of 36 µs; a
+shorter packet goes in the same slot. The SYNCs and 63 slots take 13,4 ms of the 20 ms period,
+whatever the live view; 95 slots would fit.
+<!-- /calc -->
+
+**The first Povodok gathers the set.** After the slots it sends the MISS, a bit for each Belka it
+did not hear; the other Povodoks then PASS it those they heard, in fixed windows by their numbers,
+each Belka's number, its LIVE's S0, its state and its steps, a Povodok listening to the windows
+before its own and leaving out what was passed already. The first keeps one LIVE of each Belka and
+period and passes the set on to the phone or the computer, which joins it alone — by USB or Wi-Fi,
+one address, any phone. A Povodok the first does not hear passes it nothing, as it gives it no SYNC;
+three Povodoks round the animal, up to 30 m apart, hear each other in the open and every Belka from
+one side or another, the measurement deciding (*The reach*, below); four are the most:
+
+<!-- calc:radio-pass -->
+After the 63 slots, the MISS takes 154 µs; the 3 other Povodoks then have 2,07 ms each and the
+measurement the period's last 0,2 ms. A Povodok passes 16 missed Belkas in its window at raw 100 Hz,
+28 B each, 38 as quaternions: three Povodoks besides the first pass 48 a period, two 32 — every one
+of 32 Belkas even when the first hears none. The MISS and the PASSes take some 6,4 ms of every 20.
+<!-- /calc -->
+
+It is little to pass on:
+
+<!-- calc:radio-out -->
+Out of Povodok, 32 Belkas at 100 Hz send 13 kB/s as quaternions and 38 kB/s raw, 0,31 Mbit/s — under
+a hundredth of the Wi-Fi's 86 Mbit/s on the air and of USB's 480 Mbit/s.
+<!-- /calc -->
+
+**The three ways of gathering**, one firmware for all, the application
+choosing by the session's `net` ([`COMMANDS.md`](COMMANDS.md), 64/1):
+
+| | the Povodoks | to the phone or the computer | the Belkas' data between the Povodoks | where |
+|---|---|---|---|---|
+| **1. by the set's radio** | one to four | the first alone, by USB or 5 GHz Wi-Fi | the MISS and the PASSes on the set's radio, above | the field, the animal moving, the phone at hand |
+| **2. one station** | one | that one | none: it hears every Belka itself | a stable, a Povodok on the ceiling over up to 63 Belkas — a herd's cows watched for heat |
+| **3. by the network** | one to four | every one, each on one 5 GHz network: a phone's hotspot, the stable's or the clinic's Wi-Fi | none on the radio: each sends the application what it heard itself | Povodoks hung for good, a network at hand |
+
+The second is the first with no other Povodok: its MISS names Belkas no one passes, and the windows
+stay quiet. In the third the first sends no MISS, so no PASS is sent; the set's radio carries the
+SYNCs and the Belkas' slots alone, and what the MISS and the PASSes take of every period (above) is
+free — for the download's ESB. Each Povodok sends its own live view's messages, an entry under its
+own number, and the application joins them by the Belka's number and the period, keeping one of
+each; its commands still go to the first. A Povodok that does not reach the network is missing from
+the live view alone: every record is whole on its Belka's card.
+
+**The search for new Belkas.** A Belka new or after its factory settings listens on 2480 MHz and the
+search's address, fixed in the firmware; Povodok, searching, sends its CALL there in every period
+but the state's, once a second, where its SYNC goes out on the set's channel as ever, so that the
+set's own units are not left without one; the attempt, 0–15, in the CALL's S0. The Belka draws a
+number from its chip's ID and the attempt — the low 16 bits of SplitMix64's number attempt + 1, the
+ID its seed, the generator's own gamma; a CRC, being linear, would give two IDs that drew one number
+together the same number at every attempt — which names a period of the round and a window in it,
+and sends its HERE in that window, counted from the CALL's arrival, as TDMA has it; on 2480 MHz,
+which no set works on, it meets no set's packets. Two drawing the same number collide, and one whose
+period is a state's hears no CALL in it; Povodok raises the attempt and they draw again. Then
+Povodok writes the found Belka its number, the set's address, key and channel by SMP, and it moves
+to them. The other way, the usual one on the table, gives a Belka its set by its cable, a file on
+its disk, and a Povodok by its own link ([`FIRMWARE.md`](FIRMWARE.md), *What a unit keeps*).
+
+<!-- calc:radio-search -->
+A HERE is 26 B, its chip's ID whole; with the gap a window of 140 µs, 138 after the CALL in a
+period, so that its number, one of 65 536, falls in one of 475 periods: every new Belka is heard
+once in 9,5 s. Two of 32 draw the same number 0,8 % of the time, and draw again.
+<!-- /calc -->
+
+From the nRF54LM20A's sheet (datasheet v1.0): 2 Mbit/s on air; the packet's fields in the order the
+radio sends them, S0, LENGTH, S1, the address a base and a prefix (8.17.1, 8.17.2); from receiving
+to sending 50 µs, the receiver off in 1 µs and the fast ramp-up 40 µs (11.14.8), the rest a margin.
+The packet's shape, the guard and the slots' gap are the design's (`calc/params.py`). The search's
+draw is SplitMix64's — the mixing function and the golden-ratio gamma of Steele, Lea and Flood,
+"Fast splittable pseudorandom number generators", OOPSLA 2014, as Java's SplittableRandom carries
+them.
+
+## The memory — the user's card
+
+The record goes to the user's own microSD card in SPI mode, a block of 512 B to a sector, written
+in runs; the card keeps its own wear and its bad blocks. The table counts a card of 8 GB; SPI mode
+reads a card of up to 2 TB (the SD Association's Physical Layer Simplified Specification 9.10, 3),
+and a card twice the size holds twice as long.
+
+<!-- calc:memory-files -->
+Each session is a file on the card's own file system: FAT32 on a card of up to 32 GB and exFAT
+above, as the SD standard has them formatted, both read by FatFs in Zephyr; named by the session's
+number and the Belka's. A file stops under 2 GiB and the record goes on in its next part
+([`RECORD.md`](RECORD.md), *The file*): a part holds 1,1 h of the raw 32 kHz, and any examination at
+the lower rates; its room is taken in one run at the start and its length saved every 3 s, so that a
+power cut loses 3 s at most. The card is formatted only at the application's word.
+<!-- /calc -->
+
+<!-- calc:memory-hold -->
+| into memory | 8 GB holds |
+|---|---|
+| 50 Hz | 109 days |
+| 100 Hz | 54 days |
+| 200 Hz | 27 days |
+| 400 Hz | 14 days |
+| 500 Hz | 11 days |
+| 1 kHz | 5,4 days |
+| 2 kHz | 2,7 days |
+| 4 kHz, raw | 32,6 h |
+| 8 kHz, raw | 16,3 h |
+| 16 kHz, raw | 8,1 h |
+| 32 kHz, raw | 4,1 h |
+<!-- /calc -->
+
+<!-- calc:memory-rate -->
+The card's bus, 8 MHz, carries some 1,0 MB/s against the record's 546 kB/s at the sensor's 32 kHz
+raw. The card pauses at the end of a write, busy at most 250 ms for SDHC and 500 ms for SDXC; the
+record waits meanwhile in a buffer of 128 KB of the processor's 512 KB, which bears SDXC's longest
+pause up to some 15 kHz and 240 ms at 32 kHz; a longer pause drops a block, its gap seen in the
+blocks' numbers.
+<!-- /calc -->
+
+The card's bus and its pauses are from ATP's industrial microSD sheet and the SD specification 9.10,
+4.6.2.2; a sustained rate is measured on a built unit with the user's card, not read from the sheet.
+That a file grown as it is written makes a card pause for up to a second now and then, and one laid
+out beforehand for tens of milliseconds, is the loggers' authors' finding
+([SdFat](https://github.com/greiman/SdFat), its Teensy logger; [PJRC's forum,
+2017](https://forum.pjrc.com/threads/45331-uSD-card-write-time-and-coding-around-it)).
+
+<!-- calc:memory-block -->
+A data block is 512 B, a sector of the card: a head of 28 B, 8 B of it free, then 40 steps of 12 B
+and a CRC-32; after every 120 steps, 3 data blocks at any rate, an information block of 512 B, 4 B
+for each step ([`RECORD.md`](RECORD.md)). The heads and the information blocks take 30 % of the
+record at every rate; the tables here count them.
+<!-- /calc -->
+
+## The download
+
+The record stopped, on the table or still on the animal: the Belkas give their records over the
+radio by Nordic's ESB, its own acknowledgements and repeats in the radio, with SMP on it, which asks
+for a file from a given byte ([`COMMANDS.md`](COMMANDS.md)). The SYNCs say it first, bit 14 of the
+set's state for two of the state's periods, so that every Belka hears it, asleep or not; then they
+pause and ESB has the radio whole, every unit kept on it while packets come to it, and 10 s with
+none bring the set back to its SYNCs. Through a long download the first leaves ESB once a minute,
+for two of the state's periods, and sends its SYNC there, so that a unit back on the SYNCs — done,
+or never asked — hears the set and does not switch itself off. The phone asks once, 64/21, and the
+first Povodok goes round the Belkas, a frame from each in turn, passing every one on as it comes by
+USB or Wi-Fi, both far faster than the set's radio, so that the phone writes the set's one file as
+it goes and waits on nothing; one Belka alone, or one after another, is asked the same way. When the
+other Povodoks are joined to the phone too, over Wi-Fi, for the download alone, each says so in its
+SYNC, bit 13, and downloads on a channel of its own, the first on the set's: a Belka takes the one
+she hears best, those within 6 dB of the strongest sharing the Belkas in turn by their numbers, says
+which in her item 8 and goes over to its channel once ESB is said; the phone asks every Povodok for
+the same Belkas, and those that answer one on its channel are its own — for the reach and the pace
+both, four Povodoks downloading four Belkas at once. Or each Belka on its own cable, switched on, is
+a disk; there the card's bus is the limit, USB's 480 Mbit/s far above it. Or the whole set goes into
+the dock, the charging station with a USB hub, every Belka a disk and a computer copying them all at
+once, the hub's share the limit, taken as 35 MB/s, the way of research sensors' docks (APDM's Opal,
+Axivity's AX6).
+
+<!-- calc:download-pace -->
+An ESB packet of 252 B with its acknowledgement and the turns takes 1 188 µs; with the SYNCs paused
+842 go in a second, each carrying 243 B of a frame ([`COMMANDS.md`](COMMANDS.md)), the SMP frames'
+own bytes counted: 198 kB/s from the Belka being asked, a second's worth some 2 minutes of its
+record at 100 Hz; through two to four Povodoks joined to the phone, each on a channel of its own, as
+many times that.
+<!-- /calc -->
+
+ESB's payload of up to 252 B a packet: nRF Connect SDK, Enhanced ShockBurst,
+`CONFIG_ESB_MAX_PAYLOAD_LENGTH`; the packet's head, the acknowledgement and the SMP frames' share
+assumed (`calc/params.py`); the first boards decide.
+
+<!-- calc:download -->
+| the set's record | over the radio, ESB | a Belka on its cable | the set in the dock, at once |
+|---|---|---|---|
+| 32 Belkas × 15 min at 100 Hz, 49 MB | 4 min | 1,5 s | 1,5 s |
+| 32 Belkas × 1 h at 100 Hz, 197 MB | 17 min | 6,1 s | 6,1 s |
+| 32 Belkas × 1 h at 1 kHz, 2,0 GB | 2,8 h | 1 min | 1 min |
+<!-- /calc -->
+
+## The current — rough
+
+A low and a high case from the parts' figures, the radio's share from the timetable above; the
+processor's duty is assumed, and the measurement on a built unit decides. A charge must last 15 min.
+**The memory's share follows the bytes the record writes** (*The memory*, above): the card writes
+while its bus carries them, at 8 Mbit/s, or as long again while it programs them, at an 8 GB card's
+least operating current, 50 mA, to SPI mode's most, 100 mA averaged over a second (ATP's industrial
+microSD sheet, 4.1 and 4.2), and idles between; Kryska's SD NAND the same, on the same bus and for
+the same share of the time, at 15–25 mA, standing at 150–200 µA between (CS's CSNP1GCR01-BOW, V1.1,
+3 and 4). The LDOs pass the current on, so the cell gives what the board draws and a few µA of their
+own (`PARTS.md`, *The supply*); Kryska's buck is taken as one, which errs high by what it gains.
+Kryska's and Povodok's cells are chosen with their boxes, so their hours are given for each 100 and
+1 000 mAh. Povodok's Wi-Fi is counted with its receiver on throughout, the nRF7002's power saving
+left out; on its cable Povodok runs on the cable, its cell resting.
+
+<!-- calc:power -->
+| unit | current, low | current, high | the cell lasts |
+|---|---|---|---|
+| Belka, 100 Hz into its card | 2,6 mA | 5,1 mA | 140 h to 279 h |
+| Belka, 1 kHz into its card | 3,3 mA | 8,2 mA | 88 h to 215 h |
+| Zvjozdočka, 32 kHz raw | 30 mA | 104 mA | 7 h to 24 h |
+| Kryska, 400 Hz into its SD NAND | 2,5 mA | 4,3 mA | 23 h to 39 h for each 100 mAh |
+| Kryska, 2 kHz | 2,9 mA | 5,7 mA | 18 h to 34 h for each 100 mAh |
+| Povodok, Wi-Fi off | 4,7 mA | 6,8 mA | 146 h to 212 h for each 1 000 mAh |
+| Povodok, Wi-Fi on | 61 mA | 64 mA | 16 h for each 1 000 mAh |
+<!-- /calc -->
+
+<!-- calc:power-radio -->
+The Belka's radio, from the timetable, draws 27–216 µA on average; the processor, the card and the
+sensor draw the rest.
+<!-- /calc -->
+
+**Asleep** — the live view off and nothing recorded, the radio awake for one period a second
+([`FIRMWARE.md`](FIRMWARE.md), *The power*):
+
+<!-- calc:power-asleep -->
+Asleep, a Belka draws 22–30 µA: the cell's 720 mAh would last 33 months and more, its own
+self-discharge the limit; the board's LDOs, PMIC and Hall switches 11 µA of it.
+<!-- /calc -->
+
+## The reach — rough
+
+Nothing extra is built for the reach but more Povodoks: up to four round the animal, a Belka heard
+by any of them — no long-range mode, no relays, no stronger radio. A Povodok stands off the
+animal — on a table, a stand, a wall, a ceiling — where it sees the Belkas best, never on it,
+where the animal's own body would hide it from the Belkas on its far side. To the phone
+or the computer, Wi-Fi at 5 GHz or a USB lead: the access point's reach, not the set's.
+
+**The power.** The radio sends +5 dBm by default, under the 10 dBm e.i.r.p. below which the norm for
+the 2,4 GHz band, EN 300 328, asks nothing of a radio's share of the time nor that it listen before
+it sends. The full +8 dBm is a setting, for the far case: the set then keeps the norm's terms for
+equipment that does not adapt — no sequence of sending longer than 10 ms, a gap after each as long
+and 3,5 ms at least, its use of the medium under 10 % — which a measurement's timetable keeps, and a
+download, a Belka sending most of the time, does not: the download goes at the default power alone.
+The channel move is the set's own, against the interference, not the norm's.
+
+<!-- calc:link-power -->
+By default the radio sends +5 dBm, with the BM20F's antenna some +9,2 dBm e.i.r.p., under the 10 dBm
+above which EN 300 328 asks adaptivity or limits on a radio that does not adapt; the budget 96,5 dB
+against −91,5 dBm received. The full +8 dBm, +12,2 dBm e.i.r.p., adds 3 dB. Kryska's BM20M radiates
+some 6 dB less than the BM20F from the same power (+6,65 dBm against +12,61 from +8,37, the BM20C
+specification v1.00, the model summaries), its e.i.r.p. the further under, its reach the shorter;
+the WM02C20C's own is not yet published.
+<!-- /calc -->
+
+<!-- calc:link-mu -->
+At the full power, 17 mW e.i.r.p., a Belka measuring sends 168 µs a period, a duty cycle of 0,84 %
+and a medium utilisation of 0,14 %, and a Povodok 2,16 ms at most, 10,8 % and 1,8 % — under the 10 %
+the norm allows equipment that does not adapt. The norm's test counts a silence under 3,5 ms into
+the sequence, so a Povodok's PASS window and its next SYNC may be one Tx-sequence: the longest the
+third Povodok's, 4,7 ms with what lies between them, under the 10 ms allowed, with the rest of the
+period silent after it; the duty cycles are what the maker declares. A Belka giving its record by
+ESB sends 88 % of the time, 15 %, so a download goes at the default power alone.
+<!-- /calc -->
+
+The loss in free space at 2,44 GHz against the module's budget at 2 Mbit/s and the default power;
+and what is left when a body stands across the path — a person takes up to 40 dB at 2,45 GHz
+([Cotton, McKernan and Scanlon](https://research.ucc.ie/en/publications/received-signal-characteristics-of-outdoor-body-to-body-communica/)),
+and a path straight through a body is lost — about 120 dB over 30 cm, as cited by
+[Wang, Yang, Zhang and Jiang](https://arxiv.org/pdf/1801.09224) — so the wave creeps round it, and
+where it cannot, a Povodok on the other side hears the Belka. A cow's trunk is not measured
+anywhere found; a Belka on a cow decides.
+
+<!-- calc:link -->
+| the link | free space | left of the budget | left behind a body |
+|---|---|---|---|
+| a Belka to a Povodok round a dog, 1 m | 40 dB | 56 dB | 16 dB |
+| a Belka to a Povodok round a cow, 3 m | 50 dB | 47 dB | 7 dB |
+| a Belka to a Povodok on a stable's ceiling, 5 m | 54 dB | 42 dB | 2 dB |
+| a Belka to a Povodok on a stand, a horse trotted away, 30 m | 70 dB | 27 dB | −13 dB |
+<!-- /calc -->
+
+## The clock loop — rough
+
+Every sensor now runs on its own clock at its fastest and the main core filters its samples onto the
+grid by their stamps ([`FIRMWARE.md`](FIRMWARE.md), *The sensor and its clock*); the loop below,
+which steers a sensor's clock to the set's SYNCs, is kept in the code and pin 9 on every board, for
+a sensor that wants it. CLKIN, 32 kHz, is 500 ticks of the 16
+MHz peripheral clock, which the module's 32 MHz crystal drives (nRF54LM20A datasheet v1.0, 3.3); one
+period made a tick longer or shorter, 62,5 ns, moves the grid by that much, so a correction of 30
+ppm is one tick every 67 of CLKIN's periods. The SYNC's arrival is stamped in hardware, a timer
+captured through DPPI; the SYNC names its Povodok, so the Belka takes off that Povodok's place in
+the period. Its error is taken as 0,5 µs, a bit at 2 Mbit/s, the bridge from the radio's domain to
+the timer's some 250 to 500 ns and its variation some 125 ns by Nordic's answer (DevZone 129531), a
+Povodok's own lock on the first's within it; on the nRF52832 a timer captured by PPI at a packet's
+address kept a unit within 1 µs of its master while it heard every sync packet, 30 a second
+([Cappelle et al., 2023](https://arxiv.org/abs/2309.14867), *Results*); stamped by a Bluetooth LE
+stack in the application instead, on the same chip, two units agreed within 2,09 ms on average and
+10 ms at most ([Hilmersson and Gummesson,
+2016](https://lup.lub.lu.se/student-papers/search/publication/8884959), table 4.4) — the layer the
+stamp is taken in deciding it. The loop: the first second of SYNCs measures the frequency; then a PI
+loop of 0,1 Hz, damped at 0,707, keeps the phase; a period without a SYNC holds the frequency.
+Simulated in `calc/clock.py`, inputs in `calc/params.py`:
+
+<!-- calc:clock -->
+| the case | how far a Belka's samples lie from the set's grid |
+|---|---|
+| free-running, the crystals 40 ppm apart | 2,4 ms a minute |
+| locked within 1 µs, from the first SYNC | 1,0 s |
+| locked, 10 % of the periods without a SYNC | 0,07 µs RMS, 0,21 µs at most |
+| 1 s without a SYNC | 0,16 µs at most |
+| 5 s without a SYNC | 0,59 µs at most |
+| 10 s without a SYNC | 1,5 µs at most |
+<!-- /calc -->
+
+A sample lasts 10 ms at 100 Hz and 1 ms at the sensor's 1 kHz. Locked, the units agree within a
+fraction of a microsecond; ten seconds without a SYNC, when the record stops, still leave them
+within microseconds, the crystal's wander deciding it — assumed at 1 ppm a minute while the unit
+warms on the animal. Not modelled: how the sensor follows a period one tick longer — the
+ICM-42686-P's PLL on CLKIN, its sheet setting no limit on CLKIN's jitter (DS-000639, 4.10); TDK
+answers that it "will take such CLKIN without any issues reported on sample or noise", the margin
+included while CLKIN keeps the sheet's range
+([zephyr.hal_tdk#40](https://github.com/tdk-invn-oss/zephyr.hal_tdk/issues/40)), so a sample
+confirms it; the LSM6DSV16X's ODR-triggered mode takes its reference of 25 Hz anywhere within
+±33 % of its rate and locks to it within 4 of its periods (AN5763 Rev 4, 3.3), against the
+loop's 30 ppm, so a sample only confirms it.
+
+**The SYNC's flight** is taken off between the Povodoks. A Povodok locked on the first's SYNC runs
+late by the flight between them, and every Belka on its SYNC with it. The first stamps the other
+Povodoks' SYNCs in their slots as a Belka stamps its own, TIMER22 through DPPI: Povodok k's comes
+late by twice the flight, less the correction k already makes, which the first sent it. Half the
+mean over the periods the others send in is the flight; the first sends it in its SYNC's who, in
+whole ticks, up to 15 (*The inside link*), the last mean until a new one. Povodok k takes it from
+the first alone, the lowest number heard, and takes it off the first's SYNC's arrival before it
+reads the period's start, its SYNC sent that much earlier. A Belka's own flight from the Povodok
+it hears is left in. Counting the flight in the budget alone, with no correction, is set aside
+for now (`WHY.md`).
+
+**The fallback**, should the sensor not bear the tick's steps: CLKIN or the reference straight from
+the crystal, every period the same, steady and with no steps; every sample stamped in hardware as
+now, and the samples put onto the set's grid by computation — interpolated at the sensor's 1 kHz,
+where the gait's content, below some 20 Hz, loses nothing that matters. The same serves a sensor
+with no CLKIN at all, left on its own clock, the ICM-42686-P's ±1 % in its PLL mode (DS-000639,
+4.10). A sample cannot be fired one at a time instead: the ICM-42686-P's gyro needs 30 ms from its
+enable to its drive being ready and is kept on 45 ms at least, the accelerometer 10 ms from sleep
+(DS-000639, tables 1 and 2, and 14.36, PWR_MGMT0).
+
+## The sensor's noise against the motion — rough
+
+The motion to be seen is millimetres: the trunk's vertical movement, its two lowest and two
+highest points compared stride by stride; one low-cost IMU agreed with an established system to
+±6,6 mm for MinDiff and ±4,3 mm for MaxDiff ([`ANALYSIS.md`](ANALYSIS.md)). What the sensor's
+noise leaves in that displacement, a stride: the accelerometer's white noise integrated twice
+from half the stride's frequency up to half the record's rate, and the gyro's tilt, wandering
+for 10 s, turning a generous 1 g sideways into the vertical (`calc/noise.py`):
+
+<!-- calc:noise -->
+| the motion | its stride | the accelerometer's noise | the gyro's tilt, leaked |
+|---|---|---|---|
+| a cow at the walk | 0,8 Hz | 0,04 mm | 0,11 mm |
+| a horse at the trot | 1,5 Hz | 0,02 mm | 0,03 mm |
+| a dog at the trot | 2,5 Hz | 0,01 mm | 0,01 mm |
+<!-- /calc -->
+
+**The noise is a hundredth of what is measured, or less**, with any of the sensors; the second
+sensor on the same unit could not have bought anything here. What limits the measure is elsewhere:
+the integration and the orientation filter, and the unit moving on the skin and the strap
+([`KOROLJOV.md`](KOROLJOV.md), *The unit on the body*).
+
+**The range limits before the noise, on a limb.** The accelerometer reads ±16 g on the
+LSM6DSV16X, the classic build's (DS13510, table 3), ±32 g on the ICM-42686-P, the industrial
+one's (DS-000639, 3.1, 3.2); the gyro ±4 000 °/s on all. Research
+units on a horse's distal limb and hoof carry a second accelerometer of ±200 or ±400 g beside the
+±16 g one, for the hoof's impact ([Bragança et al.,
+2017](https://pmc.ncbi.nlm.nih.gov/articles/PMC5484301); [Tijssen et al.,
+2020](https://pmc.ncbi.nlm.nih.gov/articles/PMC7269263)), and so does **the hoof's build**: ST's
+LSM6DSV320X, a channel to ±320 g beside its ±16 g one (DS14623 Rev 3, table 3), its noise 1 mg/√Hz,
+some 32 mg in a band of a kilohertz, a three-thousandth of an impact's hundred g. A classic Belka
+on a hoof boot clips at the impact, at 16 g; the analysis takes from a limb unit only the moment of
+the foot's contact, which a clipped impact still marks; the trunk's units stay well inside the
+range.
+
+**At the gallop** the limb's impacts pass both ranges. Accelerometers of ±200 g on the hoof wall and
+the cannon of galloping Thoroughbreds read, trial by trial, some 80–210 g at the hoof and 45–160 g
+at the cannon, 98 % of the hoof's signal power under 250 Hz ([Bruce et al.,
+2026](https://doi.org/10.1186/s12917-026-05376-0), *Methods* and Fig. 4); on the hoof wall at ±500 g
+and 5 kHz, of 41 183 strides on turf and an artificial track an impact passed 320 g on some axis in
+2,1 %, 4,6 % on turf and 0,3 % on the artificial track, most often on the hind hooves, and 200 g in
+10,4 % — counted from the study's own data ([Horan et al.,
+2022](https://doi.org/10.3390/ani12172161), its supplementary file). The hoof's build so clips at a
+gallop's hardest strikes on turf, as the classic's ±16 g does on the cannon. At the walk the hoof
+reads some 3–5 g and the cannon 1,4–3 g ([Greco-Otto et al.,
+2019](https://doi.org/10.1186/s12917-019-2075-6), table 1).

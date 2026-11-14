@@ -1,0 +1,26 @@
+/* NIC-Strelka — Kryska's board laid over the Belka's devicetree: the Belka's firmware built for
+ * Kryska (FIRMWARE.md, The code; KRYSKA.md; BOARD.md, Kryska). The memory is an SD NAND, CS's
+ * CSNP1GCR01-BOW, soldered where the Belka has its card's slot, on the same pins and the same
+ * switched supply, U6: the Belka's card node serves it as it is, a card to Zephyr's SD stack. The
+ * PMIC's BUCK2 at 3,0 V from power-on, set by its VSET2 resistor, declared so that nothing switches
+ * it off; the charge the cell's chosen with its box, 4,00 V and 32 mA until then. Built with
+ *
+ *     west build -b nrf54lm20dk/nrf54lm20a/cpuapp --sysbuild firmware/belka --
+ *         -Dbelka_EXTRA_CONF_FILE=kryska.conf -Dbelka_EXTRA_DTC_OVERLAY_FILE=boards/kryska.overlay
+ *
+ * against nRF Connect SDK v3.4.0; not run on hardware. Kryska's other way, NOR flash, is
+ * boards/kryska_nor.overlay with kryska_nor.conf. */
+
+&pmic_charger {
+	term-microvolt = <4000000>;
+	current-microamp = <32000>;
+};
+
+&pmic_regulators {
+	pmic_buck2: BUCK2 {
+		regulator-min-microvolt = <3000000>;
+		regulator-max-microvolt = <3000000>;
+		regulator-boot-on;
+		regulator-always-on;
+	};
+};

@@ -1,0 +1,87 @@
+<!doctype html>
+<!-- Pušinka's diagnostics, a sketch at 1920 × 1080, landscape (APP.md, The menus, 5; What it must
+     do, 2): on the left the map of the band, the noise the Povodoks and the units measured, the
+     set's channel and its spare, the set moved to the quietest by a touch; on the right each
+     unit's SYNCs heard, its losses, its clock and
+     its steps out of range. An idea, not the finished look; the figures are made up.
+     ?lang=en or cs. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Pušinka, diagnostics</title>
+<link rel="stylesheet" href="common.css">
+<style>
+  .main { top: 126px; }
+  td, th { white-space: nowrap; padding: 6px 7px; }
+</style>
+</head>
+<body>
+<div class="status"><span>13:05</span><span>Wi-Fi 5 GHz · 85 %</span></div>
+<div class="title"><b id="ttl"></b><span id="tright"></span></div>
+<div class="main" id="main"></div>
+<div class="keys" id="keys"></div>
+<script src="common.js"></script>
+<script>
+const T = pick({
+  en: { title: 'Pušinka · Diagnostics · Set 0042', right: 'the last 10 minutes · Povodok 1 ●',
+        band: 'The band: noise by channel, dBm', set: 'the set 20', spare: 'spare 7', wifi: 'Wi-Fi',
+        bandnote: 'Measured by the Povodoks and the units, a channel a period.',
+        move: 'Move the set to 7, the quietest ▶',
+        units: 'Units', head: ['code', 'unit', 'SYNC heard', 'lost', 'clock', 'out of range', 'fault'],
+        none: '—', range: (a, g) => `acc ${a} · gyro ${g}`, clockok: 'steered', clockfb: 'fallback',
+        cardlow: 'card nearly full' },
+  cs: { title: 'Pušinka · Diagnostika · Sada 0042', right: 'posledních 10 minut · Povodok 1 ●',
+        band: 'Pásmo: šum po kanálech, dBm', set: 'sada 20', spare: 'náhradní 7', wifi: 'Wi-Fi',
+        bandnote: 'Měří Povodoky i jednotky, jeden kanál za periodu.',
+        move: 'Přesunout sadu na 7, nejtišší ▶',
+        units: 'Jednotky', head: ['kód', 'jedn.', 'SYNC slyšet', 'ztráty', 'hodiny', 'mimo rozsah', 'porucha'],
+        none: '—', range: (a, g) => `acc ${a} · gyro ${g}`, clockok: 'řízené', clockfb: 'záložní',
+        cardlow: 'karta skoro plná' },
+});
+chrome({ title: T.title, right: T.right, menu: 4 });
+
+// each unit: SYNC heard %, lost %, clock steered, steps out of range (acc, gyro), fault
+const diag = [[99.8, 0.0, 1, 0, 0, ''], [99.6, 0.1, 1, 0, 0, ''], [99.1, 0.2, 1, 0, 0, ''],
+              [99.5, 0.1, 1, 0, 0, ''], [99.7, 0.0, 1, 0, 0, ''], [98.9, 0.3, 1, 0, 0, ''],
+              [98.2, 0.6, 1, 14, 0, ''], [98.6, 0.4, 1, 9, 0, ''], [96.4, 1.1, 0, 21, 2, ''],
+              [99.0, 0.2, 1, 3, 0, ''], [99.3, 0.1, 1, 0, 0, ''], [99.4, 0.1, 1, 0, 0, 'cardlow']];
+$('main').innerHTML = `
+  <div class="panel active" style="width:800px"><div class="cap">${T.band}</div>
+    <svg width="760" height="560" id="band"></svg>
+    <div class="note">${T.bandnote}</div>
+    <div style="margin-top:16px;display:inline-block;padding:6px 18px;background:var(--cyan);color:var(--black)">${T.move}</div>
+  </div>
+  <div class="panel" style="flex:1"><div class="cap">${T.units}</div>
+    <table style="font-size:24px"><tr>${T.head.map((h, i) => `<th${i > 1 && i < 4 ? ' class="num"' : ''}>${h}</th>`).join('')}</tr>
+    ${SET.map(([key, n], i) => { const [s, l, c, a, g, f] = diag[i];
+      return `<tr><td class="v" style="font-weight:bold">${codeOf(key)}</td><td class="w">${n}</td>
+      <td class="num ${s < 97 ? 'warn' : 'good'}">${s.toFixed(1)} %</td>
+      <td class="num ${l >= 1 ? 'warn' : 'w'}">${l.toFixed(1)} %</td>
+      <td class="${c ? 'good' : 'warn'}">${c ? T.clockok : T.clockfb}</td>
+      <td class="${a + g ? 'warn' : 'note'}">${a + g ? T.range(a, g) : T.none}</td>
+      <td class="bad">${f ? T[f] : ''}</td></tr>`; }).join('')}
+    </table>
+  </div>`;
+
+// the band: the noise on the channels 0–38, a Wi-Fi network over a few of them
+const b = $('band'), left = 70, y0 = 20, W = 760 - left - 10, H = 470;
+const x = ch => left + W * (ch + 0.5) / 39, bw = W / 39 - 4;
+const y = dbm => y0 + H * (-55 - dbm) / 50;             // -55 at the top, -105 at the bottom
+for (const d of [-60, -70, -80, -90, -100]) {
+  el(b, 'line', { x1: left, x2: left + W, y1: y(d), y2: y(d), stroke: '#003377', 'stroke-width': 2 });
+  el(b, 'text', { x: left - 8, y: y(d) + 8, fill: '#55ffff', 'font-size': 20, 'text-anchor': 'end' }, String(d));
+}
+for (let ch = 0; ch < 39; ch++) {
+  const wifi = ch >= 9 && ch <= 17 ? 22 - 2.5 * Math.abs(ch - 13) : 0;
+  const noise = -97 + 3 * Math.sin(ch * 1.7) + wifi;
+  const color = ch === 20 ? '#55ff55' : ch === 7 ? '#55ffff' : wifi > 8 ? '#ff5555' : '#aaaaaa';
+  el(b, 'rect', { x: x(ch) - bw / 2, y: y(noise), width: bw, height: y0 + H - y(noise), fill: color });
+  if (ch % 5 === 0) el(b, 'text', { x: x(ch), y: y0 + H + 28, fill: '#ffffff', 'font-size': 20,
+                                     'text-anchor': 'middle' }, String(ch));
+}
+el(b, 'text', { x: x(13), y: y(-74) - 12, fill: '#ff5555', 'font-size': 24, 'text-anchor': 'middle' }, T.wifi);
+el(b, 'text', { x: x(20) - 8, y: y(-90) - 12, fill: '#55ff55', 'font-size': 24, 'text-anchor': 'start' }, T.set);
+el(b, 'text', { x: x(7) + 8, y: y(-90) - 12, fill: '#55ffff', 'font-size': 24, 'text-anchor': 'end' }, T.spare);
+</script>
+</body>
+</html>

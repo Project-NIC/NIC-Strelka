@@ -1,0 +1,96 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='1000' height='730' viewBox='0 0 1000 730'>
+<defs><marker id='arrow067647' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#067647'/></marker><marker id='arrow175cd3' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#175cd3'/></marker><marker id='arrow1f2328' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#1f2328'/></marker><marker id='arrow57606a' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#57606a'/></marker><marker id='arrow6941c6' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#6941c6'/></marker><marker id='arrowb42318' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#b42318'/></marker><marker id='arrowb54708' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#b54708'/></marker></defs>
+<rect width='1000' height='730' fill='#ffffff'/>
+<text x='20' y='30' font-size='17' text-anchor='start' font-weight='bold' fill='#1f2328' font-family='DejaVu Sans, Arial, sans-serif'>Strelka — the supply: from the contact to the rails</text>
+<rect x='20' y='60' width='150' height='70' rx='8' fill='#f6f8fa' stroke='#1f2328' stroke-width='1.4'/>
+<text x='95.0' y='82.0' font-size='14' text-anchor='middle' font-weight='bold' fill='#1f2328' font-family='DejaVu Sans, Arial, sans-serif'>J1</text>
+<text x='95.0' y='100.0' font-size='12' text-anchor='middle' font-weight='normal' fill='#57606a' font-family='DejaVu Sans, Arial, sans-serif'>the contact,</text>
+<text x='95.0' y='118.0' font-size='12' text-anchor='middle' font-weight='normal' fill='#57606a' font-family='DejaVu Sans, Arial, sans-serif'>the cable's 5 V</text>
+<rect x='300' y='60' width='150' height='70' rx='8' fill='#f6f8fa' stroke='#1f2328' stroke-width='1.4'/>
+<text x='375.0' y='82.0' font-size='14' text-anchor='middle' font-weight='bold' fill='#1f2328' font-family='DejaVu Sans, Arial, sans-serif'>U10</text>
+<text x='375.0' y='100.0' font-size='12' text-anchor='middle' font-weight='normal' fill='#57606a' font-family='DejaVu Sans, Arial, sans-serif'>the buck,</text>
+<text x='375.0' y='118.0' font-size='12' text-anchor='middle' font-weight='normal' fill='#57606a' font-family='DejaVu Sans, Arial, sans-serif'>VBUS to 3,93 V</text>
+<rect x='560' y='60' width='150' height='70' rx='8' fill='#f6f8fa' stroke='#1f2328' stroke-width='1.4'/>
+<text x='635.0' y='82.0' font-size='14' text-anchor='middle' font-weight='bold' fill='#1f2328' font-family='DejaVu Sans, Arial, sans-serif'>U3</text>
+<text x='635.0' y='100.0' font-size='12' text-anchor='middle' font-weight='normal' fill='#57606a' font-family='DejaVu Sans, Arial, sans-serif'>the charger,</text>
+<text x='635.0' y='118.0' font-size='12' text-anchor='middle' font-weight='normal' fill='#57606a' font-family='DejaVu Sans, Arial, sans-serif'>the cell to 3,50 V</text>
+<rect x='820' y='60' width='160' height='70' rx='8' fill='#f6f8fa' stroke='#1f2328' stroke-width='1.4'/>
+<text x='900.0' y='82.0' font-size='14' text-anchor='middle' font-weight='bold' fill='#1f2328' font-family='DejaVu Sans, Arial, sans-serif'>J2</text>
+<text x='900.0' y='100.0' font-size='12' text-anchor='middle' font-weight='normal' fill='#57606a' font-family='DejaVu Sans, Arial, sans-serif'>the cell, LiFePO4,</text>
+<text x='900.0' y='118.0' font-size='12' text-anchor='middle' font-weight='normal' fill='#57606a' font-family='DejaVu Sans, Arial, sans-serif'>3,2 V, 720 mAh</text>
+<rect x='820' y='170' width='160' height='60' rx='8' fill='#f6f8fa' stroke='#1f2328' stroke-width='1.4'/>
+<text x='900.0' y='187.0' font-size='14' text-anchor='middle' font-weight='bold' fill='#1f2328' font-family='DejaVu Sans, Arial, sans-serif'>U4</text>
+<text x='900.0' y='205.0' font-size='12' text-anchor='middle' font-weight='normal' fill='#57606a' font-family='DejaVu Sans, Arial, sans-serif'>the gauge, R1</text>
+<text x='900.0' y='223.0' font-size='12' text-anchor='middle' font-weight='normal' fill='#57606a' font-family='DejaVu Sans, Arial, sans-serif'>20 mΩ on the minus</text>
+<rect x='190' y='160' width='90' height='44' rx='8' fill='#f6f8fa' stroke='#1f2328' stroke-width='1.4'/>
+<text x='235.0' y='178.0' font-size='14' text-anchor='middle' font-weight='bold' fill='#1f2328' font-family='DejaVu Sans, Arial, sans-serif'>D1</text>
+<text x='235.0' y='196.0' font-size='12' text-anchor='middle' font-weight='normal' fill='#57606a' font-family='DejaVu Sans, Arial, sans-serif'>the TVS</text>
+<rect x='20' y='250' width='150' height='60' rx='8' fill='#f6f8fa' stroke='#1f2328' stroke-width='1.4'/>
+<text x='95.0' y='267.0' font-size='14' text-anchor='middle' font-weight='bold' fill='#1f2328' font-family='DejaVu Sans, Arial, sans-serif'>U2</text>
+<text x='95.0' y='285.0' font-size='12' text-anchor='middle' font-weight='normal' fill='#57606a' font-family='DejaVu Sans, Arial, sans-serif'>the USB supply's</text>
+<text x='95.0' y='303.0' font-size='12' text-anchor='middle' font-weight='normal' fill='#57606a' font-family='DejaVu Sans, Arial, sans-serif'>guard</text>
+<rect x='290' y='240' width='190' height='100' rx='8' fill='#f6f8fa' stroke='#1f2328' stroke-width='1.4'/>
+<text x='385.0' y='268.0' font-size='14' text-anchor='middle' font-weight='bold' fill='#1f2328' font-family='DejaVu Sans, Arial, sans-serif'>ON</text>
+<text x='385.0' y='286.0' font-size='12' text-anchor='middle' font-weight='normal' fill='#57606a' font-family='DejaVu Sans, Arial, sans-serif'>magnet A, U8, by D4;</text>
+<text x='385.0' y='304.0' font-size='12' text-anchor='middle' font-weight='normal' fill='#57606a' font-family='DejaVu Sans, Arial, sans-serif'>held by Q1, HOLD;</text>
+<text x='385.0' y='322.0' font-size='12' text-anchor='middle' font-weight='normal' fill='#57606a' font-family='DejaVu Sans, Arial, sans-serif'>the cable, Q3 (P)</text>
+<rect x='560' y='250' width='150' height='70' rx='8' fill='#f6f8fa' stroke='#1f2328' stroke-width='1.4'/>
+<text x='635.0' y='272.0' font-size='14' text-anchor='middle' font-weight='bold' fill='#1f2328' font-family='DejaVu Sans, Arial, sans-serif'>U11</text>
+<text x='635.0' y='290.0' font-size='12' text-anchor='middle' font-weight='normal' fill='#57606a' font-family='DejaVu Sans, Arial, sans-serif'>two ideal diodes:</text>
+<text x='635.0' y='308.0' font-size='12' text-anchor='middle' font-weight='normal' fill='#57606a' font-family='DejaVu Sans, Arial, sans-serif'>the cable, else the cell</text>
+<rect x='150' y='430' width='150' height='60' rx='8' fill='#f6f8fa' stroke='#1f2328' stroke-width='1.4'/>
+<text x='225.0' y='456.0' font-size='14' text-anchor='middle' font-weight='bold' fill='#1f2328' font-family='DejaVu Sans, Arial, sans-serif'>U5</text>
+<text x='225.0' y='474.0' font-size='12' text-anchor='middle' font-weight='normal' fill='#57606a' font-family='DejaVu Sans, Arial, sans-serif'>LDO, 3,0 V</text>
+<rect x='790' y='430' width='170' height='60' rx='8' fill='#eef4fb' stroke='#1f2328' stroke-width='1.4' stroke-dasharray='6 4'/>
+<text x='875.0' y='447.0' font-size='14' text-anchor='middle' font-weight='bold' fill='#1f2328' font-family='DejaVu Sans, Arial, sans-serif'>U6</text>
+<text x='875.0' y='465.0' font-size='12' text-anchor='middle' font-weight='normal' fill='#57606a' font-family='DejaVu Sans, Arial, sans-serif'>LDO, 3,0 V, on by</text>
+<text x='875.0' y='483.0' font-size='12' text-anchor='middle' font-weight='normal' fill='#57606a' font-family='DejaVu Sans, Arial, sans-serif'>the processor</text>
+<rect x='20' y='580' width='200' height='70' rx='8' fill='#f6f8fa' stroke='#1f2328' stroke-width='1.4'/>
+<text x='120.0' y='602.0' font-size='14' text-anchor='middle' font-weight='bold' fill='#1f2328' font-family='DejaVu Sans, Arial, sans-serif'>U1</text>
+<text x='120.0' y='620.0' font-size='12' text-anchor='middle' font-weight='normal' fill='#57606a' font-family='DejaVu Sans, Arial, sans-serif'>the module: the</text>
+<text x='120.0' y='638.0' font-size='12' text-anchor='middle' font-weight='normal' fill='#57606a' font-family='DejaVu Sans, Arial, sans-serif'>processor and the radio</text>
+<rect x='250' y='580' width='190' height='70' rx='8' fill='#eef4fb' stroke='#1f2328' stroke-width='1.4' stroke-dasharray='6 4'/>
+<text x='345.0' y='602.0' font-size='14' text-anchor='middle' font-weight='bold' fill='#1f2328' font-family='DejaVu Sans, Arial, sans-serif'>U7</text>
+<text x='345.0' y='620.0' font-size='12' text-anchor='middle' font-weight='normal' fill='#57606a' font-family='DejaVu Sans, Arial, sans-serif'>the sensor, behind</text>
+<text x='345.0' y='638.0' font-size='12' text-anchor='middle' font-weight='normal' fill='#57606a' font-family='DejaVu Sans, Arial, sans-serif'>FB1's filter</text>
+<rect x='470' y='580' width='190' height='70' rx='8' fill='#f6f8fa' stroke='#1f2328' stroke-width='1.4'/>
+<text x='565.0' y='602.0' font-size='14' text-anchor='middle' font-weight='bold' fill='#1f2328' font-family='DejaVu Sans, Arial, sans-serif'>the rest</text>
+<text x='565.0' y='620.0' font-size='12' text-anchor='middle' font-weight='normal' fill='#57606a' font-family='DejaVu Sans, Arial, sans-serif'>magnet B, the light,</text>
+<text x='565.0' y='638.0' font-size='12' text-anchor='middle' font-weight='normal' fill='#57606a' font-family='DejaVu Sans, Arial, sans-serif'>the pull-ups</text>
+<rect x='790' y='580' width='170' height='70' rx='8' fill='#eef4fb' stroke='#1f2328' stroke-width='1.4' stroke-dasharray='6 4'/>
+<text x='875.0' y='611.0' font-size='14' text-anchor='middle' font-weight='bold' fill='#1f2328' font-family='DejaVu Sans, Arial, sans-serif'>J3</text>
+<text x='875.0' y='629.0' font-size='12' text-anchor='middle' font-weight='normal' fill='#57606a' font-family='DejaVu Sans, Arial, sans-serif'>the microSD card</text>
+<polyline points='170,95 300,95' fill='none' stroke='#b42318' stroke-width='2' marker-end='url(#arrowb42318)'/>
+<text x='235.0' y='89.0' font-size='12' text-anchor='middle' font-weight='bold' fill='#b42318' font-family='DejaVu Sans, Arial, sans-serif'>VBUS</text>
+<polyline points='235,95 235,160' fill='none' stroke='#b42318' stroke-width='2'/>
+<polyline points='95,130 95,250' fill='none' stroke='#b42318' stroke-width='2' marker-end='url(#arrowb42318)'/>
+<text x='121.0' y='194.0' font-size='12' text-anchor='middle' font-weight='bold' fill='#b42318' font-family='DejaVu Sans, Arial, sans-serif'>VBUS</text>
+<polyline points='450,95 560,95' fill='none' stroke='#b54708' stroke-width='2' marker-end='url(#arrowb54708)'/>
+<text x='505.0' y='89.0' font-size='12' text-anchor='middle' font-weight='bold' fill='#b54708' font-family='DejaVu Sans, Arial, sans-serif'>VBUCK</text>
+<polyline points='505,95 505,270 560,270' fill='none' stroke='#b54708' stroke-width='2' marker-end='url(#arrowb54708)'/>
+<polyline points='710,95 820,95' fill='none' stroke='#067647' stroke-width='2' marker-end='url(#arrow067647)'/>
+<text x='765.0' y='89.0' font-size='12' text-anchor='middle' font-weight='bold' fill='#067647' font-family='DejaVu Sans, Arial, sans-serif'>BAT</text>
+<polyline points='900,130 900,170' fill='none' stroke='#067647' stroke-width='2'/>
+<polyline points='765,95 765,285 710,285' fill='none' stroke='#067647' stroke-width='2' marker-end='url(#arrow067647)'/>
+<polyline points='480,300 560,300' fill='none' stroke='#57606a' stroke-width='2' marker-end='url(#arrow57606a)'/>
+<text x='520.0' y='294.0' font-size='12' text-anchor='middle' font-weight='bold' fill='#57606a' font-family='DejaVu Sans, Arial, sans-serif'>ON</text>
+<polyline points='635,320 635,400' fill='none' stroke='#175cd3' stroke-width='2' marker-end='url(#arrow175cd3)'/>
+<text x='659.0' y='364.0' font-size='12' text-anchor='middle' font-weight='bold' fill='#175cd3' font-family='DejaVu Sans, Arial, sans-serif'>SYS</text>
+<polyline points='225,400 875,400' fill='none' stroke='#175cd3' stroke-width='2'/>
+<polyline points='225,400 225,430' fill='none' stroke='#175cd3' stroke-width='2' marker-end='url(#arrow175cd3)'/>
+<polyline points='875,400 875,430' fill='none' stroke='#175cd3' stroke-width='2' marker-end='url(#arrow175cd3)'/>
+<polyline points='225,490 225,540' fill='none' stroke='#6941c6' stroke-width='2'/>
+<text x='251.0' y='519.0' font-size='12' text-anchor='middle' font-weight='bold' fill='#6941c6' font-family='DejaVu Sans, Arial, sans-serif'>+3V0</text>
+<polyline points='170,540 565,540' fill='none' stroke='#6941c6' stroke-width='2'/>
+<polyline points='170,540 170,580' fill='none' stroke='#6941c6' stroke-width='2' marker-end='url(#arrow6941c6)'/>
+<polyline points='345,540 345,580' fill='none' stroke='#6941c6' stroke-width='2' marker-end='url(#arrow6941c6)'/>
+<polyline points='565,540 565,580' fill='none' stroke='#6941c6' stroke-width='2' marker-end='url(#arrow6941c6)'/>
+<polyline points='875,490 875,580' fill='none' stroke='#6941c6' stroke-width='2' marker-end='url(#arrow6941c6)'/>
+<text x='915.0' y='539.0' font-size='12' text-anchor='middle' font-weight='bold' fill='#6941c6' font-family='DejaVu Sans, Arial, sans-serif'>+3V0_SD</text>
+<polyline points='60,310 60,580' fill='none' stroke='#b42318' stroke-width='2' marker-end='url(#arrowb42318)'/>
+<text x='68.0' y='449.0' font-size='12' text-anchor='start' font-weight='bold' fill='#b42318' font-family='DejaVu Sans, Arial, sans-serif'>VBUS_MOD</text>
+<rect x='20' y='686' width='26' height='14' rx='3' fill='#eef4fb' stroke='#1f2328' stroke-dasharray='6 4'/>
+<text x='54' y='697' font-size='12' text-anchor='start' font-weight='normal' fill='#57606a' font-family='DejaVu Sans, Arial, sans-serif'>the Belka alone; Povodok carries the WM02C20C in U1's place, and Q3 (P)</text>
+
+<text x='20' y='718' font-size='10' text-anchor='start' font-weight='normal' fill='#57606a' font-family='DejaVu Sans, Arial, sans-serif'>Licence: CERN-OHL-P v2. The parts, the nets and their values: BOARD.md.</text>
+</svg>

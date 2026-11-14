@@ -1,0 +1,6 @@
+# Pušinka's texts, a table a language (APP.md, The menus, The languages): lib/l10n/app_<lang>.arb,
+# English the template; flutter gen-l10n writes lib/l10n/app_localizations*.dart from them.
+arb-dir: lib/l10n
+template-arb-file: app_en.arb
+output-localization-file: app_localizations.dart
+nullable-getter: false
